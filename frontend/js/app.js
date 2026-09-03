@@ -13,8 +13,11 @@ const App = {
     this.navigate('home');
   },
 
-  navigate(page) {
+  navigate(page, params = {}) {
     this.currentPage = page;
+    if (page === 'services') {
+      window.currentServiceCategory = (params && params.category) ? params.category : null;
+    }
     window.scrollTo(0, 0);
     document.body.style.overflow = '';
 
@@ -25,7 +28,6 @@ const App = {
     const renderers = {
       'home':           typeof renderHomePage !== 'undefined' ? renderHomePage : null,
       'about':          typeof renderAboutPage !== 'undefined' ? renderAboutPage : null,
-      'impact':         typeof renderImpactPage !== 'undefined' ? renderImpactPage : null,
       'services':       typeof renderServicesPage !== 'undefined' ? renderServicesPage : null,
       'resources':      typeof renderResourcesPage !== 'undefined' ? renderResourcesPage : null,
       'contact':        typeof renderContactPage !== 'undefined' ? renderContactPage : null,
@@ -50,7 +52,6 @@ const App = {
     const titles = {
       'home': 'e-Samanvit - Government Services & Public Information Portal',
       'about': 'About - e-Samanvit Portal',
-      'impact': 'Impact & Citizen Transformation - e-Samanvit Portal',
       'services': 'Services Portal - e-Samanvit',
       'resources': 'Public Resources - e-Samanvit',
       'contact': 'Contact Us - e-Samanvit Helpdesk',
@@ -86,12 +87,24 @@ const App = {
     if ((this.currentPage === 'dashboard' || this.currentPage === 'profile') && typeof Dashboard !== 'undefined') {
       Dashboard.onMount();
     }
+
+    // Mount Hero Banner Slider if on homepage
+    if ((!this.currentPage || this.currentPage === 'home') && typeof HeroSlider !== 'undefined') {
+      HeroSlider.init();
+    } else if (typeof HeroSlider !== 'undefined') {
+      HeroSlider.stopAutoplay();
+    }
+
+    // Keep theme controls and icons synced with active state
+    if (typeof Accessibility !== 'undefined' && Accessibility.updateThemeControls) {
+      Accessibility.updateThemeControls();
+    }
   }
 };
 
 // -- Global Navigation Function ------------------------------
-function navigateTo(page) {
-  App.navigate(page);
+function navigateTo(page, params = {}) {
+  App.navigate(page, params);
 }
 
 // -- Handle Resize -------------------------------------------

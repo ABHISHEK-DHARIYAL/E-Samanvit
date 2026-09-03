@@ -172,7 +172,6 @@
       '.services-hero',
       '.resources-hero',
       '.contact-hero',
-      '.impact-hero',
       '.filter-pill.active',
       '.sidebar-link.active',
       '.es-logo-icon',
@@ -187,7 +186,7 @@
     try {
       elements = Array.from(document.querySelectorAll(bubbleTargetSelectors.join(', ')));
     } catch (e) {
-      elements = Array.from(document.querySelectorAll('.card-icon, .card-icon-green, .card-icon-gold, .card-icon-blue, .card-icon-orange, .contact-info-icon, .qa-icon, .footer-brand, .badge, .hero, .footer, .btn-primary, .about-hero, .services-hero, .resources-hero, .contact-hero, .impact-hero'));
+      elements = Array.from(document.querySelectorAll('.card-icon, .card-icon-green, .card-icon-gold, .card-icon-blue, .card-icon-orange, .contact-info-icon, .qa-icon, .footer-brand, .badge, .hero, .footer, .btn-primary, .about-hero, .services-hero, .resources-hero, .contact-hero'));
     }
 
     // Cover image parent containers (excluding navbar-brand)

@@ -7,66 +7,112 @@ function renderHomePage() {
   return `
     ${renderPublicNavbar('home')}
     <div class="page-layout">
-      <!-- Hero Section -->
-      <section class="hero" style="padding:var(--sp-12) 0 var(--sp-10)">
+      <!-- Hero Section with Portal Header and 7-Slide Auto-Rotating Banner -->
+      <section class="hero" style="padding:var(--sp-8) 0 var(--sp-12)">
         <div class="container">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--sp-8);flex-wrap:wrap">
-            <!-- Left Side: Hero Content & e-Samanvit Logo -->
-            <div class="hero-content" style="flex:1;min-width:300px;text-align:left">
-              <div style="margin-bottom:var(--sp-4);display:inline-block">
-                <img src="assets/logo.jpg" alt="e-Samanvit Logo" style="height:110px;width:auto;max-width:280px;object-fit:contain;border-radius:12px;background:var(--clr-white);padding:6px;box-shadow:var(--shadow-md)">
+          <!-- Top Official Branding Row: Logo + e-Samanvit Name + Maharashtra Emblems -->
+          <div class="hero-brand-row">
+            <!-- Left Side: Hero Content & e-Samanvit Logo (Buttons removed per user instruction) -->
+            <div class="hero-brand-left">
+              <div class="hero-logo-box">
+                <img src="assets/logo.jpg" alt="e-Samanvit Logo" class="hero-logo-img">
               </div>
-              <h1>${I18N.t('brandName')}</h1>
-              <p class="hero-tagline">${I18N.t('brandSub')}</p>
-              <p class="hero-desc">${I18N.t('heroDesc')}</p>
-              <div class="hero-actions" style="justify-content:flex-start">
-                <button class="btn btn-primary btn-lg" onclick="navigateTo('services')">
-                  ${Icons.grid} ${I18N.t('exploreServices')} ${Icons.arrowRight}
-                </button>
-                <button class="btn btn-secondary btn-lg" onclick="navigateTo('impact')">
-                  ${Icons.trendingUp} ${I18N.t('navImpact')}
-                </button>
+              <div class="hero-brand-text-col">
+                <h1 class="hero-brand-title">${I18N.t('brandName')}</h1>
+                <p class="hero-tagline">${I18N.t('brandSub')}</p>
               </div>
             </div>
 
             <!-- Right Side: Government Emblems -->
-            <div style="text-align:center;max-width:360px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-              <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:8px">
-                <div style="position:relative;display:flex;align-items:center;justify-content:center">
-                  <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(46,125,50,0.15) 0%,transparent 70%);filter:blur(8px)"></div>
-                  <img src="assets/mh_logo1.jpg" alt="Government Emblem 1" style="height:100px;width:auto;object-fit:contain;opacity:0.95;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12));transition:all 0.4s ease;cursor:pointer" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='0.95';this.style.transform='scale(1)'">
+            <div class="hero-emblems-box">
+              <div class="hero-emblems-logos">
+                <div class="hero-emblem-wrap">
+                  <div class="hero-emblem-glow green"></div>
+                  <img src="assets/mh_logo1.jpg" alt="Government Emblem 1" class="hero-emblem-img">
                 </div>
-                <div style="position:relative;display:flex;align-items:center;justify-content:center">
-                  <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(25,118,210,0.15) 0%,transparent 70%);filter:blur(8px)"></div>
-                  <img src="assets/mh_logo2.jpg" alt="Government Emblem 2" style="height:100px;width:auto;object-fit:contain;opacity:0.95;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12));transition:all 0.4s ease;cursor:pointer" onmouseover="this.style.opacity='1';this.style.transform='scale(1.08)'" onmouseout="this.style.opacity='0.95';this.style.transform='scale(1)'">
+                <div class="hero-emblem-wrap">
+                  <div class="hero-emblem-glow blue"></div>
+                  <img src="assets/mh_logo2.jpg" alt="Government Emblem 2" class="hero-emblem-img">
                 </div>
               </div>
-              <div style="font-size:20px;font-weight:800;color:#000000;margin-bottom:2px">${I18N.t('govOfMhMr')}</div>
-              <div style="font-size:13px;font-weight:700;color:#000000">${I18N.t('govOfMh')}</div>
+              <div class="hero-emblem-text-mr">${I18N.t('govOfMhMr')}</div>
+              <div class="hero-emblem-text-en">${I18N.t('govOfMh')}</div>
             </div>
           </div>
+
+          <!-- Featured Promotional Banner Carousel (7 Auto-Rotating Slides) -->
+          ${renderHeroSlider()}
         </div>
       </section>
 
-      <!-- Features Grid -->
-      <section class="features-section section">
+      <!-- Integrated Citizen Services (Quick Access Categories: 3 cols x 2 rows) -->
+      <section class="home-services-overview-section">
         <div class="container">
-          <h2 class="section-title">${I18N.t('whatWeOffer')}</h2>
-          <p class="section-subtitle">${I18N.t('whatWeOfferSub')}</p>
-          <div class="grid grid-3">
+          <div class="home-services-overview-header">
+            <h2 class="home-services-overview-title">${I18N.t('integratedServicesTitle')}</h2>
+            <p class="home-services-overview-sub">${I18N.t('integratedServicesSub')}</p>
+          </div>
+
+          <div class="home-compact-categories-grid">
             ${[
-              { icon: Icons.leaf, title: I18N.t('featAgriResTitle'), desc: I18N.t('featAgriResDesc'), color: 'green' },
-              { icon: Icons.fileText, title: I18N.t('featGovSchemesTitle'), desc: I18N.t('featGovSchemesDesc'), color: 'blue' },
-              { icon: Icons.trendingUp, title: I18N.t('featMarketTitle'), desc: I18N.t('featMarketDesc'), color: 'orange' },
-              { icon: Icons.graduationCap, title: I18N.t('featLearningTitle'), desc: I18N.t('featLearningDesc'), color: 'gold' },
-              { icon: Icons.award, title: I18N.t('featScholarshipsTitle'), desc: I18N.t('featScholarshipsDesc'), color: 'green' },
-              { icon: Icons.briefcase, title: I18N.t('featCareerTitle'), desc: I18N.t('featCareerDesc'), color: 'blue' },
-            ].map(f => `
-              <div class="card card-hover feature-card">
-                <div class="card-icon card-icon-${f.color}">${f.icon}</div>
-                <div class="card-title">${f.title}</div>
-                <div class="card-text">${f.desc}</div>
-                <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">${I18N.t('viewMore')} ${Icons.arrowRight}</a>
+              {
+                key: 'students',
+                icon: Icons.graduationCap,
+                iconBg: '#eff6ff',
+                iconColor: '#1d4ed8',
+                title: I18N.t('catStudentsTitle'),
+                label: I18N.t('catStudentsShortLabel')
+              },
+              {
+                key: 'farmers',
+                icon: Icons.sprout,
+                iconBg: '#ecfdf5',
+                iconColor: '#15803d',
+                title: I18N.t('catFarmersTitle'),
+                label: I18N.t('catFarmersShortLabel')
+              },
+              {
+                key: 'women',
+                icon: Icons.family,
+                iconBg: '#fdf2f8',
+                iconColor: '#be185d',
+                title: I18N.t('catWomenTitle'),
+                label: I18N.t('catWomenShortLabel')
+              },
+              {
+                key: 'healthcare',
+                icon: Icons.activity,
+                iconBg: '#f0fdf4',
+                iconColor: '#059669',
+                title: I18N.t('catHealthTitle'),
+                label: I18N.t('catHealthShortLabel')
+              },
+              {
+                key: 'senior',
+                icon: Icons.senior,
+                iconBg: '#fffbeb',
+                iconColor: '#b45309',
+                title: I18N.t('catSeniorTitle'),
+                label: I18N.t('catSeniorShortLabel')
+              },
+              {
+                key: 'housing',
+                icon: Icons.home,
+                iconBg: '#f5f3ff',
+                iconColor: '#6d28d9',
+                title: I18N.t('catHousingTitle'),
+                label: I18N.t('catHousingShortLabel')
+              }
+            ].map(cat => `
+              <div class="home-compact-cat-card" onclick="navigateToServiceCategory('${cat.key}')" role="button" tabindex="0" onkeypress="if(event.key==='Enter') navigateToServiceCategory('${cat.key}')">
+                <div class="home-compact-cat-top">
+                  <div class="home-compact-cat-icon" style="background:${cat.iconBg};color:${cat.iconColor}">
+                    ${cat.icon}
+                  </div>
+                  <div class="home-compact-cat-arrow" aria-hidden="true">${Icons.arrowRight}</div>
+                </div>
+                <div class="home-compact-cat-title">${cat.title}</div>
+                <div class="home-compact-cat-label">${cat.label}</div>
               </div>
             `).join('')}
           </div>
@@ -74,7 +120,7 @@ function renderHomePage() {
       </section>
 
       <!-- Key Portal Highlights -->
-      <section class="section" style="background:var(--clr-primary-100)">
+      <section class="home-portal-highlights-section">
         <div class="container">
           <div class="grid grid-4" style="text-align:center;gap:var(--sp-6)">
             ${[
@@ -83,166 +129,17 @@ function renderHomePage() {
               { title: I18N.t('statDigiResTitle'), desc: I18N.t('statDigiResDesc') },
               { title: I18N.t('statCitSupportTitle'), desc: I18N.t('statCitSupportDesc') },
             ].map(s => `
-              <div style="padding:var(--sp-2)">
-                <div style="font-size:var(--fs-2xl);font-weight:var(--fw-bold);color:var(--clr-primary-800);line-height:1.25">${s.title}</div>
-                <div style="color:var(--clr-gray-600);font-size:var(--fs-base);margin-top:var(--sp-2);line-height:1.4">${s.desc}</div>
+              <div class="home-portal-stat-item">
+                <div class="home-portal-stat-title">${s.title}</div>
+                <div class="home-portal-stat-desc">${s.desc}</div>
               </div>
             `).join('')}
           </div>
         </div>
       </section>
 
-      <!-- Call To Action -->
-      <section class="section" style="background:var(--clr-white)">
-        <div class="container text-center">
-          <h2 class="section-title">${I18N.t('readyToStart')}</h2>
-          <p class="section-subtitle">${I18N.t('readyToStartSub')}</p>
-          <div style="display:flex;gap:var(--sp-4);justify-content:center;flex-wrap:wrap">
-            <button class="btn btn-primary btn-lg" onclick="navigateTo('services')">${I18N.t('exploreServices')}</button>
-            <button class="btn btn-secondary btn-lg" onclick="navigateTo('dashboard')">${I18N.t('navDashboard')}</button>
-          </div>
-        </div>
-      </section>
-
-      ${renderFooter()}
-    </div>
-  `;
-}
-
-// -- Impact & Problem Statement Solution Page ----------------
-function renderImpactPage() {
-  const districtData = {
-    'Pune': { citizens: '3,45,000+', days: '18', dbtVal: '142' },
-    'Nagpur': { citizens: '2,18,000+', days: '17', dbtVal: '98' },
-    'Nashik': { citizens: '2,85,000+', days: '19', dbtVal: '115' },
-    'Chhatrapati Sambhajinagar': { citizens: '1,95,000+', days: '18', dbtVal: '84' },
-    'Thane': { citizens: '4,12,000+', days: '20', dbtVal: '165' },
-    'Amravati': { citizens: '1,65,000+', days: '16', dbtVal: '72' },
-    'Kolhapur': { citizens: '2,05,000+', days: '17', dbtVal: '91' },
-    'Solapur': { citizens: '1,78,000+', days: '18', dbtVal: '79' },
-  };
-
-  const initialDistrict = 'Pune';
-  const initData = districtData[initialDistrict];
-
-  return `
-    ${renderPublicNavbar('impact')}
-    <div class="page-layout">
-      <!-- Impact Hero Header -->
-      <section style="background:linear-gradient(135deg, var(--clr-primary-900), var(--clr-primary-800));color:var(--clr-white);padding:var(--sp-12) 0">
-        <div class="container">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px">
-            <div style="max-width:680px">
-              <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);padding:6px 16px;border-radius:var(--radius-full);margin-bottom:var(--sp-4)">
-                <img src="assets/mh_logo1.jpg" style="height:24px;border-radius:4px">
-                <img src="assets/mh_logo2.jpg" style="height:24px;border-radius:4px">
-                <span style="font-size:12px;color:var(--clr-gold-300);font-weight:600">${I18N.t('impactGovSolution')}</span>
-              </div>
-              <h1 style="font-size:var(--fs-3xl);color:var(--clr-white);line-height:1.2;margin-bottom:var(--sp-4)">${I18N.t('impactTitle')}</h1>
-              <p style="font-size:var(--fs-lg);color:var(--clr-primary-100);line-height:1.6">${I18N.t('impactSub')}</p>
-            </div>
-            
-            <div style="background:var(--clr-white);padding:var(--sp-6);border-radius:var(--radius-xl);color:var(--clr-gray-900);box-shadow:var(--shadow-xl);min-width:280px;text-align:center">
-              <div style="font-size:var(--fs-4xl);font-weight:var(--fw-bold);color:var(--clr-primary-900)">85%</div>
-              <div style="font-size:var(--fs-sm);font-weight:var(--fw-semibold);color:var(--clr-gray-700)">${I18N.t('reductionApproval')}</div>
-              <div style="margin-top:var(--sp-3);font-size:12px;color:var(--clr-gray-500)">${I18N.t('reductionDays')}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- District Level Impact Simulator -->
-      <section class="section" style="background:var(--clr-gray-50)">
-        <div class="container">
-          <div style="background:var(--clr-white);border-radius:var(--radius-xl);padding:var(--sp-8);box-shadow:var(--shadow-md);border:1px solid var(--clr-gray-200)">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-6);flex-wrap:wrap;gap:16px">
-              <div>
-                <h3 style="color:var(--clr-primary-900);margin:0 0 4px">${I18N.t('selectDistrict')}</h3>
-                <p style="color:var(--clr-gray-600);font-size:14px;margin:0">Interactive Citizen Benefit & Direct Transfer Ledger</p>
-              </div>
-              <select class="form-select" style="max-width:260px" onchange="updateDistrictImpactScript(this.value)">
-                ${Object.keys(districtData).map(d => `<option value="${d}">${d}</option>`).join('')}
-              </select>
-            </div>
-
-            <div class="grid grid-3" style="gap:var(--sp-6);text-align:center" id="districtImpactStatsContainer">
-              <div style="background:var(--clr-white);padding:var(--sp-6);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--clr-gray-100)">
-                <div style="font-size:var(--fs-2xl);font-weight:var(--fw-bold);color:var(--clr-primary-800)" id="statCitizens">${initData.citizens}</div>
-                <div style="font-size:13px;color:var(--clr-gray-600);margin-top:4px">${I18N.t('statCitBenefited')}</div>
-              </div>
-              <div style="background:var(--clr-white);padding:var(--sp-6);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--clr-gray-100)">
-                <div style="font-size:var(--fs-2xl);font-weight:var(--fw-bold);color:var(--clr-success)" id="statTime">${initData.days} ${I18N.t('timeSavedPerApp')}</div>
-                <div style="font-size:13px;color:var(--clr-gray-600);margin-top:4px">${I18N.t('statTimeSaved')}</div>
-              </div>
-              <div style="background:var(--clr-white);padding:var(--sp-6);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--clr-gray-100)">
-                <div style="font-size:var(--fs-2xl);font-weight:var(--fw-bold);color:var(--clr-accent-700)" id="statDbt">₹${initData.dbtVal} ${I18N.t('croreUnit')}</div>
-                <div style="font-size:13px;color:var(--clr-gray-600);margin-top:4px">${I18N.t('statDbtDisbursed')}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      ${renderFooter()}
-    </div>
-  `;
-}
-
-function updateDistrictImpactScript(district) {
-  const districtData = {
-    'Pune': { citizens: '3,45,000+', days: '18', dbtVal: '142' },
-    'Nagpur': { citizens: '2,18,000+', days: '17', dbtVal: '98' },
-    'Nashik': { citizens: '2,85,000+', days: '19', dbtVal: '115' },
-    'Chhatrapati Sambhajinagar': { citizens: '1,95,000+', days: '18', dbtVal: '84' },
-    'Thane': { citizens: '4,12,000+', days: '20', dbtVal: '165' },
-    'Amravati': { citizens: '1,65,000+', days: '16', dbtVal: '72' },
-    'Kolhapur': { citizens: '2,05,000+', days: '17', dbtVal: '91' },
-    'Solapur': { citizens: '1,78,000+', days: '18', dbtVal: '79' },
-  };
-
-  const data = districtData[district] || districtData['Pune'];
-  const citEl = document.getElementById('statCitizens');
-  const timeEl = document.getElementById('statTime');
-  const dbtEl = document.getElementById('statDbt');
-
-  if (citEl) citEl.textContent = data.citizens;
-  if (timeEl) timeEl.textContent = `${data.days} ${I18N.t('timeSavedPerApp')}`;
-  if (dbtEl) dbtEl.textContent = `₹${data.dbtVal} ${I18N.t('croreUnit')}`;
-}
-
-// -- About Page ----------------------------------------------
-function renderAboutPage() {
-  return `
-    ${renderPublicNavbar('about')}
-    <div class="page-layout">
-      <section class="about-hero">
-        <div class="container">
-          <h1>${I18N.t('aboutTitle')}</h1>
-          <p style="max-width:600px;margin:0 auto;color:var(--clr-gray-600);font-size:var(--fs-lg)">${I18N.t('aboutSub')}</p>
-        </div>
-      </section>
-
-      <section class="section" style="background:var(--clr-white)">
-        <div class="container about-content">
-          <div class="about-block">
-            <h2>${I18N.t('aboutTitle')}</h2>
-            <p>${I18N.t('aboutDesc1')}</p>
-            <p>${I18N.t('aboutDesc2')}</p>
-          </div>
-
-          <div class="about-block">
-            <h2>${I18N.t('visionTitle')}</h2>
-            <p>${I18N.t('visionDesc')}</p>
-          </div>
-
-          <div class="about-block">
-            <h2>${I18N.t('missionTitle')}</h2>
-            <p>${I18N.t('missionDesc')}</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
+      <!-- Why Choose e-Samanvit? Section -->
+      <section class="section home-why-section">
         <div class="container">
           <h2 class="section-title">${I18N.t('whyUsTitle')}</h2>
           <p class="section-subtitle">${I18N.t('whyUsSub')}</p>
@@ -269,70 +166,126 @@ function renderAboutPage() {
     </div>
   `;
 }
-
-// -- Services Page (Unified Public Government Services) --------
-function renderServicesPage() {
-  const allServices = [
-    { id: 1, category: I18N.t('catGovtSchemes'), categoryKey: 'catGovtSchemes', icon: Icons.fileText, title: I18N.t('srvPmKisanTitle'), desc: I18N.t('srvPmKisanDesc'), badge: I18N.t('badgePopularScheme'), badgeColor: 'green' },
-    { id: 2, category: I18N.t('catEdu'), categoryKey: 'catEdu', icon: Icons.award, title: I18N.t('srvNspTitle'), desc: I18N.t('srvNspDesc'), badge: I18N.t('badgeAppOpen'), badgeColor: 'gold' },
-    { id: 3, category: I18N.t('catAgri'), categoryKey: 'catAgri', icon: Icons.sprout, title: I18N.t('srvKccTitle'), desc: I18N.t('srvKccDesc'), badge: I18N.t('badgeLoanSupport'), badgeColor: 'blue' },
-    { id: 4, category: I18N.t('catMarketSupport'), categoryKey: 'catMarketSupport', icon: Icons.trendingUp, title: I18N.t('srvMandiTitle'), desc: I18N.t('srvMandiDesc'), badge: I18N.t('badgeLivePrices'), badgeColor: 'green' },
-    { id: 5, category: I18N.t('catFinancial'), categoryKey: 'catFinancial', icon: Icons.shield, title: I18N.t('srvFasalBimaTitle'), desc: I18N.t('srvFasalBimaDesc'), badge: I18N.t('badgeInsurance'), badgeColor: 'blue' },
-    { id: 6, category: I18N.t('catEdu'), categoryKey: 'catEdu', icon: Icons.graduationCap, title: I18N.t('srvSkillIndiaTitle'), desc: I18N.t('srvSkillIndiaDesc'), badge: I18N.t('badgeFreeSkill'), badgeColor: 'gold' },
-    { id: 7, category: I18N.t('catAgri'), categoryKey: 'catAgri', icon: Icons.leaf, title: I18N.t('srvSoilHealthTitle'), desc: I18N.t('srvSoilHealthDesc'), badge: I18N.t('badgeFreeAdvisory'), badgeColor: 'green' },
-    { id: 8, category: I18N.t('catFinancial'), categoryKey: 'catFinancial', icon: Icons.briefcase, title: I18N.t('srvDbtTitle'), desc: I18N.t('srvDbtDesc'), badge: I18N.t('badgeDbtStatus'), badgeColor: 'blue' },
-    { id: 9, category: I18N.t('catEdu'), categoryKey: 'catEdu', icon: Icons.resources, title: I18N.t('srvLibraryTitle'), desc: I18N.t('srvLibraryDesc'), badge: I18N.t('badgeEResources'), badgeColor: 'gold' },
-    { id: 10, category: I18N.t('catGovtSchemes'), categoryKey: 'catGovtSchemes', icon: Icons.helpCircle, title: I18N.t('srvGrievanceTitle'), desc: I18N.t('srvGrievanceDesc'), badge: I18N.t('badgeSupport'), badgeColor: 'green' },
-  ];
-
-  const categoryPills = [
-    { label: I18N.t('catAll'), value: 'All' },
-    { label: I18N.t('catGovtSchemes'), value: 'catGovtSchemes' },
-    { label: I18N.t('catAgri'), value: 'catAgri' },
-    { label: I18N.t('catEdu'), value: 'catEdu' },
-    { label: I18N.t('catFinancial'), value: 'catFinancial' },
-    { label: I18N.t('catMarketSupport'), value: 'catMarketSupport' },
-  ];
-
+// -- About Page ----------------------------------------------
+function renderAboutPage() {
   return `
-    ${renderPublicNavbar('services')}
+    ${renderPublicNavbar('about')}
     <div class="page-layout">
-      <section class="services-hero">
-        <div class="container">
-          <h1>${I18N.t('servicesTitle')}</h1>
-          <p style="max-width:650px;margin:0 auto;color:var(--clr-gray-600);font-size:var(--fs-lg)">${I18N.t('servicesSub')}</p>
-          
-          <!-- Unified Search Bar -->
-          <div style="max-width:560px;margin:var(--sp-6) auto 0;position:relative">
-            <input type="text" class="form-input" id="serviceSearchInput" onkeyup="filterServicesList()" placeholder="${I18N.t('searchPlaceholder')}" style="padding-left:42px;height:48px;border-radius:var(--radius-full);box-shadow:var(--shadow-md)">
-            <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--clr-gray-400)">${Icons.search}</span>
-          </div>
+      <!-- About Hero Header -->
+      <section class="about-hero">
+        <div class="container text-center">
+          <div class="home-about-badge">${I18N.t('homeAboutBadge')}</div>
+          <h1 class="about-hero-title">${I18N.t('aboutTitle')}</h1>
+          <p class="about-hero-sub">${I18N.t('aboutSub')}</p>
         </div>
       </section>
 
-      <section class="services-section section">
+      <!-- Platform Overview (Clean Editorial Story) -->
+      <section class="section" style="background:var(--clr-white);padding:var(--sp-12) 0">
+        <div class="container" style="max-width:880px;margin:0 auto;text-align:center">
+          <h2 style="font-size:clamp(1.6rem, 2.4vw, 2.1rem);font-weight:800;color:var(--clr-primary-950);margin-bottom:var(--sp-4);line-height:1.3">
+            Connecting Citizens With Unified Digital Governance
+          </h2>
+          <p style="font-size:1.05rem;color:var(--clr-gray-700);line-height:1.75;margin-bottom:var(--sp-4)">
+            ${I18N.t('aboutDesc1')}
+          </p>
+          <p style="font-size:1.05rem;color:var(--clr-gray-700);line-height:1.75">
+            ${I18N.t('aboutDesc2')}
+          </p>
+        </div>
+      </section>
+
+      <!-- Original Rich Mission & Vision Section -->
+      <section class="home-about-section" style="background:var(--clr-gray-50);padding:var(--sp-16) 0">
         <div class="container">
-          <!-- Category Filter Pills -->
-          <div class="filter-pills" style="margin-bottom:var(--sp-8);justify-content:center">
-            ${categoryPills.map((cat, idx) => `
-              <button class="filter-pill ${idx === 0 ? 'active' : ''}" onclick="filterServicesByCategory(this, '${cat.value}')">${cat.label}</button>
-            `).join('')}
+          <!-- Section Header -->
+          <div class="home-about-header">
+            <div class="home-about-badge">CORE FOUNDATION</div>
+            <h2 class="home-about-title">${I18N.t('homeAboutTitle')}</h2>
+            <p class="home-about-sub">${I18N.t('homeAboutSub')}</p>
           </div>
 
-          <!-- Service Cards Grid -->
-          <div class="grid grid-3" id="servicesGrid">
-            ${allServices.map(s => `
-              <div class="card card-hover service-card-item" data-category="${s.categoryKey}">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--sp-3)">
-                  <div class="card-icon card-icon-${s.badgeColor === 'green' ? 'green' : s.badgeColor === 'gold' ? 'gold' : 'blue'}">${s.icon}</div>
-                  <span class="badge ${s.badgeColor === 'green' ? 'badge-green' : s.badgeColor === 'gold' ? 'badge-gold' : 'badge-blue'}">${s.badge}</span>
+          <!-- Mission & Vision 2-Column Grid -->
+          <div class="home-mv-grid">
+            <!-- Mission Card -->
+            <div class="home-mv-card mission-card">
+              <div class="home-mv-card-header">
+                <div class="home-mv-icon-badge green">
+                  ${Icons.zap}
                 </div>
-                <div class="card-title" style="font-size:var(--fs-lg);font-weight:var(--fw-bold);margin-bottom:var(--sp-2)">${s.title}</div>
-                <div style="margin-bottom:var(--sp-3)"><span class="badge badge-gray">${s.category}</span></div>
-                <div class="card-text" style="color:var(--clr-gray-600);margin-bottom:var(--sp-4);line-height:1.5">${s.desc}</div>
-                <button class="btn btn-primary btn-sm" onclick="showToast('${s.title}: ${I18N.t('accessGuideNotice')}', 'info')">${I18N.t('viewMore')} ${Icons.arrowRight}</button>
+                <div>
+                  <span class="home-mv-tag green">MISSION</span>
+                  <h3 class="home-mv-title">${I18N.t('missionCardTitle')}</h3>
+                  <div class="home-mv-subtitle">${I18N.t('missionCardSubtitle')}</div>
+                </div>
               </div>
-            `).join('')}
+              
+              <p class="home-mv-core">${I18N.t('missionCardDesc')}</p>
+              
+              <div class="home-mv-pillars">
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet green"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('missionPillar1Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('missionPillar1Desc')}</div>
+                  </div>
+                </div>
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet green"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('missionPillar2Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('missionPillar2Desc')}</div>
+                  </div>
+                </div>
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet green"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('missionPillar3Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('missionPillar3Desc')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vision Card -->
+            <div class="home-mv-card vision-card">
+              <div class="home-mv-card-header">
+                <div class="home-mv-icon-badge blue">
+                  ${Icons.globe}
+                </div>
+                <div>
+                  <span class="home-mv-tag blue">VISION</span>
+                  <h3 class="home-mv-title">${I18N.t('visionCardTitle')}</h3>
+                  <div class="home-mv-subtitle">${I18N.t('visionCardSubtitle')}</div>
+                </div>
+              </div>
+              
+              <p class="home-mv-core">${I18N.t('visionCardDesc')}</p>
+              
+              <div class="home-mv-pillars">
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet blue"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('visionPillar1Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('visionPillar1Desc')}</div>
+                  </div>
+                </div>
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet blue"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('visionPillar2Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('visionPillar2Desc')}</div>
+                  </div>
+                </div>
+                <div class="home-mv-pillar-item">
+                  <div class="home-mv-pillar-bullet blue"></div>
+                  <div class="home-mv-pillar-content">
+                    <div class="home-mv-pillar-title">${I18N.t('visionPillar3Title')}</div>
+                    <div class="home-mv-pillar-desc">${I18N.t('visionPillar3Desc')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -342,24 +295,592 @@ function renderServicesPage() {
   `;
 }
 
-function filterServicesByCategory(el, category) {
-  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.service-card-item').forEach(card => {
-    if (category === 'All' || card.dataset.category === category) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
+// -- Services Page (6 Citizen Categories in 2x3 Grid with Drill-Down Schemes) --------
+const SERVICE_CATEGORIES = [
+  {
+    key: 'students',
+    classModifier: 'cat-students',
+    icon: Icons.graduationCap,
+    iconBg: '#eff6ff',
+    iconColor: '#1d4ed8',
+    titleKey: 'catStudentsTitle',
+    descKey: 'catStudentsDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 's1',
+        title: 'MahaDBT Post-Matric Scholarship',
+        dept: 'Social Justice & Special Assistance Dept, Maharashtra',
+        desc: '100% tuition and examination fee waiver with monthly maintenance allowance for SC/ST/OBC/EWS students pursuing diploma and degree courses.',
+        benefits: 'Direct Bank Transfer (DBT) up to ₹65,000 / year',
+        badge: 'Fee Reimbursement',
+        badgeColor: 'blue'
+      },
+      {
+        id: 's2',
+        title: 'National Scholarship Portal (NSP)',
+        dept: 'Ministry of Education & Minority Affairs, Govt of India',
+        desc: 'Central sector scholarship scheme for college and university students based on higher secondary merit and national entrance scores.',
+        benefits: '₹12,000 to ₹20,000 annual scholarship allowance',
+        badge: 'Central Merit',
+        badgeColor: 'gold'
+      },
+      {
+        id: 's3',
+        title: 'Technical Education Tuition Fee Waiver (TFWS)',
+        dept: 'Directorate of Technical Education (DTE), Maharashtra',
+        desc: 'Complete tuition fee exemption for meritorious engineering, pharmacy, and polytechnic students from economically weaker backgrounds.',
+        benefits: 'Zero tuition fees for entire course duration',
+        badge: 'Technical Higher Ed',
+        badgeColor: 'green'
+      },
+      {
+        id: 's4',
+        title: 'Government Hostel & Swadhar Yojana',
+        dept: 'Tribal & Social Justice Department, Maharashtra',
+        desc: 'Direct financial assistance for room rent, boarding, and stationery expenses for eligible students who did not get government hostel accommodation.',
+        benefits: 'Monthly allowance of ₹4,000 to ₹6,000 direct to bank',
+        badge: 'Hostel & Living Aid',
+        badgeColor: 'blue'
+      },
+      {
+        id: 's5',
+        title: 'Skill India Mission Training & Certification',
+        dept: 'Maharashtra State Skill Development Society (MSSDS)',
+        desc: 'Industry-aligned certified short-term courses with government-sponsored training in IT, renewable energy, manufacturing, and healthcare.',
+        benefits: 'Free government certification + job placement support',
+        badge: 'Job Ready Skills',
+        badgeColor: 'green'
+      },
+      {
+        id: 's6',
+        title: 'MSRTC Student Concession Bus Pass',
+        dept: 'Maharashtra State Road Transport Corporation',
+        desc: 'Subsidized and free bus travel passes for daily commuting school and college students across all 36 Maharashtra districts.',
+        benefits: 'Up to 66% to 100% travel subsidy',
+        badge: 'Travel Concession',
+        badgeColor: 'gold'
+      }
+    ]
+  },
+  {
+    key: 'farmers',
+    classModifier: 'cat-farmers',
+    icon: Icons.sprout,
+    iconBg: '#ecfdf5',
+    iconColor: '#15803d',
+    titleKey: 'catFarmersTitle',
+    descKey: 'catFarmersDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 'f1',
+        title: 'PM Kisan Samman Nidhi Yojana',
+        dept: 'Ministry of Agriculture & Farmers Welfare, GoI',
+        desc: 'Direct income support of ₹6,000 per year transferred in three equal four-monthly installments directly into verified Aadhaar-linked accounts.',
+        benefits: '₹6,000 / year direct bank transfer (DBT)',
+        badge: 'Direct Income Support',
+        badgeColor: 'green'
+      },
+      {
+        id: 'f2',
+        title: 'Namo Shetkari Mahasanman Nidhi',
+        dept: 'Department of Agriculture, Government of Maharashtra',
+        desc: 'Additional Maharashtra state top-up benefit of ₹6,000 per year providing total ₹12,000 annual direct income support to state farmers.',
+        benefits: '₹6,000 / year Maharashtra state top-up',
+        badge: 'Maharashtra Special',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'f3',
+        title: 'Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+        dept: 'Dept of Agriculture & Farmers Welfare, GoI',
+        desc: 'Comprehensive crop insurance coverage against non-preventable natural risks like drought, flood, pests, and unseasonal rainfall with ₹1 token premium.',
+        benefits: '100% claim settlement against verified crop loss',
+        badge: '₹1 Crop Insurance',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'f4',
+        title: 'Kisan Credit Card (KCC) Low-Interest Loan',
+        dept: 'NABARD & Reserve Bank of India',
+        desc: 'Institutional agricultural credit at concessional interest rate of 4% per annum (with timely repayment prompt subvention).',
+        benefits: 'Credit limit up to ₹3,00,000 at 4% effective interest',
+        badge: 'Credit & Capital',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'f5',
+        title: 'Soil Health Card & Fertilizer Advisory',
+        dept: 'National Mission for Sustainable Agriculture',
+        desc: 'Complete periodic soil testing report card detailing 12 nutrient parameters and customized fertilizer recommendations for maximum crop yield.',
+        benefits: 'Free soil analysis and dosage report',
+        badge: 'Free Soil Testing',
+        badgeColor: 'green'
+      },
+      {
+        id: 'f6',
+        title: 'MahaDBT Shetkari Drip & Farm Equipment Subsidy',
+        dept: 'Agriculture Commissionerate, Maharashtra',
+        desc: 'Online lottery and direct DBT subsidy for micro-irrigation (drip/sprinkler), tractors, rotavators, and protective farm shade nets.',
+        benefits: 'Up to 55% to 80% capital subsidy on farm equipment',
+        badge: 'Equipment Subsidy',
+        badgeColor: 'gold'
+      }
+    ]
+  },
+  {
+    key: 'women',
+    classModifier: 'cat-women',
+    icon: Icons.family,
+    iconBg: '#fdf2f8',
+    iconColor: '#be185d',
+    titleKey: 'catWomenTitle',
+    descKey: 'catWomenDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 'w1',
+        title: 'Mukhyamantri Majhi Ladki Bahin Yojana',
+        dept: 'Women & Child Development Dept, Maharashtra',
+        desc: 'Financial empowerment initiative providing ₹1,500 direct monthly assistance to eligible women aged 21 to 65 years across Maharashtra.',
+        benefits: '₹1,500 monthly (₹18,000 / year) direct to bank account',
+        badge: 'Direct Financial Aid',
+        badgeColor: 'green'
+      },
+      {
+        id: 'w2',
+        title: 'Pradhan Mantri Matru Vandana Yojana (PMMVY)',
+        dept: 'Ministry of Women and Child Development, GoI',
+        desc: 'Maternity benefit cash incentive for pregnant women and lactating mothers for health checkups, hospital delivery, and nutritional support.',
+        benefits: 'Cash incentive of ₹5,000 to ₹6,000 for newborn care',
+        badge: 'Maternity Benefit',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'w3',
+        title: 'Sukanya Samriddhi Yojana (SSY)',
+        dept: 'National Savings Institute & Dept of Posts',
+        desc: 'High-interest tax-exempt savings scheme for girl children with 8.2% annual compounded return and tax deduction under Section 80C.',
+        benefits: 'Highest government interest rate + tax-free maturity',
+        badge: 'Girl Child Savings',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'w4',
+        title: 'Mahila Samman Bachat Patra (MSSC)',
+        dept: 'Ministry of Finance, Government of India',
+        desc: 'Dedicated 2-year small savings certificate for women and girls offering guaranteed 7.5% interest rate with partial withdrawal option.',
+        benefits: '7.5% fixed interest with sovereign guarantee',
+        badge: 'Guaranteed Return',
+        badgeColor: 'green'
+      },
+      {
+        id: 'w5',
+        title: 'Poshan 2.0 & Anganwadi Supplementary Nutrition',
+        dept: 'Integrated Child Development Services (ICDS), MH',
+        desc: 'Nutritional food supplements, growth monitoring, and preschool education for children under 6 years and lactating mothers.',
+        benefits: 'Free daily nutrition packets + immunisation support',
+        badge: 'Child Nutrition',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'w6',
+        title: 'Women Helpline 181 & One Stop Crisis Center',
+        dept: 'Dept of Women & Child Development, Maharashtra',
+        desc: '24x7 toll-free emergency response, medical aid, legal counselling, and temporary shelter for women facing distress or domestic issues.',
+        benefits: 'Immediate 24x7 emergency assistance & legal counsel',
+        badge: '24x7 Helpline',
+        badgeColor: 'blue'
+      }
+    ]
+  },
+  {
+    key: 'healthcare',
+    classModifier: 'cat-healthcare',
+    icon: Icons.activity,
+    iconBg: '#f0fdf4',
+    iconColor: '#059669',
+    titleKey: 'catHealthTitle',
+    descKey: 'catHealthDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 'h1',
+        title: 'Ayushman Bharat - PM-JAY',
+        dept: 'National Health Authority, Govt of India',
+        desc: 'World’s largest public health assurance scheme providing cashless secondary and tertiary hospitalization cover across empaneled hospitals.',
+        benefits: '₹5 Lakh free cashless treatment per family per year',
+        badge: 'Cashless Health Cover',
+        badgeColor: 'green'
+      },
+      {
+        id: 'h2',
+        title: 'Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)',
+        dept: 'Public Health Department, Government of Maharashtra',
+        desc: 'Maharashtra state flagship cashless health insurance scheme covering 1,356 medical and surgical procedures across empanelled hospitals.',
+        benefits: 'Universal cashless coverage for state ration card holders',
+        badge: 'Maharashtra Health Aid',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'h3',
+        title: 'PM Bharatiya Jan Aushadhi Kendra',
+        dept: 'Department of Pharmaceuticals, GoI',
+        desc: 'Access to high-quality generic medicines, surgical items, and health consumables at 50% to 90% cheaper price than branded alternatives.',
+        benefits: '50% to 90% savings on essential daily medicines',
+        badge: 'Generic Medicines',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'h4',
+        title: 'e-Sanjeevani Teleconsultation OPD',
+        dept: 'Ministry of Health and Family Welfare, GoI',
+        desc: 'Free digital consultation with government doctors and specialist physicians from the comfort of home via smartphone.',
+        benefits: 'Free online doctor consultation + digital prescription',
+        badge: 'Free Tele-OPD',
+        badgeColor: 'green'
+      },
+      {
+        id: 'h5',
+        title: 'Free Diagnostic & Pathology Tests Network',
+        dept: 'National Health Mission, Maharashtra',
+        desc: 'Free pathology lab tests, X-rays, ultrasounds, and basic diagnostics available at all district civil hospitals and primary health centers.',
+        benefits: 'Zero user fees for essential medical diagnostic tests',
+        badge: 'Free Diagnostics',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'h6',
+        title: 'Mission Indradhanush Immunization Program',
+        dept: 'Directorate of Health Services, Maharashtra',
+        desc: 'Comprehensive immunization coverage against 12 vaccine-preventable life-threatening diseases for pregnant women and infants.',
+        benefits: 'Free complete universal immunization schedule',
+        badge: 'Child & Maternal',
+        badgeColor: 'gold'
+      }
+    ]
+  },
+  {
+    key: 'senior',
+    classModifier: 'cat-senior',
+    icon: Icons.senior,
+    iconBg: '#fffbeb',
+    iconColor: '#b45309',
+    titleKey: 'catSeniorTitle',
+    descKey: 'catSeniorDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 'sn1',
+        title: 'Indira Gandhi National Old Age Pension (IGNOAPS)',
+        dept: 'National Social Assistance Programme (NSAP), GoI',
+        desc: 'Monthly financial pension directly transferred into bank accounts of citizens aged 60 years and above living below the poverty line.',
+        benefits: 'Direct monthly pension to bank/post office account',
+        badge: 'Monthly Pension',
+        badgeColor: 'green'
+      },
+      {
+        id: 'sn2',
+        title: 'Shravanbal Seva Rajya Nivruttivetan Yojana',
+        dept: 'Social Justice Department, Maharashtra',
+        desc: 'Maharashtra state scheme providing monthly financial pension to destitute and aged persons aged 65 years and above.',
+        benefits: '₹1,500 monthly state pension support',
+        badge: 'State Senior Pension',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'sn3',
+        title: 'Rashtriya Vayoshri Yojana (RVY)',
+        dept: 'Ministry of Social Justice and Empowerment, GoI',
+        desc: 'Free provision of physical assisted-living devices like wheelchairs, walking sticks, hearing aids, dentures, and spectacles for seniors.',
+        benefits: '100% free mobility aids and assistive medical devices',
+        badge: 'Free Assistive Aids',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'sn4',
+        title: 'Senior Citizen Travel Concession (MSRTC & Railways)',
+        dept: 'Transport Department, Government of Maharashtra',
+        desc: '50% fare concession on ordinary state transport buses and free travel for citizens aged 75 years and above across Maharashtra.',
+        benefits: '50% discount to 100% free travel for 75+ seniors',
+        badge: 'Travel Concession',
+        badgeColor: 'green'
+      },
+      {
+        id: 'sn5',
+        title: 'Dedicated Hospital Geriatric OPD & Priority Queues',
+        dept: 'Public Health Department, Maharashtra',
+        desc: 'Priority registration counters, free chronic disease checkups, and specialized geriatric care at government district hospitals.',
+        benefits: 'Zero-wait hospital consultations and priority care',
+        badge: 'Priority Healthcare',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'sn6',
+        title: 'Senior Citizens Maintenance & Welfare Tribunal',
+        dept: 'Social Justice & Legal Services Authority, Maharashtra',
+        desc: 'Summary tribunal procedure guaranteeing financial maintenance and property protection rights under the Senior Citizens Act.',
+        benefits: 'Free legal assistance and maintenance enforcement',
+        badge: 'Legal Protection',
+        badgeColor: 'gold'
+      }
+    ]
+  },
+  {
+    key: 'housing',
+    classModifier: 'cat-housing',
+    icon: Icons.home,
+    iconBg: '#f5f3ff',
+    iconColor: '#6d28d9',
+    titleKey: 'catHousingTitle',
+    descKey: 'catHousingDesc',
+    schemesCount: '6 Verified Schemes',
+    schemes: [
+      {
+        id: 'hs1',
+        title: 'Pradhan Mantri Awas Yojana - Urban & Gramin (PMAY)',
+        dept: 'Ministry of Housing and Urban Affairs, GoI',
+        desc: 'Housing for All flagship scheme providing financial subsidy up to ₹2.67 Lakh for pucca house construction and affordable credit.',
+        benefits: 'Up to ₹2,67,000 interest subsidy / direct grant',
+        badge: 'Pucca House Subsidy',
+        badgeColor: 'green'
+      },
+      {
+        id: 'hs2',
+        title: 'Ramai Awas Gharkul Yojana',
+        dept: 'Social Justice & Special Assistance Dept, Maharashtra',
+        desc: 'Maharashtra state housing scheme providing financial grant to rural and urban scheduled caste families for building permanent homes.',
+        benefits: '₹1.5 Lakh to ₹2.5 Lakh financial construction aid',
+        badge: 'Permanent Home Grant',
+        badgeColor: 'gold'
+      },
+      {
+        id: 'hs3',
+        title: 'Shabari Gharkul Yojana',
+        dept: 'Tribal Development Department, Maharashtra',
+        desc: 'Subsidized house building scheme dedicated to tribal families living in rural and forest belt areas across Maharashtra.',
+        benefits: 'Full construction grant for tribal families',
+        badge: 'Tribal Housing',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'hs4',
+        title: 'Rajiv Gandhi Rural Housing Interest Subsidy',
+        dept: 'Rural Development Department, Maharashtra',
+        desc: 'Low-interest institutional loans for house expansion, renovation, and construction of sanitation facilities for rural families.',
+        benefits: '5% interest subsidy on housing credit loans',
+        badge: 'Credit Assistance',
+        badgeColor: 'green'
+      },
+      {
+        id: 'hs5',
+        title: 'Slum Rehabilitation Scheme (SRA Tenements)',
+        dept: 'Slum Rehabilitation Authority (SRA), Maharashtra',
+        desc: 'Rehabilitation of eligible slum dwellers into permanent self-contained residential tenements with clean water and electricity.',
+        benefits: 'Free permanent transit & rehabilitation tenement',
+        badge: 'Urban Rehabilitation',
+        badgeColor: 'blue'
+      },
+      {
+        id: 'hs6',
+        title: 'Night Shelter & Transit Housing Assistance',
+        dept: 'Urban Development Department, Maharashtra',
+        desc: 'Safe temporary overnight shelters equipped with clean drinking water, sanitation facilities, and bedding for migrant workers.',
+        benefits: 'Free safe shelter and hygiene facilities',
+        badge: 'Shelter Support',
+        badgeColor: 'gold'
+      }
+    ]
+  }
+];
+
+function renderServicesPage() {
+  return `
+    ${renderPublicNavbar('services')}
+    <div class="page-layout">
+      <!-- Services Hero Header -->
+      <section class="services-hero">
+        <div class="container text-center">
+          <div class="services-hero-badge-wrap">
+            <span class="services-hero-badge">DIRECT CITIZEN ASSISTANCE</span>
+          </div>
+          <h1 class="services-hero-title">${I18N.t('servicesPageTitle')}</h1>
+          <p class="services-hero-sub">${I18N.t('servicesPageSub')}</p>
+        </div>
+      </section>
+
+      <!-- Main Container: Dynamic 6-Category Grid OR Category Schemes View -->
+      <section class="services-categories-section">
+        <div class="container" id="servicesMainContainer">
+          ${renderServicesMainContent()}
+        </div>
+      </section>
+
+      ${renderFooter()}
+    </div>
+  `;
+}
+
+// Renders either the 6 Category Cards in 2x3 Grid OR the Drill-Down Schemes
+function renderServicesMainContent() {
+  const currentKey = typeof window !== 'undefined' ? window.currentServiceCategory : null;
+  const currentCat = SERVICE_CATEGORIES.find(c => c.key === currentKey);
+
+  if (currentCat) {
+    return renderCategoryDetailView(currentCat);
+  } else {
+    return render6CategoriesGrid();
+  }
+}
+
+// Exactly 6 Cards in 2 columns x 3 rows grid
+function render6CategoriesGrid() {
+  return `
+    <div class="services-cat-header-wrap">
+      <div class="services-cat-badge">SECTOR PORTAL DIRECTORY</div>
+      <h2 class="services-cat-main-title">Select Citizen Category</h2>
+      <p class="services-cat-main-desc">Explore verified government schemes, grants, and subsidies curated for your needs.</p>
+    </div>
+
+    <div class="services-cat-grid-2x3">
+      ${SERVICE_CATEGORIES.map(cat => `
+        <div class="service-cat-card ${cat.classModifier}" onclick="openServiceCategory('${cat.key}')" role="button" tabindex="0" onkeypress="if(event.key==='Enter') openServiceCategory('${cat.key}')">
+          <div class="service-cat-top-row">
+            <div class="service-cat-icon-wrap" style="background:${cat.iconBg};color:${cat.iconColor}">
+              ${cat.icon}
+            </div>
+            <span class="service-cat-count-badge">${cat.schemesCount}</span>
+          </div>
+          <div class="service-cat-title">${I18N.t(cat.titleKey)}</div>
+          <div class="service-cat-desc">${I18N.t(cat.descKey)}</div>
+          <div class="service-cat-cta">
+            <span>${I18N.t('catExploreCta')}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// Drill-down scheme list when a category card is clicked
+function renderCategoryDetailView(cat) {
+  return `
+    <div class="category-detail-view">
+      <!-- Back to Categories Button -->
+      <div style="margin-bottom:var(--sp-6)">
+        <button class="btn btn-outline btn-sm back-to-cat-btn" onclick="backToCategories()">
+          ${I18N.t('backToCategories')}
+        </button>
+      </div>
+
+      <!-- Active Category Header Card -->
+      <div class="cat-detail-hero-card">
+        <div style="display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap">
+          <div class="service-cat-icon-wrap" style="background:${cat.iconBg};color:${cat.iconColor};width:68px;height:68px;margin-bottom:0">
+            ${cat.icon}
+          </div>
+          <div style="flex:1;min-width:240px">
+            <h2 class="cat-detail-hero-title">${I18N.t(cat.titleKey)}</h2>
+            <p class="cat-detail-hero-desc">${I18N.t(cat.descKey)}</p>
+          </div>
+        </div>
+
+        <!-- Filter / Search within category schemes -->
+        <div style="margin-top:var(--sp-5);position:relative;max-width:480px">
+          <input type="text" class="form-input" id="catSchemeSearchInput" onkeyup="filterCategorySchemes()" placeholder="${I18N.t('searchSchemesPlaceholder')}" style="padding-left:42px;height:46px;border-radius:var(--radius-full)">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--clr-gray-400)">${Icons.search}</span>
+        </div>
+      </div>
+
+      <!-- Schemes Grid -->
+      <div class="category-schemes-grid" id="catSchemesGrid" style="margin-top:var(--sp-8)">
+        ${cat.schemes.map(s => `
+          <div class="cat-scheme-card">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--sp-3)">
+                <span class="badge ${s.badgeColor === 'green' ? 'badge-green' : s.badgeColor === 'gold' ? 'badge-gold' : 'badge-blue'}">${s.badge}</span>
+                <span class="cat-scheme-verified-badge">VERIFIED</span>
+              </div>
+              <h3 class="cat-scheme-card-title">${s.title}</h3>
+              <div class="cat-scheme-dept">${s.dept}</div>
+              <p class="cat-scheme-desc">${s.desc}</p>
+            </div>
+            <div>
+              <div class="cat-scheme-benefit-box">
+                <span class="cat-scheme-benefit-label">Official Benefit:</span>
+                <span class="cat-scheme-benefit-value">${s.benefits}</span>
+              </div>
+              <div style="display:flex;gap:var(--sp-3);margin-top:var(--sp-4)">
+                <button class="btn btn-primary btn-sm" style="flex:1" onclick="handleSchemeApply('${s.id}', '${s.title}')">
+                  ${Icons.zap} ${I18N.t('applyOnline')}
+                </button>
+                <button class="btn btn-ghost btn-sm" onclick="showToast('${s.title}: Direct guidance & documents available in e-Samanvit directory', 'info')">
+                  ${I18N.t('schemeDetails')}
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Bottom Return Button -->
+      <div style="text-align:center;margin-top:var(--sp-12)">
+        <button class="btn btn-secondary btn-lg" onclick="backToCategories()">
+          ${I18N.t('backToCategories')}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function openServiceCategory(key) {
+  if (typeof window !== 'undefined') {
+    window.currentServiceCategory = key;
+  }
+  const container = document.getElementById('servicesMainContainer');
+  if (container) {
+    container.innerHTML = renderServicesMainContent();
+    window.scrollTo({ top: 140, behavior: 'smooth' });
+  }
+}
+
+function navigateToServiceCategory(catKey) {
+  if (typeof window !== 'undefined') {
+    window.currentServiceCategory = catKey;
+  }
+  if (typeof navigateTo === 'function') {
+    navigateTo('services', { category: catKey });
+  }
+}
+
+function backToCategories() {
+  if (typeof window !== 'undefined') {
+    window.currentServiceCategory = null;
+  }
+  const container = document.getElementById('servicesMainContainer');
+  if (container) {
+    container.innerHTML = renderServicesMainContent();
+    window.scrollTo({ top: 140, behavior: 'smooth' });
+  }
+}
+
+function filterCategorySchemes() {
+  const input = document.getElementById('catSchemeSearchInput');
+  if (!input) return;
+  const q = input.value.toLowerCase();
+  document.querySelectorAll('.cat-scheme-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(q) ? '' : 'none';
   });
 }
 
-function filterServicesList() {
-  const query = document.getElementById('serviceSearchInput').value.toLowerCase();
-  document.querySelectorAll('.service-card-item').forEach(card => {
-    const text = card.textContent.toLowerCase();
-    card.style.display = text.includes(query) ? '' : 'none';
-  });
+function handleSchemeApply(id, title) {
+  // Direct to digital portal application or modal
+  showToast(`Initiating Application for ${title} via e-Samanvit Interoperability Gateway`, 'success');
+  setTimeout(() => {
+    navigateTo('gov-services');
+  }, 900);
 }
 
 // -- Resources Page ------------------------------------------
@@ -389,8 +910,8 @@ function renderResourcesPage() {
     <div class="page-layout">
       <section class="resources-hero">
         <div class="container">
-          <h1>${I18N.t('resourcesTitle')}</h1>
-          <p style="max-width:600px;margin:0 auto;color:var(--clr-gray-600);font-size:var(--fs-lg)">${I18N.t('resourcesSub')}</p>
+          <h1 class="resources-hero-title">${I18N.t('resourcesTitle')}</h1>
+          <p class="resources-hero-sub">${I18N.t('resourcesSub')}</p>
           <div style="max-width:500px;margin:var(--sp-6) auto 0;position:relative">
             <input type="text" class="form-input" id="resourceSearch" onkeyup="filterResources()" placeholder="${I18N.t('searchPlaceholder')}" style="padding-left:40px;border-radius:var(--radius-full)">
             <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--clr-gray-400)">${Icons.search}</span>
@@ -454,8 +975,8 @@ function renderContactPage() {
     <div class="page-layout">
       <section class="contact-hero">
         <div class="container">
-          <h1>${I18N.t('contactTitle')}</h1>
-          <p style="max-width:600px;margin:0 auto;color:var(--clr-gray-600);font-size:var(--fs-lg)">${I18N.t('contactSub')}</p>
+          <h1 class="contact-hero-title">${I18N.t('contactTitle')}</h1>
+          <p class="contact-hero-sub">${I18N.t('contactSub')}</p>
         </div>
       </section>
 

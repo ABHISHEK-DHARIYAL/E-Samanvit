@@ -4,11 +4,11 @@
 
 // -- Navbar (Public Pages) -----------------------------------
 function renderPublicNavbar(activePage) {
-  // Main desktop links: Home, About, Impact, Dashboard
+  // Main desktop links: Home, Services, About, Dashboard
   const navLinks = [
     { id: 'home', label: I18N.t('navHome'), icon: Icons.home },
+    { id: 'services', label: I18N.t('navServices'), icon: Icons.services },
     { id: 'about', label: I18N.t('navAbout'), icon: Icons.about },
-    { id: 'impact', label: I18N.t('navImpact'), icon: Icons.trendingUp },
     { id: 'dashboard', label: I18N.t('navDashboard'), icon: Icons.dashboard },
   ];
 
@@ -20,7 +20,6 @@ function renderPublicNavbar(activePage) {
     { id: 'dashboard', label: I18N.t('navDashboard'), icon: Icons.dashboard },
     { id: 'gov-services', label: 'Apply Online', icon: Icons.zap },
     { id: 'my-applications', label: 'My Applications', icon: Icons.fileText },
-    { id: 'impact', label: I18N.t('navImpact'), icon: Icons.trendingUp },
     { id: 'services', label: I18N.t('navServices'), icon: Icons.services },
     { id: 'resources', label: I18N.t('navResources'), icon: Icons.resources },
     { id: 'about', label: I18N.t('navAbout'), icon: Icons.about },
@@ -40,6 +39,8 @@ function renderPublicNavbar(activePage) {
         <div class="navbar-brand" onclick="navigateTo('home')">
           <img src="assets/logo.jpg" alt="e-Samanvit" class="navbar-brand-logo">
           <div class="navbar-brand-text">${I18N.t('brandName')}</div>
+          <span class="navbar-brand-divider" aria-hidden="true"></span>
+          <img src="assets/digital_india_logo.png" alt="Digital India" class="navbar-digital-india-logo">
         </div>
 
         <!-- Desktop Navigation: Home, About, Impact, Dashboard -->
@@ -56,6 +57,11 @@ function renderPublicNavbar(activePage) {
             <option value="hi" ${I18N.currentLang === 'hi' ? 'selected' : ''}>हिंदी</option>
             <option value="mr" ${I18N.currentLang === 'mr' ? 'selected' : ''}>मराठी</option>
           </select>
+
+          <!-- Theme Toggle Button (Dark / Light Mode) -->
+          <button class="navbar-icon-btn theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn" aria-label="${(typeof Accessibility !== 'undefined' && Accessibility.theme === 'dark') ? I18N.t('lightMode') : I18N.t('darkMode')}" title="${(typeof Accessibility !== 'undefined' && Accessibility.theme === 'dark') ? I18N.t('lightMode') : I18N.t('darkMode')}">
+            ${(typeof Accessibility !== 'undefined' && Accessibility.theme === 'dark') ? Icons.sun : Icons.moon}
+          </button>
 
           <!-- Notification Bell -->
           <div class="navbar-icon-btn" onclick="toggleNotifDropdown(event)" id="navNotifBtn" style="position:relative;" title="${I18N.t('navNotifications')}">
@@ -79,6 +85,8 @@ function renderPublicNavbar(activePage) {
         <div class="navbar-brand" onclick="navigateTo('home');closeMobileNav();">
           <img src="assets/logo.jpg" alt="e-Samanvit" class="navbar-brand-logo" style="width:32px;height:32px">
           <div class="navbar-brand-text" style="font-size:var(--fs-lg)">${I18N.t('brandName')}</div>
+          <span class="navbar-brand-divider" aria-hidden="true"></span>
+          <img src="assets/digital_india_logo.png" alt="Digital India" class="navbar-digital-india-logo" style="height:24px">
         </div>
         <button class="mobile-nav-close" onclick="closeMobileNav()">${Icons.x}</button>
       </div>
@@ -88,24 +96,6 @@ function renderPublicNavbar(activePage) {
         ${sidebarLinks.map(l => `
           <a class="mobile-nav-link ${activePage === l.id ? 'active' : ''}" onclick="navigateTo('${l.id}');closeMobileNav();">${l.icon} ${l.label}</a>
         `).join('')}
-        
-        <div class="mobile-nav-divider"></div>
-        <div style="font-size:var(--fs-xs);font-weight:var(--fw-bold);text-transform:uppercase;color:var(--clr-gray-500);letter-spacing:0.5px;padding:var(--sp-2) var(--sp-4) 0">${I18N.t('navCategories')}</div>
-        <a class="mobile-nav-link" onclick="navigateTo('services');closeMobileNav();">${Icons.fileText} ${I18N.t('catGovtSchemes')}</a>
-        <a class="mobile-nav-link" onclick="navigateTo('services');closeMobileNav();">${Icons.leaf} ${I18N.t('catAgri')}</a>
-        <a class="mobile-nav-link" onclick="navigateTo('services');closeMobileNav();">${Icons.graduationCap} ${I18N.t('catEdu')}</a>
-        <a class="mobile-nav-link" onclick="navigateTo('services');closeMobileNav();">${Icons.briefcase} ${I18N.t('catFinancial')}</a>
-        <a class="mobile-nav-link" onclick="navigateTo('services');closeMobileNav();">${Icons.trendingUp} ${I18N.t('catMarketSupport')}</a>
-
-        <div class="mobile-nav-divider"></div>
-        <div style="padding:var(--sp-3) var(--sp-4)">
-          <div style="font-size:var(--fs-xs);color:var(--clr-gray-500);margin-bottom:var(--sp-2)">${I18N.t('selectLanguage')}</div>
-          <select class="lang-selector" style="width:100%" onchange="I18N.setLanguage(this.value)">
-            <option value="en" ${I18N.currentLang === 'en' ? 'selected' : ''}>English</option>
-            <option value="hi" ${I18N.currentLang === 'hi' ? 'selected' : ''}>हिंदी</option>
-            <option value="mr" ${I18N.currentLang === 'mr' ? 'selected' : ''}>मराठी</option>
-          </select>
-        </div>
       </div>
     </div>
   `;
@@ -204,7 +194,6 @@ function renderSidebar(activePage) {
     { id: 'home', label: I18N.t('navHome'), icon: Icons.home },
     { id: 'gov-services', label: 'Apply Online', icon: Icons.zap },
     { id: 'my-applications', label: 'My Applications', icon: Icons.fileText },
-    { id: 'impact', label: I18N.t('navImpact'), icon: Icons.trendingUp },
     { id: 'services', label: I18N.t('navServices'), icon: Icons.services },
     { id: 'resources', label: I18N.t('navResources'), icon: Icons.resources },
     { id: 'about', label: I18N.t('navAbout'), icon: Icons.about },
@@ -259,7 +248,6 @@ function renderFooter() {
             <div class="footer-links">
               <a class="footer-link" onclick="navigateTo('home')">${I18N.t('navHome')}</a>
               <a class="footer-link" onclick="navigateTo('dashboard')">${I18N.t('navDashboard')}</a>
-              <a class="footer-link" onclick="navigateTo('impact')">${I18N.t('navImpact')}</a>
               <a class="footer-link" onclick="navigateTo('about')">${I18N.t('navAbout')}</a>
               <a class="footer-link" onclick="navigateTo('services')">${I18N.t('navServices')}</a>
               <a class="footer-link" onclick="navigateTo('resources')">${I18N.t('navResources')}</a>
@@ -359,3 +347,453 @@ function markAllRead() {
   document.querySelectorAll('.notif-item.unread').forEach(n => n.classList.remove('unread'));
   document.querySelectorAll('.notif-dot').forEach(d => d.classList.add('read'));
 }
+
+// ============================================================
+// ============================================================
+// e-Samanvit — Featured Promotional Banner Carousel (7 Slides)
+// ============================================================
+
+function renderHeroSlider() {
+  const slides = [
+    {
+      id: 1,
+      badge: I18N.t('slide1Badge'),
+      title: I18N.t('slide1Title'),
+      desc: I18N.t('slide1Desc'),
+      visualHtml: `
+        <div class="hero-visual-card slide1-visual">
+          <div class="hvc-header">
+            <span class="hvc-badge green"><span class="hvc-pulse"></span> ${I18N.t('brandName')} Gateway</span>
+            <span class="hvc-sub">Unified Citizen Window</span>
+          </div>
+          <div class="hvc-gateway-flow">
+            <div class="hvc-flow-citizen">
+              <div class="hvc-citizen-avatar">👥</div>
+              <div>
+                <div class="hvc-flow-title">Citizens of Maharashtra</div>
+                <div class="hvc-flow-desc">Direct Single Point Access</div>
+              </div>
+            </div>
+            <div class="hvc-flow-connector">
+              <div class="hvc-flow-line"></div>
+              <div class="hvc-flow-badge">e-Samanvit Single Window</div>
+              <div class="hvc-flow-line"></div>
+            </div>
+            <div class="hvc-depts-grid">
+              <div class="hvc-dept-item">
+                <span class="hvc-dept-icon">🌾</span>
+                <span class="hvc-dept-name">Agriculture</span>
+              </div>
+              <div class="hvc-dept-item">
+                <span class="hvc-dept-icon">🎓</span>
+                <span class="hvc-dept-name">Education</span>
+              </div>
+              <div class="hvc-dept-item">
+                <span class="hvc-dept-icon">👩‍👧</span>
+                <span class="hvc-dept-name">Social Welfare</span>
+              </div>
+              <div class="hvc-dept-item">
+                <span class="hvc-dept-icon">🏥</span>
+                <span class="hvc-dept-name">Healthcare</span>
+              </div>
+            </div>
+          </div>
+          <div class="hvc-footer-stat">
+            <span>🏛️ Official Government Interoperability Platform</span>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 2,
+      badge: I18N.t('slide2Badge'),
+      title: I18N.t('slide2Title'),
+      desc: I18N.t('slide2Desc'),
+      visualHtml: `
+        <div class="hero-visual-card slide2-visual">
+          <div class="hvc-header">
+            <span class="hvc-badge gold"><span class="hvc-pulse gold"></span> Dedicated Sectors</span>
+            <span class="hvc-sub">Organized by Category</span>
+          </div>
+          <div class="hvc-categories-grid">
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">🎓</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Students</span>
+                <span class="hvc-cat-desc">Scholarships & Exams</span>
+              </div>
+            </div>
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">🌾</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Farmers</span>
+                <span class="hvc-cat-desc">Crops, Mandi & Subsidies</span>
+              </div>
+            </div>
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">👩‍👧</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Women & Child</span>
+                <span class="hvc-cat-desc">Welfare & Nutrition</span>
+              </div>
+            </div>
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">🏥</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Healthcare</span>
+                <span class="hvc-cat-desc">Medical Aid & Cards</span>
+              </div>
+            </div>
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">👴</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Senior Citizens</span>
+                <span class="hvc-cat-desc">Pensions & Care</span>
+              </div>
+            </div>
+            <div class="hvc-cat-tile">
+              <span class="hvc-cat-icon">🏡</span>
+              <div class="hvc-cat-info">
+                <span class="hvc-cat-name">Housing</span>
+                <span class="hvc-cat-desc">Shelter & Family Support</span>
+              </div>
+            </div>
+          </div>
+          <div class="hvc-footer-stat">
+            <span>🔍 Find all relevant schemes grouped neatly in seconds</span>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 3,
+      badge: I18N.t('slide3Badge'),
+      title: I18N.t('slide3Title'),
+      desc: I18N.t('slide3Desc'),
+      visualHtml: `
+        <div class="hero-visual-card slide3-visual">
+          <div class="hvc-header">
+            <span class="hvc-badge green"><span class="hvc-pulse"></span> Paperless Application</span>
+            <span class="hvc-sub">Step-by-Step Online Guide</span>
+          </div>
+          <div class="hvc-steps-mini">
+            <div class="hvc-step-row done">
+              <div class="hvc-check">✓</div>
+              <div class="hvc-step-text">
+                <strong>Choose Your Scheme:</strong>
+                <span>Select from verified citizen services</span>
+              </div>
+            </div>
+            <div class="hvc-step-row done">
+              <div class="hvc-check">✓</div>
+              <div class="hvc-step-text">
+                <strong>Enter Details Online:</strong>
+                <span>Quick Aadhaar and record verification</span>
+              </div>
+            </div>
+            <div class="hvc-step-row active">
+              <div class="hvc-check live">✓</div>
+              <div class="hvc-step-text">
+                <strong>Instant Submission:</strong>
+                <span>Receive official digital receipt and confirmation</span>
+              </div>
+            </div>
+          </div>
+          <div class="hvc-footer-stat">
+            <span>📱 Fully accessible on any smartphone or computer</span>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 4,
+      badge: I18N.t('slide4Badge'),
+      title: I18N.t('slide4Title'),
+      desc: I18N.t('slide4Desc'),
+      visualHtml: `
+        <div class="hero-visual-card slide4-visual">
+          <div class="hvc-header">
+            <span class="hvc-badge blue"><span class="hvc-pulse"></span> Direct Delivery</span>
+            <span class="hvc-sub">Real-Time Tracking & DBT</span>
+          </div>
+          <div class="hvc-tracker-flow">
+            <div class="hvc-track-item completed">
+              <div class="hvc-track-dot"></div>
+              <div class="hvc-track-content">
+                <div class="hvc-track-title">Application Submitted</div>
+                <div class="hvc-track-sub">Digital tracking ID generated</div>
+              </div>
+            </div>
+            <div class="hvc-track-item completed">
+              <div class="hvc-track-dot"></div>
+              <div class="hvc-track-content">
+                <div class="hvc-track-title">Department Verified</div>
+                <div class="hvc-track-sub">Verified against official state records</div>
+              </div>
+            </div>
+            <div class="hvc-track-item active">
+              <div class="hvc-track-dot pulsing"></div>
+              <div class="hvc-track-content">
+                <div class="hvc-track-title">Direct Benefit Transfer (DBT)</div>
+                <div class="hvc-track-sub">Financial subsidy deposited directly to bank</div>
+              </div>
+            </div>
+          </div>
+          <div class="hvc-footer-stat">
+            <span>🔒 Direct bank deposits with zero middleman interference</span>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 5,
+      badge: I18N.t('slide5Badge'),
+      title: I18N.t('slide5Title'),
+      desc: I18N.t('slide5Desc'),
+      visualHtml: `
+        <div class="hero-visual-card slide5-visual">
+          <div class="hvc-header">
+            <span class="hvc-badge blue">${Icons.globe} Native Multilingual</span>
+            <span class="hvc-sub">Citizen Care & Assistance</span>
+          </div>
+          <div class="hvc-lang-triad">
+            <div class="hvc-lang-card ${I18N.currentLang === 'mr' ? 'active' : ''}">
+              <div class="hvc-lang-char">म</div>
+              <div class="hvc-lang-name">मराठी</div>
+              <div class="hvc-lang-tag">मातृभाषा</div>
+            </div>
+            <div class="hvc-lang-card ${I18N.currentLang === 'hi' ? 'active' : ''}">
+              <div class="hvc-lang-char">अ</div>
+              <div class="hvc-lang-name">हिंदी</div>
+              <div class="hvc-lang-tag">सरल भाषा</div>
+            </div>
+            <div class="hvc-lang-card ${I18N.currentLang === 'en' ? 'active' : ''}">
+              <div class="hvc-lang-char">En</div>
+              <div class="hvc-lang-name">English</div>
+              <div class="hvc-lang-tag">Standard</div>
+            </div>
+          </div>
+          <div class="hvc-support-pair">
+            <div class="hvc-support-item">
+              <span class="hvc-support-icon">📜</span>
+              <div class="hvc-support-text">
+                <strong>Digital Certificates</strong>
+                <span>Official & verifiable</span>
+              </div>
+            </div>
+            <div class="hvc-support-item">
+              <span class="hvc-support-icon">📞</span>
+              <div class="hvc-support-text">
+                <strong>Citizen Helpline</strong>
+                <span>Prompt guidance & support</span>
+              </div>
+            </div>
+          </div>
+          <div class="hvc-footer-stat">
+            <span>🤝 Accessible and supportive to every citizen across Maharashtra</span>
+          </div>
+        </div>
+      `
+    }
+  ];
+
+  return `
+    <div class="hero-slider-wrap" id="heroSliderWrap">
+      <div class="hero-slider" id="heroSlider" role="region" aria-label="Featured Government Services Carousel">
+        <div class="hero-slider-track" id="heroSliderTrack">
+          ${slides.map((s, index) => `
+            <div class="hero-slide slide-${s.id}" data-slide-index="${index}">
+              <div class="hero-slide-inner">
+                <div class="hero-slide-content">
+                  <div class="hero-slide-badge">
+                    <span class="hero-slide-badge-dot"></span>
+                    ${s.badge}
+                  </div>
+                  <h2 class="hero-slide-title">${s.title}</h2>
+                  <p class="hero-slide-desc">${s.desc}</p>
+                </div>
+                <div class="hero-slide-visual">
+                  ${s.visualHtml}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Slider Arrow Navigation -->
+        <button class="hero-slider-btn prev" id="heroSliderPrev" onclick="HeroSlider.prev()" aria-label="${I18N.t('sliderPrev')}" title="${I18N.t('sliderPrev')}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="hero-slider-btn next" id="heroSliderNext" onclick="HeroSlider.next()" aria-label="${I18N.t('sliderNext')}" title="${I18N.t('sliderNext')}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- Bottom Indicator Dots & Pause Button -->
+      <div class="hero-slider-controls">
+        <div class="hero-slider-dots" id="heroSliderDots" role="tablist"></div>
+        <button class="hero-slider-pause-btn" id="heroSliderPauseBtn" onclick="HeroSlider.togglePause()" aria-label="${I18N.t('sliderPause')}" title="${I18N.t('sliderPause')}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+const HeroSlider = {
+  currentSlide: 0,
+  totalSlides: 5,
+  timer: null,
+  duration: 5000, // 5s for comfortable reading
+  isPaused: false,
+  touchStartX: 0,
+  touchEndX: 0,
+
+  init() {
+    this.stopAutoplay();
+    this.currentSlide = 0;
+    const track = document.getElementById('heroSliderTrack');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.hero-slide');
+    if (slides.length > 0) {
+      this.totalSlides = slides.length;
+    }
+
+    this.renderDots();
+    this.goTo(0, false);
+    this.setupListeners();
+    this.startAutoplay();
+  },
+
+  renderDots() {
+    const dotsContainer = document.getElementById('heroSliderDots');
+    if (!dotsContainer) return;
+    let html = '';
+    for (let i = 0; i < this.totalSlides; i++) {
+      html += `
+        <button class="hero-slider-dot ${i === this.currentSlide ? 'active' : ''}" 
+                onclick="HeroSlider.goTo(${i})" 
+                aria-label="Slide ${i + 1}"
+                role="tab"
+                aria-selected="${i === this.currentSlide ? 'true' : 'false'}"></button>
+      `;
+    }
+    dotsContainer.innerHTML = html;
+  },
+
+  goTo(index, animate = true) {
+    this.currentSlide = (index + this.totalSlides) % this.totalSlides;
+    const track = document.getElementById('heroSliderTrack');
+    if (track) {
+      if (!animate) {
+        track.style.transition = 'none';
+        track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+        track.offsetHeight; // force reflow
+        track.style.transition = '';
+      } else {
+        track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+      }
+    }
+
+    const dots = document.querySelectorAll('.hero-slider-dot');
+    dots.forEach((dot, i) => {
+      if (i === this.currentSlide) {
+        dot.classList.add('active');
+        dot.setAttribute('aria-selected', 'true');
+      } else {
+        dot.classList.remove('active');
+        dot.setAttribute('aria-selected', 'false');
+      }
+    });
+
+    if (!this.isPaused) {
+      this.resetTimer();
+    }
+  },
+
+  next() {
+    this.goTo(this.currentSlide + 1);
+  },
+
+  prev() {
+    this.goTo(this.currentSlide - 1);
+  },
+
+  startAutoplay() {
+    this.stopAutoplay();
+    if (this.isPaused) return;
+    this.timer = setInterval(() => {
+      this.next();
+    }, this.duration);
+  },
+
+  stopAutoplay() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  },
+
+  resetTimer() {
+    this.stopAutoplay();
+    this.startAutoplay();
+  },
+
+  togglePause() {
+    this.isPaused = !this.isPaused;
+    const btn = document.getElementById('heroSliderPauseBtn');
+    if (this.isPaused) {
+      this.stopAutoplay();
+      if (btn) {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+        btn.setAttribute('aria-label', (typeof I18N !== 'undefined' ? I18N.t('sliderPlay') : 'Play'));
+        btn.setAttribute('title', (typeof I18N !== 'undefined' ? I18N.t('sliderPlay') : 'Play'));
+      }
+    } else {
+      this.startAutoplay();
+      if (btn) {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+        btn.setAttribute('aria-label', (typeof I18N !== 'undefined' ? I18N.t('sliderPause') : 'Pause'));
+        btn.setAttribute('title', (typeof I18N !== 'undefined' ? I18N.t('sliderPause') : 'Pause'));
+      }
+    }
+  },
+
+  setupListeners() {
+    const wrap = document.getElementById('heroSliderWrap');
+    if (!wrap) return;
+
+    wrap.onmouseenter = () => {
+      if (!this.isPaused) this.stopAutoplay();
+    };
+    wrap.onmouseleave = () => {
+      if (!this.isPaused) this.startAutoplay();
+    };
+
+    wrap.ontouchstart = (e) => {
+      this.touchStartX = e.changedTouches[0].screenX;
+    };
+    wrap.ontouchend = (e) => {
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.handleSwipe();
+    };
+  },
+
+  handleSwipe() {
+    const diff = this.touchEndX - this.touchStartX;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) {
+        this.next();
+      } else {
+        this.prev();
+      }
+    }
+  }
+};
+
+if (typeof window !== 'undefined') {
+  window.HeroSlider = HeroSlider;
+  window.renderHeroSlider = renderHeroSlider;
+}
+

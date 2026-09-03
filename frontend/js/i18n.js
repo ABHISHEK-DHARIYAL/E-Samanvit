@@ -37,21 +37,95 @@ const I18N = {
       navSettings: "Settings",
       navMenu: "Menu",
       selectLanguage: "Select Language",
+      darkMode: "Dark Mode",
+      lightMode: "Light Mode",
+      toggleTheme: "Toggle Theme",
       navCategories: "Service Categories",
       close: "Close",
 
-      // Impact Page
-      impactTitle: "Maharashtra Government Digital Transformation & Impact",
-      impactSub: "How e-Samanvit solves department silos and delivers seamless interoperable public services to citizens across Maharashtra.",
-      impactGovSolution: "Government of Maharashtra Digital Initiative",
-      statCitBenefited: "Citizens Benefited",
-      statTimeSaved: "Turnaround Time Cut",
-      statDbtDisbursed: "DBT Disbursed",
-      timeSavedPerApp: "Days Saved / App",
-      croreUnit: "Crore",
-      reductionApproval: "Reduction in Application Approval Time",
-      reductionDays: "From 21 Days down to 3 Days",
-      selectDistrict: "Select District to View Local Impact:",
+      // Hero Promotional Slider (Progressive Citizen Onboarding — Step by Step)
+      slide1Badge: "WELCOME TO E-SAMANVIT • PUBLIC DIGITAL GATEWAY",
+      slide1Title: "What is e-Samanvit? Your Single Portal for All Government Services",
+      slide1Desc: "A unified platform connecting all Maharashtra state departments into one simple digital window. No more visiting multiple offices — access welfare schemes, certificates, and benefits in one place.",
+
+      slide2Badge: "STEP 1 • CHOOSE YOUR CITIZEN CATEGORY",
+      slide2Title: "Explore Dedicated Services Tailored for Every Citizen",
+      slide2Desc: "Easily discover schemes grouped by citizen category — Students, Farmers, Women & Children, Healthcare, Senior Citizens, and Housing. Find the right government support in seconds.",
+
+      slide3Badge: "STEP 2 • SIMPLE ONLINE APPLICATION",
+      slide3Title: "Apply Digitally from Your Phone or Computer",
+      slide3Desc: "Completely paperless and queue-free. Select your scheme, enter your details with secure Aadhaar verification, and submit your application online from the comfort of your home.",
+
+      slide4Badge: "STEP 3 • DIRECT BENEFIT & REAL-TIME TRACKING",
+      slide4Title: "Direct Bank Transfer & Live Status Updates",
+      slide4Desc: "Subsidies and welfare grants are transferred directly into your bank account with zero middlemen. Track your application status live and receive real-time SMS notifications.",
+
+      slide5Badge: "STEP 4 • MULTILINGUAL FREEDOM & CITIZEN SUPPORT",
+      slide5Title: "Available in Marathi, Hindi & English with Dedicated Help",
+      slide5Desc: "Switch languages effortlessly, download verified digital certificates anytime, and reach our dedicated citizen support helpline whenever you need guidance.",
+
+      sliderPrev: "Previous slide",
+      sliderNext: "Next slide",
+      sliderPause: "Pause auto-rotation",
+      sliderPlay: "Resume auto-rotation",
+
+      // Services Page 6-Category Grid & Schemes
+      servicesPageTitle: "Public Services & Citizen Categories",
+      servicesPageSub: "Select a citizen category below to explore verified government schemes, subsidies, and public welfare benefits.",
+      catExploreCta: "Explore Services →",
+      backToCategories: "← Back to Categories",
+      searchSchemesPlaceholder: "Search schemes, benefits, or services...",
+      schemesAvailableCount: "Verified Government Schemes Available",
+      applyOnline: "Apply Online",
+      schemeDetails: "View Details",
+
+      // 6 Service Categories (Exact User-Specified Titles & Short Lines)
+      catStudentsTitle: "Education & Students",
+      catStudentsDesc: "Scholarships, education schemes, certificates and student support services.",
+      catFarmersTitle: "Agriculture & Farmers",
+      catFarmersDesc: "Farming schemes, subsidies, benefits, agricultural resources and support.",
+      catWomenTitle: "Women & Child Welfare",
+      catWomenDesc: "Welfare schemes, safety, education, nutrition and support services.",
+      catHealthTitle: "Health & Wellness",
+      catHealthDesc: "Healthcare schemes, medical support, health services and wellness resources.",
+      catSeniorTitle: "Senior Citizen Services",
+      catSeniorDesc: "Pension, welfare schemes, support services and benefits for senior citizens.",
+      catHousingTitle: "Housing & Shelter",
+      catHousingDesc: "Housing schemes, shelter support and assistance for eligible families.",
+
+      // Home About / Mission & Vision Section
+      homeAboutBadge: "ABOUT E-SAMANVIT • PUBLIC SERVICES INTEROPERABILITY",
+      homeAboutTitle: "Empowering Citizens Through Unified Digital Governance",
+      homeAboutSub: "Connecting government departments into a single transparent gateway so every citizen receives welfare benefits directly, effortlessly, and without middlemen.",
+      missionCardTitle: "Our Mission",
+      missionCardSubtitle: "Direct, Paperless & Integrated Delivery",
+      missionCardDesc: "To eliminate bureaucratic complexity by interconnecting all Maharashtra government departments into one single-window citizen gateway — ensuring every scheme, scholarship, and farmer subsidy is delivered directly, transparently, and on time.",
+      missionPillar1Title: "Cross-Department Integration",
+      missionPillar1Desc: "Unified connection between Agriculture, Education, Revenue & Social Welfare departments.",
+      missionPillar2Title: "Direct Benefit Transfer (DBT)",
+      missionPillar2Desc: "Fast, paperless delivery of financial subsidies directly into verified citizen bank accounts.",
+      missionPillar3Title: "100% Transparency & Tracking",
+      missionPillar3Desc: "Real-time SMS updates, zero middlemen, and instant verifiable digital receipts.",
+      visionCardTitle: "Our Vision",
+      visionCardSubtitle: "Inclusive, Dignified & Digital Governance",
+      visionCardDesc: "To build an inclusive, digitally empowered society where every citizen — whether a farmer in a rural taluka, a student pursuing higher education, or a senior citizen — accesses public services with absolute dignity, trust, and speed.",
+      visionPillar1Title: "Universal Citizen Access",
+      visionPillar1Desc: "Reaching all 36 districts of Maharashtra with full multilingual support in Marathi, Hindi, and English.",
+      visionPillar2Title: "Privacy & Consent-Driven",
+      visionPillar2Desc: "Citizen data remains strictly protected, verified with government databases, and shared only with consent.",
+      visionPillar3Title: "Future-Ready Public Infrastructure",
+      visionPillar3Desc: "A scalable, transparent digital ecosystem driving citizen welfare and good governance.",
+      aboutReadMoreBtn: "Read Full Portal Story →",
+
+      // Integrated Citizen Services (Home Compact Overview)
+      integratedServicesTitle: "Integrated Citizen Services",
+      integratedServicesSub: "Access essential government services and resources through dedicated service categories.",
+      catStudentsShortLabel: "Student support & education services",
+      catFarmersShortLabel: "Farming schemes & support",
+      catWomenShortLabel: "Welfare & support services",
+      catHealthShortLabel: "Healthcare & medical services",
+      catSeniorShortLabel: "Benefits & support for seniors",
+      catHousingShortLabel: "Housing & shelter assistance",
 
       // Home Features
       whatWeOffer: "Services Provided",
@@ -353,21 +427,95 @@ const I18N = {
       navSettings: "सेटिंग्स",
       navMenu: "मेनू",
       selectLanguage: "भाषा चुनें",
+      darkMode: "डार्क मोड",
+      lightMode: "लाइट मोड",
+      toggleTheme: "थीम बदलें",
       navCategories: "सेवा श्रेणियां",
       close: "बंद करें",
 
-      // Impact Page
-      impactTitle: "महाराष्ट्र शासन डिजिटल परिवर्तन एवं जन प्रभाव",
-      impactSub: "ई-समन्वित किस प्रकार विभागीय रुकावटों को समाप्त कर नागरिकों को पारदर्शी और त्वरित लोक सेवाएं प्रदान कर रहा है।",
-      impactGovSolution: "महाराष्ट्र शासन डिजिटल लोक सेवा उपक्रम",
-      statCitBenefited: "लाभान्वित नागरिक",
-      statTimeSaved: "समय की बचत",
-      statDbtDisbursed: "डीबीटी वितरित राशि",
-      timeSavedPerApp: "दिन की बचत / आवेदन",
-      croreUnit: "करोड़",
-      reductionApproval: "आवेदन स्वीकृति समय में कमी",
-      reductionDays: "21 दिनों से घटकर मात्र 3 दिन",
-      selectDistrict: "स्थानीय प्रभाव देखने के लिए जिला चुनें:",
+      // Hero Promotional Slider (Progressive Citizen Onboarding — Step by Step)
+      slide1Badge: "ई-समन्वित में आपका स्वागत है • एकीकृत नागरिक डिजिटल द्वार",
+      slide1Title: "ई-समन्वित क्या है? सभी सरकारी सेवाओं के लिए एकल डिजिटल खिड़की",
+      slide1Desc: "महाराष्ट्र सरकार का एक एकीकृत पोर्टल जो सभी विभागों को एक मंच पर जोड़ता है। बार-बार सरकारी दफ्तरों के चक्कर लगाए बिना सभी योजनाएं, दाखले और लाभ एक ही स्थान पर प्राप्त करें।",
+
+      slide2Badge: "चरण 1 • अपनी नागरिक श्रेणी चुनें",
+      slide2Title: "प्रत्येक नागरिक वर्ग के लिए समर्पित सेवाएं और योजनाएं",
+      slide2Desc: "अपनी आवश्यकतानुसार योजनाएं आसानी से खोजें — विद्यार्थी, किसान, महिला व बाल कल्याण, स्वास्थ्य, वरिष्ठ नागरिक और आवास। सब कुछ व्यवस्थित और स्पष्ट है।",
+
+      slide3Badge: "चरण 2 • आसान ऑनलाइन आवेदन",
+      slide3Title: "घर बैठे मोबाइल या कंप्यूटर से सीधे ऑनलाइन आवेदन करें",
+      slide3Desc: "कागजी कार्यवाही और लंबी कतारों से मुक्ति। योजना चुनें, सुरक्षित आधार विवरण दर्ज करें और घर बैठे कुछ ही मिनटों में अपना आवेदन सबमिट करें।",
+
+      slide4Badge: "चरण 3 • प्रत्यक्ष लाभ (DBT) और लाइव ट्रैकिंग",
+      slide4Title: "बैंक खाते में सीधा लाभ और आवेदन की लाइव स्थिति",
+      slide4Desc: "सभी अनुदान और वित्तीय सहायता बिना किसी बिचौलिए के सीधे आपके बैंक खाते में भेजी जाती है। आवेदन की स्थिति ऑनलाइन ट्रैक करें और एसएमएस अपडेट पाएं।",
+
+      slide5Badge: "चरण 4 • बहुभाषी सुविधा और नागरिक सहायता",
+      slide5Title: "मराठी, हिंदी और अंग्रेजी में उपलब्ध • पूर्ण नागरिक सहयोग",
+      slide5Desc: "अपनी पसंदीदा भाषा में सहजता से पोर्टल का उपयोग करें, प्रमाणित डिजिटल प्रमाण पत्र डाउनलोड करें और किसी भी सहायता के लिए हेल्पलाइन से संपर्क करें।",
+
+      sliderPrev: "पिछली स्लाइड",
+      sliderNext: "अगली स्लाइड",
+      sliderPause: "ऑटो-रोटेशन रोकें",
+      sliderPlay: "ऑटो-रोटेशन चलाएं",
+
+      // Services Page 6-Category Grid & Schemes
+      servicesPageTitle: "लोक सेवाएं एवं नागरिक श्रेणियां",
+      servicesPageSub: "सत्यापित सरकारी योजनाओं, वित्तीय लाभ और लोक सेवाओं की जानकारी के लिए नीचे अपनी श्रेणी चुनें।",
+      catExploreCta: "सेवाएं देखें →",
+      backToCategories: "← सभी श्रेणियों पर वापस जाएं",
+      searchSchemesPlaceholder: "योजना, सेवा या लाभ का नाम खोजें...",
+      schemesAvailableCount: "सत्यापित शासकीय योजनाएं उपलब्ध",
+      applyOnline: "ऑनलाइन आवेदन करें",
+      schemeDetails: "विवरण देखें",
+
+      // 6 Service Categories
+      catStudentsTitle: "शिक्षा एवं विद्यार्थी",
+      catStudentsDesc: "छात्रवृत्ति, शिक्षा योजनाएं, प्रमाण पत्र एवं छात्र सहायता सेवाएं।",
+      catFarmersTitle: "कृषि एवं किसान",
+      catFarmersDesc: "कृषि योजनाएं, सब्सिडी, प्रत्यक्ष लाभ, कृषि संसाधन एवं सहायता।",
+      catWomenTitle: "महिला एवं बाल कल्याण",
+      catWomenDesc: "कल्याणकारी योजनाएं, सुरक्षा, शिक्षा, पोषण एवं सहायता सेवाएं।",
+      catHealthTitle: "स्वास्थ्य एवं कल्याण",
+      catHealthDesc: "स्वास्थ्य योजनाएं, निःशुल्क उपचार, चिकित्सा सहायता एवं जन आरोग्य सेवाएं।",
+      catSeniorTitle: "वरिष्ठ नागरिक सेवाएं",
+      catSeniorDesc: "मासिक पेंशन, कल्याणकारी योजनाएं, सहायता सेवाएं एवं वरिष्ठ लाभ।",
+      catHousingTitle: "आवास एवं आश्रय",
+      catHousingDesc: "आवास योजनाएं, पक्के मकान निर्माण सहायता एवं पात्र परिवारों के लिए आश्रय।",
+
+      // Home About / Mission & Vision Section
+      homeAboutBadge: "ई-समन्वित परिचय • लोक सेवा एकीकरण",
+      homeAboutTitle: "एकीकृत डिजिटल शासन द्वारा नागरिक सशक्तिकरण",
+      homeAboutSub: "सभी सरकारी विभागों को एक पारदर्शी मंच से जोड़ना, ताकि प्रत्येक नागरिक को बिना बिचौलियों के सभी कल्याणकारी लाभ सीधे और त्वरित रूप से प्राप्त हों।",
+      missionCardTitle: "हमारा मिशन",
+      missionCardSubtitle: "प्रत्यक्ष, पारदर्शी एवं एकीकृत लोक सेवा",
+      missionCardDesc: "महाराष्ट्र शासन के विभिन्न विभागों को एकल डिजिटल द्वार से जोड़कर प्रशासनिक जटिलताओं को समाप्त करना — ताकि प्रत्येक योजना, छात्रवृत्ति एवं किसान सब्सिडी समय पर और सीधे प्राप्त हो।",
+      missionPillar1Title: "विभागीय एकीकरण",
+      missionPillar1Desc: "कृषि, उच्च शिक्षा, राजस्व और सामाजिक न्याय विभागों का एकल समन्वित नेटवर्क।",
+      missionPillar2Title: "प्रत्यक्ष लाभ अंतरण (DBT)",
+      missionPillar2Desc: "बिना कागजी रुकावटों के सभी सरकारी लाभ सीधे सत्यापित बैंक खातों में।",
+      missionPillar3Title: "100% पारदर्शिता एवं ट्रैकिंग",
+      missionPillar3Desc: "एसएमएस द्वारा लाइव ट्रैकिंग, शून्य बिचौलिए और तत्काल डिजिटल पावती रसीद।",
+      visionCardTitle: "हमारा दृष्टिकोण (विजन)",
+      visionCardSubtitle: "समावेशी, गरिमापूर्ण एवं डिजिटल महाराष्ट्र",
+      visionCardDesc: "एक ऐसे डिजिटल समर्थ समाज का निर्माण करना जहां राज्य का प्रत्येक नागरिक — चाहे दूरस्थ गांव का किसान हो, छात्र हो या बुजुर्ग — सरकारी सेवाओं का लाभ सम्मान, विश्वास और शीघ्रता से प्राप्त कर सके।",
+      visionPillar1Title: "सभी 36 जिलों तक पहुंच",
+      visionPillar1Desc: "मराठी, हिंदी और अंग्रेजी तीनों भाषाओं में पूर्ण सुविधा के साथ अंतिम व्यक्ति तक पहुंच।",
+      visionPillar2Title: "सुरक्षा एवं सहमति-आधारित डेटा",
+      visionPillar2Desc: "नागरिकों का डेटा पूर्णतः सुरक्षित, सरकारी रिकॉर्ड से सत्यापित और केवल सहमति से प्रयुक्त।",
+      visionPillar3Title: "भविष्योन्मुखी डिजिटल ढांचा",
+      visionPillar3Desc: "जन कल्याण और सुशासन को सशक्त बनाने वाला पारदर्शी एवं आधुनिक डिजिटल तंत्र।",
+      aboutReadMoreBtn: "पोर्टल की पूरी जानकारी पढ़ें →",
+
+      // Integrated Citizen Services (Home Compact Overview)
+      integratedServicesTitle: "एकीकृत नागरिक सेवाएं",
+      integratedServicesSub: "विशिष्ट सेवा श्रेणियों के माध्यम से आवश्यक सरकारी सेवाओं और संसाधनों तक सीधी पहुंच।",
+      catStudentsShortLabel: "छात्र सहायता एवं शिक्षा सेवाएं",
+      catFarmersShortLabel: "कृषि योजनाएं एवं किसान सहायता",
+      catWomenShortLabel: "कल्याण एवं सुरक्षा सेवाएं",
+      catHealthShortLabel: "स्वास्थ्य एवं चिकित्सा सेवाएं",
+      catSeniorShortLabel: "वरिष्ठ नागरिकों के लिए लाभ एवं सहायता",
+      catHousingShortLabel: "आवास एवं आश्रय सहायता",
 
       // Home Features
       whatWeOffer: "उपलब्ध सेवाएं",
@@ -669,21 +817,95 @@ const I18N = {
       navSettings: "सेटिंग्ज",
       navMenu: "मेनू",
       selectLanguage: "भाषा निवडा",
+      darkMode: "डार्क मोड",
+      lightMode: "लाइट मोड",
+      toggleTheme: "थीम बदला",
       navCategories: "सेवा वर्ग",
       close: "बंद करा",
 
-      // Impact Page
-      impactTitle: "महाराष्ट्र शासन डिजिटल परिवर्तन व जन प्रभाव",
-      impactSub: "ई-समन्वित पोर्टलद्वारे प्रशासकीय अडथळे दूर करून नागरिकांना त्वरित व पारदर्शक सेवा मिळण्याचे यश.",
-      impactGovSolution: "महाराष्ट्र शासन डिजिटल लोक सेवा उपक्रम",
-      statCitBenefited: "लाभार्थी नागरिक",
-      statTimeSaved: "वेळेची बचत",
-      statDbtDisbursed: "वितरित डीबीटी रक्कम",
-      timeSavedPerApp: "दिवसांची बचत / अर्ज",
-      croreUnit: "कोटी",
-      reductionApproval: "अर्ज मंजुरी वेळेत घट",
-      reductionDays: "21 दिवसांवरून थेट 3 दिवसांवर",
-      selectDistrict: "स्थानिक प्रभाव पाहण्यासाठी जिल्हा निवडा:",
+      // Hero Promotional Slider (Progressive Citizen Onboarding — Step by Step)
+      slide1Badge: "ई-समन्वित मध्ये आपले स्वागत • एकात्मिक डिजिटल नागरिक खिडकी",
+      slide1Title: "ई-समन्वित म्हणजे काय? सर्व शासकीय सेवांसाठी एकच डिजिटल पोर्टल",
+      slide1Desc: "महाराष्ट्र शासनाचे एकात्मिक व्यासपीठ जे सर्व विभागांना एकाच ठिकाणी जोडते. शासकीय कार्यालयांच्या फेऱ्या न मारता सर्व योजना, दाखले आणि शासकीय लाभ एकाच ठिकाणी मिळवा.",
+
+      slide2Badge: "पायरी 1 • आपली नागरिक वर्गवारी निवडा",
+      slide2Title: "प्रत्येक नागरिकासाठी समर्पित सेवा आणि शासकीय योजना",
+      slide2Desc: "आपल्या गरजेनुसार वर्गवारी निवडून योजना शोधा — विद्यार्थी, शेतकरी, महिला व बाल कल्याण, आरोग्य, ज्येष्ठ नागरिक आणि गृहनिर्माण. सर्व योजना एका क्लिकवर उपलब्ध.",
+
+      slide3Badge: "पायरी 2 • सोपा ऑनलाइन अर्ज",
+      slide3Title: "घरी बसून मोबाईल किंवा संगणकावरून थेट ऑनलाइन अर्ज करा",
+      slide3Desc: "कागदपत्रांची कटकट आणि रांगांपासून मुक्ती. हवी ती योजना निवडा, सुरक्षित आधार माहिती भरा आणि घरबसल्या काही मिनिटांत आपला अर्ज सादर करा.",
+
+      slide4Badge: "पायरी 3 • थेट बँक लाभ (DBT) आणि रिअल-टाइम ट्रॅकिंग",
+      slide4Title: "बँक खात्यात थेट अनुदान आणि अर्जाचे थेट ट्रॅकिंग",
+      slide4Desc: "शासकीय अनुदान आणि शिष्यवृत्ती कोणत्याही मध्यस्थाशिवाय थेट आपल्या बँक खात्यात जमा होते. अर्जाची सद्यस्थिती थेट ट्रॅक करा आणि एसएमएस अपडेट्स मिळवा.",
+
+      slide5Badge: "पायरी 4 • बहुभाषिक सुविधा आणि नागरिक मदत केंद्र",
+      slide5Title: "मराठी, हिंदी आणि इंग्रजीमध्ये उपलब्ध • तत्पर नागरिक सहाय्यता",
+      slide5Desc: "आपल्या पसंतीच्या भाषेत सहज वापर करा, डिजिटल स्वाक्षरी असलेले दाखले डाउनलोड करा आणि कोणत्याही मदतीसाठी नागरिक हेल्पलाइनशी संपर्क साधा.",
+
+      sliderPrev: "मागील स्लाइड",
+      sliderNext: "पुढील स्लाइड",
+      sliderPause: "स्वयंचलित फिरणे थांबवा",
+      sliderPlay: "स्वयंचलित फिरणे सुरू करा",
+
+      // Services Page 6-Category Grid & Schemes
+      servicesPageTitle: "सार्वजनिक सेवा व नागरिक संवर्ग",
+      servicesPageSub: "शासकीय योजना, अनुदान आणि थेट लोककल्याणकारी सेवांसाठी खालील संवर्ग निवडा.",
+      catExploreCta: "सेवा पहा →",
+      backToCategories: "← सर्व संवर्गांवर परत जा",
+      searchSchemesPlaceholder: "योजना किंवा सेवेचे नाव शोधा...",
+      schemesAvailableCount: "सत्यापित शासकीय योजना उपलब्ध",
+      applyOnline: "ऑनलाइन अर्ज करा",
+      schemeDetails: "माहिती पहा",
+
+      // 6 Service Categories
+      catStudentsTitle: "शिक्षण व विद्यार्थी",
+      catStudentsDesc: "शिष्यवृत्ती, शिक्षण योजना, प्रमाणपत्रे आणि विद्यार्थी सहाय्य सेवा.",
+      catFarmersTitle: "कृषी व शेतकरी",
+      catFarmersDesc: "शेती योजना, अनुदान, थेट लाभ, कृषी संसाधने आणि सहाय्य सेवा.",
+      catWomenTitle: "महिला व बाल कल्याण",
+      catWomenDesc: "कल्याणकारी योजना, सुरक्षा, शिक्षण, पोषण आणि सहाय्य सेवा.",
+      catHealthTitle: "आरोग्य व कल्याण",
+      catHealthDesc: "आरोग्य योजना, मोफत उपचार, वैद्यकीय मदत आणि जन आरोग्य सेवा.",
+      catSeniorTitle: "ज्येष्ठ नागरिक सेवा",
+      catSeniorDesc: "मासिक पेन्शन, कल्याणकारी योजना, मदत सेवा आणि ज्येष्ठ नागरिक लाभ.",
+      catHousingTitle: "गृहनिर्माण व निवारा",
+      catHousingDesc: "घरकुल योजना, पक्के घर अनुदान आणि पात्र कुटुंबांसाठी निवारा सहाय्य.",
+
+      // Home About / Mission & Vision Section
+      homeAboutBadge: "ई-समन्वित परिचय • लोकसेवा समन्वय",
+      homeAboutTitle: "एकीकृत डिजिटल प्रशासनातून नागरिक सक्षमीकरण",
+      homeAboutSub: "शासकीय विभागांना एका पारदर्शक व्यासपीठाशी जोडून नागरिकांना सर्व कल्याणकारी योजनांचे लाभ थेट, विनाविलंब व दलालांशिवाय मिळवून देणे.",
+      missionCardTitle: "आमचे ध्येय (Mission)",
+      missionCardSubtitle: "थेट, कागदविरहित व पारदर्शक सेवा",
+      missionCardDesc: "महाराष्ट्रातील सर्व शासकीय विभाग एकाच डिजिटल खिडकीद्वारे जोडून प्रशासकीय अडचणी दूर करणे — जेणेकरून प्रत्येक योजना, शिष्यवृत्ती आणि शेतकरी अनुदान थेट व वेळेत पोहोचावे.",
+      missionPillar1Title: "आंतरविभागीय समन्वय",
+      missionPillar1Desc: "कृषी, शिक्षण, महसूल व सामाजिक न्याय विभागांचे एकात्मिक डिजिटल संकलन.",
+      missionPillar2Title: "थेट बँक लाभ (DBT)",
+      missionPillar2Desc: "कागदपत्रांशिवाय सर्व शासकीय आर्थिक सहाय्य थेट आधार लिंक बँक खात्यात जमा.",
+      missionPillar3Title: "100% पारदर्शकता व ट्रॅकिंग",
+      missionPillar3Desc: "थेट एसएमएस सूचना, मध्यस्थांना पूर्ण फाटा आणि तत्काळ डिजिटल पावती.",
+      visionCardTitle: "आमची दृष्टी (Vision)",
+      visionCardSubtitle: "समावेशक, सन्माननीय व डिजिटल महाराष्ट्र",
+      visionCardDesc: "अशा डिजिटल सक्षम समाजाची निर्मिती करणे जेथे महाराष्ट्रातील प्रत्येक नागरिक — मग तो दुर्गम भागातील शेतकरी असो, विद्यार्थी असो वा ज्येष्ठ नागरिक — शासकीय सेवा सन्मानाने, विश्वासाने व गतीने मिळवू शकेल.",
+      visionPillar1Title: "सर्व 36 जिल्ह्यांपर्यंत थेट पोहोच",
+      visionPillar1Desc: "मराठी, हिंदी व इंग्रजी भाषेत सहज प्रवेश आणि तळागाळातील नागरिकांपर्यंत थेट सुविधा.",
+      visionPillar2Title: "माहिती सुरक्षा व संमती-आधारित",
+      visionPillar2Desc: "नागरिकांची माहिती पूर्णतः सुरक्षित, शासकीय नोंदींशी प्रमाणित व केवळ संमतीने वापर.",
+      visionPillar3Title: "भविष्यवेधी डिजिटल व्यवस्था",
+      visionPillar3Desc: "लोककल्याण आणि पारदर्शक सुशासनाला बळ देणारी अद्ययावत डिजिटल प्रणाली.",
+      aboutReadMoreBtn: "पोर्टलची सविस्तर माहिती वाचा →",
+
+      // Integrated Citizen Services (Home Compact Overview)
+      integratedServicesTitle: "एकीकृत नागरिक सेवा",
+      integratedServicesSub: "नागरिक संवर्गानुसार आवश्यक शासकीय सेवा आणि कल्याणकारी योजनांचा थेट लाभ.",
+      catStudentsShortLabel: "विद्यार्थी सहाय्य व शिक्षण सेवा",
+      catFarmersShortLabel: "शेती योजना व शेतकरी सहाय्य",
+      catWomenShortLabel: "कल्याण व सहाय्य सेवा",
+      catHealthShortLabel: "आरोग्य व वैद्यकीय सेवा",
+      catSeniorShortLabel: "ज्येष्ठांसाठी लाभ व सहाय्य",
+      catHousingShortLabel: "गृहनिर्माण व निवारा सहाय्य",
 
       // Home Features
       whatWeOffer: "उपलब्ध सेवा",
@@ -987,5 +1209,14 @@ const I18N = {
     if (typeof App !== 'undefined' && App.currentPage) {
       App.navigate(App.currentPage);
     }
+
+    // Sync MITRA AI Chatbot language immediately
+    if (typeof MitraChatbot !== 'undefined' && MitraChatbot.onLanguageChange) {
+      MitraChatbot.onLanguageChange(lang);
+    }
   }
 };
+
+if (typeof window !== 'undefined') {
+  window.I18N = I18N;
+}

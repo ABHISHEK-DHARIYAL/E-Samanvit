@@ -19,6 +19,22 @@
 
   <!-- Favicon -->
   <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+
+  <!-- Instant Theme Bootstrapper (Default: Normal / Light Mode) -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('esamanvit_theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.classList.remove('dark-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body>
   <!-- App Root — Pre-rendered Static Shell with Explicit SVG dimensions -->
@@ -28,11 +44,13 @@
         <div class="navbar-brand" onclick="navigateTo('home')">
           <img src="assets/logo.jpg" alt="e-Samanvit" class="navbar-brand-logo">
           <div class="navbar-brand-text">e-Samanvit</div>
+          <span class="navbar-brand-divider" aria-hidden="true"></span>
+          <img src="assets/digital_india_logo.png" alt="Digital India" class="navbar-digital-india-logo">
         </div>
         <div class="navbar-nav" id="navLinks">
           <a class="nav-link active" onclick="navigateTo('home')">Home</a>
+          <a class="nav-link" onclick="navigateTo('services')">Services</a>
           <a class="nav-link" onclick="navigateTo('about')">About</a>
-          <a class="nav-link" onclick="navigateTo('impact')">Impact</a>
           <a class="nav-link" onclick="navigateTo('dashboard')">Dashboard</a>
         </div>
         <div class="navbar-right">
@@ -41,6 +59,9 @@
             <option value="hi">हिंदी</option>
             <option value="mr">मराठी</option>
           </select>
+          <button class="navbar-icon-btn theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Dark Mode" title="Dark Mode">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
           <div class="navbar-icon-btn" onclick="toggleNotifDropdown(event)" id="navNotifBtn" style="position:relative;" title="Notifications">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             <span class="notif-badge" id="navNotifBadge">10</span>
@@ -53,55 +74,173 @@
     </nav>
 
     <div class="page-layout">
-      <section class="hero" style="padding:var(--sp-12) 0 var(--sp-10)">
+      <section class="hero" style="padding:var(--sp-8) 0 var(--sp-12)">
         <div class="container">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--sp-8);flex-wrap:wrap">
-            <div class="hero-content" style="flex:1;min-width:300px;text-align:left">
-              <div style="margin-bottom:var(--sp-4);display:inline-block">
-                <img src="assets/logo.jpg" alt="e-Samanvit Logo" style="height:110px;width:auto;max-width:280px;object-fit:contain;border-radius:12px;background:var(--clr-white);padding:6px;box-shadow:var(--shadow-md)">
+          <div class="hero-brand-row">
+            <div class="hero-brand-left">
+              <div class="hero-logo-box">
+                <img src="assets/logo.jpg" alt="e-Samanvit Logo" class="hero-logo-img">
               </div>
-              <h1>e-Samanvit</h1>
-              <p class="hero-tagline">Government Services & Public Information Portal</p>
-              <p class="hero-desc">e-Samanvit provides direct digital access to government schemes, scholarships, agricultural services, market prices, financial assistance, and public resources for all citizens of Maharashtra.</p>
-              <div class="hero-actions" style="justify-content:flex-start">
-                <button class="btn btn-primary btn-lg" onclick="navigateTo('services')">Explore Services →</button>
-                <button class="btn btn-secondary btn-lg" onclick="navigateTo('impact')">Impact & Solution</button>
+              <div class="hero-brand-text-col">
+                <h1 class="hero-brand-title">e-Samanvit</h1>
+                <p class="hero-tagline">Government Services & Public Information Portal</p>
               </div>
             </div>
-            <div style="text-align:center;max-width:360px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-              <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:8px">
-                <img src="assets/mh_logo1.jpg" alt="Government Emblem 1" style="height:100px;width:auto;object-fit:contain;border-radius:8px">
-                <img src="assets/mh_logo2.jpg" alt="Government Emblem 2" style="height:100px;width:auto;object-fit:contain;border-radius:8px">
+            <div class="hero-emblems-box">
+              <div class="hero-emblems-logos">
+                <div class="hero-emblem-wrap">
+                  <div class="hero-emblem-glow green"></div>
+                  <img src="assets/mh_logo1.jpg" alt="Government Emblem 1" class="hero-emblem-img">
+                </div>
+                <div class="hero-emblem-wrap">
+                  <div class="hero-emblem-glow blue"></div>
+                  <img src="assets/mh_logo2.jpg" alt="Government Emblem 2" class="hero-emblem-img">
+                </div>
               </div>
-              <div style="font-size:20px;font-weight:800;color:#ffffff;margin-bottom:2px">महाराष्ट्र शासन</div>
-              <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.9)">Government of Maharashtra</div>
+              <div class="hero-emblem-text-mr">महाराष्ट्र शासन</div>
+              <div class="hero-emblem-text-en">Government of Maharashtra</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="features-section section">
+      <!-- Integrated Citizen Services (Quick Access Categories: 3 cols x 2 rows) -->
+      <section class="home-services-overview-section">
         <div class="container">
-          <h2 class="section-title">Services Provided</h2>
-          <p class="section-subtitle">Access a wide spectrum of government and public welfare services from a single portal.</p>
-          <div class="grid grid-3">
-            <div class="card card-hover feature-card">
-              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/></svg></div>
-              <div class="card-title">Agricultural Services</div>
-              <div class="card-text">Access soil testing, crop advisories, PM-KISAN updates, and modern farming guidance.</div>
-              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+          <div class="home-services-overview-header">
+            <h2 class="home-services-overview-title">Integrated Citizen Services</h2>
+            <p class="home-services-overview-sub">Access essential government services and resources through dedicated service categories.</p>
+          </div>
+
+          <div class="home-compact-categories-grid">
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('students')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#eff6ff;color:#1d4ed8">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Education & Students</div>
+              <div class="home-compact-cat-label">Student support & education services</div>
             </div>
-            <div class="card card-hover feature-card">
-              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/></svg></div>
-              <div class="card-title">Government Schemes</div>
-              <div class="card-text">Stay updated on national and state government schemes, subsidies, and benefit programs.</div>
-              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('farmers')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#ecfdf5;color:#15803d">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Agriculture & Farmers</div>
+              <div class="home-compact-cat-label">Farming schemes & support</div>
             </div>
-            <div class="card card-hover feature-card">
-              <div class="card-icon card-icon-orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
-              <div class="card-title">Market & Mandi Information</div>
-              <div class="card-text">Get real-time commodity prices, market trends, and trading insights for better decisions.</div>
-              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('women')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#fdf2f8;color:#be185d">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Women & Child Welfare</div>
+              <div class="home-compact-cat-label">Welfare & support services</div>
+            </div>
+
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('healthcare')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#f0fdf4;color:#059669">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Health & Wellness</div>
+              <div class="home-compact-cat-label">Healthcare & medical services</div>
+            </div>
+
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('senior')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#fffbeb;color:#b45309">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-4a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v4"/><path d="M19 14v7"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Senior Citizen Services</div>
+              <div class="home-compact-cat-label">Benefits & support for seniors</div>
+            </div>
+
+            <div class="home-compact-cat-card" onclick="navigateToServiceCategory('housing')" role="button" tabindex="0">
+              <div class="home-compact-cat-top">
+                <div class="home-compact-cat-icon" style="background:#f5f3ff;color:#6d28d9">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+              </div>
+              <div class="home-compact-cat-title">Housing & Shelter</div>
+              <div class="home-compact-cat-label">Housing & shelter assistance</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Portal Highlights -->
+      <section class="home-portal-highlights-section">
+        <div class="container">
+          <div class="grid grid-4" style="text-align:center;gap:var(--sp-6)">
+            <div class="home-portal-stat-item">
+              <div class="home-portal-stat-title">36 Districts</div>
+              <div class="home-portal-stat-desc">Integrated Coverage</div>
+            </div>
+            <div class="home-portal-stat-item">
+              <div class="home-portal-stat-title">120+ Schemes</div>
+              <div class="home-portal-stat-desc">Public Digital Services</div>
+            </div>
+            <div class="home-portal-stat-item">
+              <div class="home-portal-stat-title">100% Free</div>
+              <div class="home-portal-stat-desc">Direct Citizen Access</div>
+            </div>
+            <div class="home-portal-stat-item">
+              <div class="home-portal-stat-title">24/7 Portal</div>
+              <div class="home-portal-stat-desc">Verified Government Platform</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose e-Samanvit? Section -->
+      <section class="section home-why-section">
+        <div class="container">
+          <h2 class="section-title">Why Choose e-Samanvit?</h2>
+          <p class="section-subtitle">A state-of-the-art digital infrastructure built to deliver seamless, transparent, and direct citizen welfare.</p>
+          <div class="why-cards">
+            <div class="card card-hover">
+              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></div>
+              <div class="card-title">Farmer-Centric Architecture</div>
+              <div class="card-text">Specialized tools and resources designed specifically for Maharashtra's agricultural community.</div>
+            </div>
+            <div class="card card-hover">
+              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+              <div class="card-title">Single Digital Window</div>
+              <div class="card-text">Apply for subsidies, track status, and manage certificates from one unified dashboard.</div>
+            </div>
+            <div class="card card-hover">
+              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
+              <div class="card-title">Full Multilingual Access</div>
+              <div class="card-text">Available in Marathi, Hindi, and English so every citizen can navigate with confidence.</div>
+            </div>
+            <div class="card card-hover">
+              <div class="card-icon card-icon-orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+              <div class="card-title">Government Verified</div>
+              <div class="card-text">All information, schemes, and guidelines are authentic and directly linked to government records.</div>
+            </div>
+            <div class="card card-hover">
+              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div class="card-title">Citizen-First Service</div>
+              <div class="card-text">Dedicated support helpline, comprehensive FAQs, and grievance redressal at your fingertips.</div>
+            </div>
+            <div class="card card-hover">
+              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <div class="card-title">Privacy & Data Security</div>
+              <div class="card-text">Enterprise-grade encryption and strict privacy policies to protect your sensitive documents.</div>
             </div>
           </div>
         </div>
@@ -138,6 +277,7 @@
   <script src="js/dashboard.js"></script>
   <script src="js/premium.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
 
   <!-- Emergency Fallback & Hydration Script -->
   <script>
