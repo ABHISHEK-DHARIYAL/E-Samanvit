@@ -1,0 +1,112 @@
+/* ============================================================
+   VIDHYA DHARA — Design Tokens
+   ============================================================ */
+
+:root {
+  /* ── Primary (Soft Forest Green) ────────────────────── */
+  --clr-primary-900: #1B5E20;
+  --clr-primary-800: #2E7D32;
+  --clr-primary-700: #388E3C;
+  --clr-primary-600: #43A047;
+  --clr-primary-500: #66BB6A;
+  --clr-primary-400: #81C784;
+  --clr-primary-200: #C8E6C9;
+  --clr-primary-100: #E8F5E9;
+  --clr-primary-50:  #F1F8E9;
+
+  /* ── Accent (Warm Gold / Earth) ─────────────────────── */
+  --clr-accent-700: #EF8C00;
+  --clr-accent-600: #F9A825;
+  --clr-accent-500: #FBC02D;
+  --clr-accent-100: #FFF8E1;
+
+  /* ── Neutrals (Warm-tinted) ─────────────────────────── */
+  --clr-white:      #FFFFFF;
+  --clr-gray-50:    #FAFAF8;
+  --clr-gray-100:   #F5F5F2;
+  --clr-gray-200:   #ECECEA;
+  --clr-gray-300:   #E0DFDC;
+  --clr-gray-400:   #BDBDB8;
+  --clr-gray-500:   #9E9E98;
+  --clr-gray-600:   #72726C;
+  --clr-gray-700:   #56564F;
+  --clr-gray-800:   #3A3A35;
+  --clr-gray-900:   #1E1E1B;
+
+  /* ── Semantic ───────────────────────────────────────── */
+  --clr-success:    #2E7D32;
+  --clr-success-bg: #E8F5E9;
+  --clr-error:      #C62828;
+  --clr-error-bg:   #FFEBEE;
+  --clr-warning:    #E65100;
+  --clr-warning-bg: #FFF3E0;
+  --clr-info:       #1565C0;
+  --clr-info-bg:    #E3F2FD;
+
+  /* ── Typography ─────────────────────────────────────── */
+  --font-family:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --fs-xs:          0.75rem;    /* 12px */
+  --fs-sm:          0.8125rem;  /* 13px */
+  --fs-base:        0.9375rem;  /* 15px */
+  --fs-md:          1rem;       /* 16px */
+  --fs-lg:          1.125rem;   /* 18px */
+  --fs-xl:          1.25rem;    /* 20px */
+  --fs-2xl:         1.5rem;     /* 24px */
+  --fs-3xl:         1.875rem;   /* 30px */
+  --fs-4xl:         2.25rem;    /* 36px */
+  --fs-5xl:         3rem;       /* 48px */
+
+  --fw-regular:     400;
+  --fw-medium:      500;
+  --fw-semibold:    600;
+  --fw-bold:        700;
+
+  --lh-tight:       1.3;
+  --lh-normal:      1.6;
+  --lh-relaxed:     1.8;
+
+  /* ── Spacing (4px base) ─────────────────────────────── */
+  --sp-1:  0.25rem;   /* 4  */
+  --sp-2:  0.5rem;    /* 8  */
+  --sp-3:  0.75rem;   /* 12 */
+  --sp-4:  1rem;      /* 16 */
+  --sp-5:  1.25rem;   /* 20 */
+  --sp-6:  1.5rem;    /* 24 */
+  --sp-8:  2rem;      /* 32 */
+  --sp-10: 2.5rem;    /* 40 */
+  --sp-12: 3rem;      /* 48 */
+  --sp-16: 4rem;      /* 64 */
+  --sp-20: 5rem;      /* 80 */
+  --sp-24: 6rem;      /* 96 */
+
+  /* ── Border Radius (Softer, rounder) ────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-full: 9999px;
+
+  /* ── Shadows (Soft, tinted — not harsh black) ───────── */
+  --shadow-sm:   0 1px 3px rgba(30,30,27,0.04), 0 1px 2px rgba(30,30,27,0.03);
+  --shadow-md:   0 2px 8px rgba(30,30,27,0.06), 0 1px 3px rgba(30,30,27,0.04);
+  --shadow-lg:   0 4px 20px rgba(30,30,27,0.07), 0 2px 6px rgba(30,30,27,0.03);
+  --shadow-xl:   0 8px 40px rgba(30,30,27,0.08), 0 4px 12px rgba(30,30,27,0.03);
+  --shadow-card: 0 1px 4px rgba(30,30,27,0.04), 0 2px 12px rgba(30,30,27,0.03);
+  --shadow-glow: 0 4px 24px rgba(46,125,50,0.10);
+
+  /* ── Transitions (Smoother, calmer) ─────────────────── */
+  --ease-out:    cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-gentle: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --duration-fast:   180ms;
+  --duration-normal: 300ms;
+  --duration-slow:   500ms;
+  --duration-gentle: 700ms;
+
+  /* ── Layout ─────────────────────────────────────────── */
+  --navbar-height:  64px;
+  --sidebar-width:  260px;
+  --max-width:      1200px;
+  --footer-bg:      #1A3320;
+}

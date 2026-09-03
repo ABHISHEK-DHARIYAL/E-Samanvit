@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="e-Samanvit — National Public Services Interoperability & Guidance Portal. Connecting government schemes, scholarships, agriculture support, and public resources into a unified citizen journey.">
+  <meta name="keywords" content="e-Samanvit, Government Services, Public Services Portal, Govt Schemes, Scholarships, Agriculture Services, Citizen Portal, Maharashtra, India">
+  <meta name="author" content="e-Samanvit Portal">
+  <meta name="theme-color" content="#2E7D32">
+  <title>e-Samanvit — Connecting Government Services, Simplifying Citizen Journeys</title>
+
+  <!-- Google Fonts — Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Master Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+</head>
+<body>
+  <!-- App Root — Pre-rendered Static Shell with Explicit SVG dimensions -->
+  <div id="app">
+    <nav class="navbar" id="mainNavbar">
+      <div class="navbar-inner">
+        <div class="navbar-brand" onclick="navigateTo('home')">
+          <img src="assets/logo.jpg" alt="e-Samanvit" class="navbar-brand-logo">
+          <div class="navbar-brand-text">e-Samanvit</div>
+        </div>
+        <div class="navbar-nav" id="navLinks">
+          <a class="nav-link active" onclick="navigateTo('home')">Home</a>
+          <a class="nav-link" onclick="navigateTo('about')">About</a>
+          <a class="nav-link" onclick="navigateTo('impact')">Impact</a>
+          <a class="nav-link" onclick="navigateTo('dashboard')">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+          <select class="lang-selector" onchange="I18N.setLanguage(this.value)" aria-label="Select Language">
+            <option value="en" selected>English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+          </select>
+          <div class="navbar-icon-btn" onclick="toggleNotifDropdown(event)" id="navNotifBtn" style="position:relative;" title="Notifications">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="notif-badge" id="navNotifBadge">10</span>
+          </div>
+          <button class="navbar-toggle" onclick="openMobileNav()" aria-label="Menu" title="Menu & All Services">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-layout">
+      <section class="hero" style="padding:var(--sp-12) 0 var(--sp-10)">
+        <div class="container">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--sp-8);flex-wrap:wrap">
+            <div class="hero-content" style="flex:1;min-width:300px;text-align:left">
+              <div style="margin-bottom:var(--sp-4);display:inline-block">
+                <img src="assets/logo.jpg" alt="e-Samanvit Logo" style="height:110px;width:auto;max-width:280px;object-fit:contain;border-radius:12px;background:var(--clr-white);padding:6px;box-shadow:var(--shadow-md)">
+              </div>
+              <h1>e-Samanvit</h1>
+              <p class="hero-tagline">Government Services & Public Information Portal</p>
+              <p class="hero-desc">e-Samanvit provides direct digital access to government schemes, scholarships, agricultural services, market prices, financial assistance, and public resources for all citizens of Maharashtra.</p>
+              <div class="hero-actions" style="justify-content:flex-start">
+                <button class="btn btn-primary btn-lg" onclick="navigateTo('services')">Explore Services →</button>
+                <button class="btn btn-secondary btn-lg" onclick="navigateTo('impact')">Impact & Solution</button>
+              </div>
+            </div>
+            <div style="text-align:center;max-width:360px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+              <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:8px">
+                <img src="assets/mh_logo1.jpg" alt="Government Emblem 1" style="height:100px;width:auto;object-fit:contain;border-radius:8px">
+                <img src="assets/mh_logo2.jpg" alt="Government Emblem 2" style="height:100px;width:auto;object-fit:contain;border-radius:8px">
+              </div>
+              <div style="font-size:20px;font-weight:800;color:#ffffff;margin-bottom:2px">महाराष्ट्र शासन</div>
+              <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.9)">Government of Maharashtra</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section section">
+        <div class="container">
+          <h2 class="section-title">Services Provided</h2>
+          <p class="section-subtitle">Access a wide spectrum of government and public welfare services from a single portal.</p>
+          <div class="grid grid-3">
+            <div class="card card-hover feature-card">
+              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/></svg></div>
+              <div class="card-title">Agricultural Services</div>
+              <div class="card-text">Access soil testing, crop advisories, PM-KISAN updates, and modern farming guidance.</div>
+              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+            </div>
+            <div class="card card-hover feature-card">
+              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/></svg></div>
+              <div class="card-title">Government Schemes</div>
+              <div class="card-text">Stay updated on national and state government schemes, subsidies, and benefit programs.</div>
+              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+            </div>
+            <div class="card card-hover feature-card">
+              <div class="card-icon card-icon-orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
+              <div class="card-title">Market & Mandi Information</div>
+              <div class="card-text">Get real-time commodity prices, market trends, and trading insights for better decisions.</div>
+              <a class="btn btn-ghost btn-sm" onclick="navigateTo('services')">Access Service →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-bottom" style="border:none;padding:var(--sp-6) 0">
+            © 2026 e-Samanvit Portal — Government of Maharashtra Public Services Interoperability Platform.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <!-- Runtime config + API client foundation (Prompt 2 — not yet used by any page) -->
+  <script src="js/config.js"></script>
+  <script src="js/services/apiClient.js"></script>
+  <script src="js/services/servicesApi.js"></script>
+  <script src="js/services/consentApi.js"></script>
+  <script src="js/services/applicationsApi.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/utils/validation.js"></script>
+  <script src="js/utils/formatting.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/mock-api.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/components/fieldRenderer.js"></script>
+  <script src="js/components/govServices.js"></script>
+  <script src="js/components/myApplications.js"></script>
+  <script src="js/pages.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/premium.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Emergency Fallback & Hydration Script -->
+  <script>
+    (function() {
+      function startAppSafely() {
+        try {
+          if (typeof App !== 'undefined' && App.init) {
+            App.init();
+          }
+        } catch(e) {
+          console.error("App init error:", e);
+        }
+      }
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(startAppSafely, 20);
+      } else {
+        window.addEventListener('DOMContentLoaded', startAppSafely);
+      }
+    })();
+  </script>
+</body>
+</html>

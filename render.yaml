@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: e-samanvit-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_ORIGIN
+        value: https://e-samanvit.vercel.app
