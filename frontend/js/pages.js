@@ -7,12 +7,12 @@ function renderHomePage() {
   return `
     ${renderPublicNavbar('home')}
     <div class="page-layout">
-      <!-- Hero Section with Portal Header and 7-Slide Auto-Rotating Banner -->
-      <section class="hero" style="padding:var(--sp-8) 0 var(--sp-12)">
+      <!-- Official Portal Brand Header Section (Logo, Portal Title, MH Government Emblems) -->
+      <section class="hero" style="padding: 24px 0 26px;">
         <div class="container">
           <!-- Top Official Branding Row: Logo + e-Samanvit Name + Maharashtra Emblems -->
           <div class="hero-brand-row">
-            <!-- Left Side: Hero Content & e-Samanvit Logo (Buttons removed per user instruction) -->
+            <!-- Left Side: Hero Content & e-Samanvit Logo -->
             <div class="hero-brand-left">
               <div class="hero-logo-box">
                 <img src="assets/logo.jpg" alt="e-Samanvit Logo" class="hero-logo-img">
@@ -39,11 +39,14 @@ function renderHomePage() {
               <div class="hero-emblem-text-en">${I18N.t('govOfMh')}</div>
             </div>
           </div>
-
-          <!-- Featured Promotional Banner Carousel (7 Auto-Rotating Slides) -->
-          ${renderHeroSlider()}
         </div>
       </section>
+
+      <!-- Clean Separation Line Gap between Header and Banner -->
+      <div class="hero-header-banner-gap" style="width:100%; height:4px; background:linear-gradient(90deg, #ff9933 0%, #ff9933 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%, #138808 100%); box-shadow:0 2px 8px rgba(0,0,0,0.12); position:relative; z-index:3;"></div>
+
+      <!-- Full-Width Edge-to-Edge Hero Banner Carousel (6 Auto-Rotating Slides) -->
+      ${renderHeroSlider()}
 
       <!-- Integrated Citizen Services (Quick Access Categories: 3 cols x 2 rows) -->
       <section class="home-services-overview-section">
@@ -57,7 +60,7 @@ function renderHomePage() {
             ${[
               {
                 key: 'students',
-                icon: Icons.graduationCap,
+                icon: Icons.student,
                 iconBg: '#eff6ff',
                 iconColor: '#1d4ed8',
                 title: I18N.t('catStudentsTitle'),
@@ -65,15 +68,15 @@ function renderHomePage() {
               },
               {
                 key: 'farmers',
-                icon: Icons.sprout,
-                iconBg: '#ecfdf5',
-                iconColor: '#15803d',
+                icon: Icons.farmer,
+                iconBg: '#fef3c7',
+                iconColor: '#b45309',
                 title: I18N.t('catFarmersTitle'),
                 label: I18N.t('catFarmersShortLabel')
               },
               {
                 key: 'women',
-                icon: Icons.family,
+                icon: Icons.women,
                 iconBg: '#fdf2f8',
                 iconColor: '#be185d',
                 title: I18N.t('catWomenTitle'),
@@ -81,9 +84,9 @@ function renderHomePage() {
               },
               {
                 key: 'healthcare',
-                icon: Icons.activity,
-                iconBg: '#f0fdf4',
-                iconColor: '#059669',
+                icon: Icons.health,
+                iconBg: '#fef2f2',
+                iconColor: '#dc2626',
                 title: I18N.t('catHealthTitle'),
                 label: I18N.t('catHealthShortLabel')
               },
@@ -97,9 +100,9 @@ function renderHomePage() {
               },
               {
                 key: 'housing',
-                icon: Icons.home,
-                iconBg: '#f5f3ff',
-                iconColor: '#6d28d9',
+                icon: Icons.housing,
+                iconBg: '#f1f5f9',
+                iconColor: '#1e293b',
                 title: I18N.t('catHousingTitle'),
                 label: I18N.t('catHousingShortLabel')
               }
@@ -145,15 +148,17 @@ function renderHomePage() {
           <p class="section-subtitle">${I18N.t('whyUsSub')}</p>
           <div class="why-cards">
             ${[
-              { icon: Icons.sprout, title: I18N.t('why1Title'), desc: I18N.t('why1Desc'), color: 'green' },
-              { icon: Icons.fileText, title: I18N.t('why2Title'), desc: I18N.t('why2Desc'), color: 'green' },
-              { icon: Icons.globe, title: I18N.t('why3Title'), desc: I18N.t('why3Desc'), color: 'blue' },
-              { icon: Icons.star, title: I18N.t('why4Title'), desc: I18N.t('why4Desc'), color: 'orange' },
-              { icon: Icons.users, title: I18N.t('why5Title'), desc: I18N.t('why5Desc'), color: 'green' },
-              { icon: Icons.shield, title: I18N.t('why6Title'), desc: I18N.t('why6Desc'), color: 'blue' },
+              { key: 'easy-access', icon: Icons.whyEasyAccess, title: I18N.t('why1Title'), desc: I18N.t('why1Desc'), bg: '#ecfdf5', color: '#059669', border: 'rgba(16, 185, 129, 0.22)' },
+              { key: 'verified-info', icon: Icons.whyVerified, title: I18N.t('why2Title'), desc: I18N.t('why2Desc'), bg: '#eff6ff', color: '#1d4ed8', border: 'rgba(37, 99, 235, 0.22)' },
+              { key: 'digital-portal', icon: Icons.whyDigital, title: I18N.t('why3Title'), desc: I18N.t('why3Desc'), bg: '#f0fdfa', color: '#0d9488', border: 'rgba(13, 148, 136, 0.22)' },
+              { key: 'growth-opps', icon: Icons.whyGrowth, title: I18N.t('why4Title'), desc: I18N.t('why4Desc'), bg: '#fffbeb', color: '#d97706', border: 'rgba(217, 119, 6, 0.22)' },
+              { key: 'helpline', icon: Icons.whyHelpline, title: I18N.t('why5Title'), desc: I18N.t('why5Desc'), bg: '#f5f3ff', color: '#7c3aed', border: 'rgba(124, 58, 237, 0.22)' },
+              { key: 'transparent', icon: Icons.whyTransparent, title: I18N.t('why6Title'), desc: I18N.t('why6Desc'), bg: '#f0f9ff', color: '#0284c7', border: 'rgba(2, 132, 199, 0.22)' },
             ].map(c => `
-              <div class="card card-hover">
-                <div class="card-icon card-icon-${c.color}">${c.icon}</div>
+              <div class="card card-hover why-card-item" data-why="${c.key}">
+                <div class="card-icon" style="background:${c.bg};color:${c.color};border:1px solid ${c.border}">
+                  ${c.icon}
+                </div>
                 <div class="card-title">${c.title}</div>
                 <div class="card-text">${c.desc}</div>
               </div>
@@ -300,7 +305,7 @@ const SERVICE_CATEGORIES = [
   {
     key: 'students',
     classModifier: 'cat-students',
-    icon: Icons.graduationCap,
+    icon: Icons.student,
     iconBg: '#eff6ff',
     iconColor: '#1d4ed8',
     titleKey: 'catStudentsTitle',
@@ -366,9 +371,9 @@ const SERVICE_CATEGORIES = [
   {
     key: 'farmers',
     classModifier: 'cat-farmers',
-    icon: Icons.sprout,
-    iconBg: '#ecfdf5',
-    iconColor: '#15803d',
+    icon: Icons.farmer,
+    iconBg: '#fef3c7',
+    iconColor: '#b45309',
     titleKey: 'catFarmersTitle',
     descKey: 'catFarmersDesc',
     schemesCount: '6 Verified Schemes',
@@ -432,7 +437,7 @@ const SERVICE_CATEGORIES = [
   {
     key: 'women',
     classModifier: 'cat-women',
-    icon: Icons.family,
+    icon: Icons.women,
     iconBg: '#fdf2f8',
     iconColor: '#be185d',
     titleKey: 'catWomenTitle',
@@ -498,9 +503,9 @@ const SERVICE_CATEGORIES = [
   {
     key: 'healthcare',
     classModifier: 'cat-healthcare',
-    icon: Icons.activity,
-    iconBg: '#f0fdf4',
-    iconColor: '#059669',
+    icon: Icons.health,
+    iconBg: '#fef2f2',
+    iconColor: '#dc2626',
     titleKey: 'catHealthTitle',
     descKey: 'catHealthDesc',
     schemesCount: '6 Verified Schemes',
@@ -630,9 +635,9 @@ const SERVICE_CATEGORIES = [
   {
     key: 'housing',
     classModifier: 'cat-housing',
-    icon: Icons.home,
-    iconBg: '#f5f3ff',
-    iconColor: '#6d28d9',
+    icon: Icons.housing,
+    iconBg: '#f1f5f9',
+    iconColor: '#1e293b',
     titleKey: 'catHousingTitle',
     descKey: 'catHousingDesc',
     schemesCount: '6 Verified Schemes',

@@ -53,16 +53,15 @@
           <a class="nav-link" onclick="navigateTo('about')">About</a>
           <a class="nav-link" onclick="navigateTo('dashboard')">Dashboard</a>
         </div>
-        <div class="navbar-right">
+        <!-- Desktop Right Section -->
+        <div class="navbar-right navbar-desktop-right">
           <select class="lang-selector" onchange="I18N.setLanguage(this.value)" aria-label="Select Language">
             <option value="en" selected>English</option>
             <option value="hi">हिंदी</option>
             <option value="mr">मराठी</option>
           </select>
-          <button class="navbar-icon-btn theme-toggle-btn" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Dark Mode" title="Dark Mode">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          </button>
-          <div class="navbar-icon-btn" onclick="toggleNotifDropdown(event)" id="navNotifBtn" style="position:relative;" title="Notifications">
+          <!-- Notification Bell -->
+          <div class="navbar-icon-btn nav-notif-btn" onclick="toggleNotifDropdown(event)" id="navNotifBtn" style="position:relative;" title="Notifications">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             <span class="notif-badge" id="navNotifBadge">10</span>
           </div>
@@ -70,13 +69,753 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
           </button>
         </div>
+
+        <!-- Mobile Top Right: ONLY 3-Bar Menu -->
+        <div class="navbar-mobile-top">
+          <button class="navbar-toggle" onclick="openMobileNav()" aria-label="Menu" title="Menu & All Services">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 2 (Mobile Sub-bar): Home, Services, About, Dashboard | Notification Bell + Language Selector -->
+      <div class="navbar-mobile-subbar">
+        <div class="navbar-mobile-subnav">
+          <a class="sub-nav-link active" onclick="navigateTo('home')">Home</a>
+          <a class="sub-nav-link" onclick="navigateTo('services')">Services</a>
+          <a class="sub-nav-link" onclick="navigateTo('about')">About</a>
+          <a class="sub-nav-link" onclick="navigateTo('dashboard')">Dashboard</a>
+        </div>
+        <div class="navbar-mobile-subactions">
+          <div class="navbar-icon-btn nav-notif-btn" onclick="toggleNotifDropdown(event)" id="mobileNavNotifBtn" style="position:relative;" title="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="notif-badge" id="mobileNavNotifBadge">10</span>
+          </div>
+          <select class="lang-selector mobile-lang-selector" onchange="I18N.setLanguage(this.value)" aria-label="Select Language">
+            <option value="en" selected>English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+          </select>
+        </div>
       </div>
     </nav>
 
     <div class="page-layout">
-      <section class="hero" style="padding:var(--sp-8) 0 var(--sp-12)">
+      <!-- ═══════════════════════════════════════════════════════════
+           e-SAMANVIT HERO BANNER CAROUSEL — 6 Slides
+           ═══════════════════════════════════════════════════════════ -->
+      <style>
+        /* ── Hero Carousel Container ─────────────────────────────── */
+        .esam-hero-carousel {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          background: linear-gradient(180deg, #EDF7EE 0%, #F5FAF6 50%, #EAF4EB 100%);
+          border-bottom: 2px solid #B8E0B9;
+          box-shadow: 0 6px 24px rgba(27, 94, 32, 0.08);
+        }
+
+        /* ── Slides Track ─────────────────────────────────────────── */
+        .esam-slides-track {
+          display: flex;
+          transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+          will-change: transform;
+        }
+
+        /* ── Single Slide ────────────────────────────────────────── */
+        .esam-slide {
+          min-width: 100%;
+          width: 100%;
+          min-height: 420px;
+          display: flex;
+          align-items: center;
+          position: relative;
+          padding: 48px 0;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+
+        /* Slide background subtle radial decoration */
+        .esam-slide::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .esam-slide-1::before { background: radial-gradient(ellipse 55% 70% at 8% 50%, rgba(200,230,201,0.38) 0%, transparent 70%); }
+        .esam-slide-2::before { background: radial-gradient(ellipse 60% 60% at 95% 50%, rgba(200,230,201,0.28) 0%, transparent 70%); }
+        .esam-slide-3::before { background: radial-gradient(ellipse 50% 80% at 8% 50%, rgba(200,230,201,0.32) 0%, transparent 70%); }
+        .esam-slide-4::before { background: radial-gradient(ellipse 65% 65% at 90% 40%, rgba(200,230,201,0.25) 0%, transparent 70%); }
+        .esam-slide-5::before { background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(200,230,201,0.20) 0%, transparent 70%); }
+        .esam-slide-6::before { background: radial-gradient(ellipse 60% 70% at 8% 50%, rgba(200,230,201,0.35) 0%, transparent 70%); }
+
+        .esam-slide-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        /* ─── SLIDE 1 — Split: Logo | Brand Text ─────────────────── */
+        .esam-s1-layout {
+          display: grid;
+          grid-template-columns: 340px 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+        .esam-s1-img-panel {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--clr-primary-100, #E8F5E9);
+          border-radius: 20px;
+          overflow: hidden;
+          height: 300px;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          box-shadow: 0 4px 24px rgba(46,125,50,0.10);
+          position: relative;
+        }
+        .esam-s1-img-panel img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 24px;
+          box-sizing: border-box;
+        }
+        .esam-s1-logo-badge {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          background: rgba(46,125,50,0.90);
+          color: #fff;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 4px 10px;
+          border-radius: 20px;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        }
+        .esam-s1-text h1 {
+          font-size: clamp(2rem, 4vw, 3rem);
+          font-weight: 800;
+          color: var(--clr-primary-900, #1B5E20);
+          line-height: 1.15;
+          margin: 0 0 16px;
+          letter-spacing: -0.5px;
+        }
+        .esam-s1-text h1 span {
+          color: var(--clr-primary-700, #388E3C);
+        }
+        .esam-s1-text .esam-tagline-en {
+          font-size: clamp(1rem, 2vw, 1.25rem);
+          font-weight: 700;
+          color: var(--clr-gray-800, #3A3A35);
+          margin-bottom: 10px;
+          line-height: 1.4;
+        }
+        .esam-s1-text .esam-tagline-mr {
+          font-size: 0.9375rem;
+          color: var(--clr-gray-600, #72726C);
+          margin-bottom: 28px;
+          line-height: 1.5;
+        }
+        .esam-s1-chips {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .esam-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: var(--clr-primary-100, #E8F5E9);
+          color: var(--clr-primary-800, #2E7D32);
+          border: 1px solid var(--clr-primary-200, #C8E6C9);
+          border-radius: 99px;
+          padding: 6px 14px;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          line-height: 1;
+        }
+        .esam-chip svg { flex-shrink: 0; }
+
+        /* ─── SLIDE 2 — Benefits ──────────────────────────────────── */
+        .esam-s2-layout h2,
+        .esam-s3-layout h2,
+        .esam-s4-layout h2,
+        .esam-s6-layout h2 {
+          font-size: clamp(1.5rem, 3vw, 2.25rem);
+          font-weight: 800;
+          color: var(--clr-primary-900, #1B5E20);
+          margin: 0 0 32px;
+          line-height: 1.2;
+        }
+        .esam-benefits-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+        .esam-benefit-card {
+          background: #fff;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          border-radius: 16px;
+          padding: 24px 20px;
+          display: flex;
+          gap: 16px;
+          align-items: flex-start;
+          box-shadow: 0 2px 12px rgba(46,125,50,0.07);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .esam-benefit-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 28px rgba(46,125,50,0.13);
+        }
+        .esam-benefit-icon {
+          width: 56px;
+          height: 56px;
+          flex-shrink: 0;
+          background: var(--clr-primary-100, #E8F5E9);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          color: var(--clr-primary-800, #2E7D32);
+          font-size: 1.5rem;
+        }
+        .esam-benefit-body .esam-benefit-title {
+          font-size: 1rem;
+          font-weight: 700;
+          color: var(--clr-gray-900, #1E1E1B);
+          margin: 0 0 6px;
+          line-height: 1.35;
+        }
+        .esam-benefit-body .esam-benefit-desc {
+          font-size: 0.8125rem;
+          color: var(--clr-gray-600, #72726C);
+          line-height: 1.55;
+          margin: 0;
+        }
+        .esam-benefit-stat {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: var(--clr-primary-700, #388E3C);
+          margin-top: 8px;
+          background: var(--clr-primary-100, #E8F5E9);
+          display: inline-block;
+          padding: 2px 8px;
+          border-radius: 6px;
+        }
+
+        /* ─── SLIDE 3 — Core Features ─────────────────────────────── */
+        .esam-s3-layout {
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+        .esam-s3-img-panel {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--clr-primary-100, #E8F5E9);
+          border-radius: 20px;
+          height: 300px;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          box-shadow: 0 4px 24px rgba(46,125,50,0.10);
+          overflow: hidden;
+          position: relative;
+        }
+        .esam-s3-img-panel img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+        .esam-features-list {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .esam-feature-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          padding: 16px 20px;
+          background: #fff;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          border-radius: 14px;
+          box-shadow: 0 1px 6px rgba(46,125,50,0.06);
+          transition: transform 0.2s ease;
+        }
+        .esam-feature-row:hover { transform: translateX(4px); }
+        .esam-feature-icon {
+          width: 44px;
+          height: 44px;
+          flex-shrink: 0;
+          background: var(--clr-primary-100, #E8F5E9);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--clr-primary-700, #388E3C);
+          font-size: 1.25rem;
+        }
+        .esam-feature-text .esam-ft-title {
+          font-size: 0.9375rem;
+          font-weight: 700;
+          color: var(--clr-gray-900, #1E1E1B);
+          margin: 0 0 3px;
+        }
+        .esam-feature-text .esam-ft-sub {
+          font-size: 0.8125rem;
+          color: var(--clr-gray-600, #72726C);
+          margin: 0;
+        }
+
+        /* ─── SLIDE 4 — How to Use Steps 1 & 2 ──────────────────── */
+        .esam-s4-layout {
+          display: grid;
+          grid-template-columns: 300px 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+        .esam-s4-img-panel {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, var(--clr-primary-100, #E8F5E9) 0%, #fff 100%);
+          border-radius: 20px;
+          height: 300px;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          box-shadow: 0 4px 24px rgba(46,125,50,0.10);
+          position: relative;
+          overflow: hidden;
+        }
+        .esam-s4-img-panel img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 24px;
+          box-sizing: border-box;
+        }
+        .esam-ai-badge {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: var(--clr-primary-900, #1B5E20);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 5px 12px;
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+        .esam-steps-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        .esam-step-card {
+          background: #fff;
+          border: 2px solid var(--clr-primary-200, #C8E6C9);
+          border-radius: 16px;
+          padding: 20px;
+          position: relative;
+          box-shadow: 0 2px 12px rgba(46,125,50,0.07);
+          transition: transform 0.25s ease;
+        }
+        .esam-step-card:hover { transform: translateY(-2px); }
+        .esam-step-num {
+          position: absolute;
+          top: -16px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 32px;
+          height: 32px;
+          background: var(--clr-primary-700, #388E3C);
+          color: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.875rem;
+          font-weight: 800;
+          border: 2px solid #fff;
+          box-shadow: 0 2px 8px rgba(46,125,50,0.30);
+        }
+        .esam-step-title {
+          font-size: 0.9375rem;
+          font-weight: 700;
+          color: var(--clr-gray-900, #1E1E1B);
+          margin: 10px 0 8px;
+          line-height: 1.35;
+        }
+        .esam-step-desc {
+          font-size: 0.8125rem;
+          color: var(--clr-gray-600, #72726C);
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        /* ─── SLIDE 5 — How to Use Steps 3 & 4 (Flow) ────────────── */
+        .esam-s5-layout { width: 100%; }
+        .esam-flow-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          margin-bottom: 32px;
+        }
+        .esam-flow-step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+        .esam-flow-circle {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background: #fff;
+          border: 3px solid var(--clr-primary-700, #388E3C);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--clr-primary-800, #2E7D32);
+          box-shadow: 0 4px 16px rgba(46,125,50,0.14);
+          transition: transform 0.25s ease;
+        }
+        .esam-flow-circle:hover { transform: scale(1.05); }
+        .esam-flow-step span {
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: var(--clr-gray-800, #3A3A35);
+          text-align: center;
+          max-width: 100px;
+          line-height: 1.3;
+        }
+        .esam-flow-arrow {
+          display: flex;
+          align-items: center;
+          padding: 0 4px;
+          margin-bottom: 32px;
+          color: var(--clr-primary-700, #388E3C);
+        }
+        .esam-flow-note {
+          background: var(--clr-primary-100, #E8F5E9);
+          border-left: 3px solid var(--clr-primary-600, #43A047);
+          border-radius: 0 10px 10px 0;
+          padding: 12px 20px;
+          font-size: 0.8125rem;
+          color: var(--clr-gray-700, #56564F);
+          line-height: 1.6;
+          max-width: 680px;
+          margin: 0 auto;
+        }
+        .esam-s5-layout h2 {
+          font-size: clamp(1.5rem, 3vw, 2.25rem);
+          font-weight: 800;
+          color: var(--clr-primary-900, #1B5E20);
+          margin: 0 0 32px;
+          text-align: center;
+          line-height: 1.2;
+        }
+
+        /* ─── SLIDE 6 — Ready to Begin / CTA ─────────────────────── */
+        .esam-s6-layout {
+          display: grid;
+          grid-template-columns: 1fr 360px;
+          gap: 48px;
+          align-items: center;
+        }
+        .esam-s6-text h2 { margin: 0 0 12px; }
+        .esam-s6-text p {
+          font-size: 1rem;
+          color: var(--clr-gray-700, #56564F);
+          margin: 0 0 28px;
+          line-height: 1.65;
+          max-width: 520px;
+        }
+        .esam-cta-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: var(--clr-primary-800, #2E7D32);
+          color: #fff;
+          border: none;
+          border-radius: 12px;
+          padding: 14px 28px;
+          font-size: 1rem;
+          font-weight: 700;
+          cursor: pointer;
+          text-decoration: none;
+          box-shadow: 0 4px 16px rgba(46,125,50,0.30);
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .esam-cta-btn:hover {
+          background: var(--clr-primary-700, #388E3C);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(46,125,50,0.38);
+        }
+        .esam-cta-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          color: var(--clr-primary-800, #2E7D32);
+          border: 2px solid var(--clr-primary-300, #A5D6A7);
+          border-radius: 12px;
+          padding: 12px 24px;
+          font-size: 0.9375rem;
+          font-weight: 600;
+          cursor: pointer;
+          margin-left: 12px;
+          transition: background 0.2s, border-color 0.2s;
+        }
+        .esam-cta-secondary:hover {
+          background: var(--clr-primary-100, #E8F5E9);
+          border-color: var(--clr-primary-500, #66BB6A);
+        }
+        .esam-s6-img-panel {
+          background: var(--clr-primary-100, #E8F5E9);
+          border-radius: 20px;
+          height: 280px;
+          border: 1.5px solid var(--clr-primary-200, #C8E6C9);
+          box-shadow: 0 4px 24px rgba(46,125,50,0.10);
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+        .esam-s6-img-panel img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 24px;
+          box-sizing: border-box;
+        }
+        .esam-s6-lang-row {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 20px;
+          flex-wrap: wrap;
+        }
+        .esam-lang-chip {
+          background: var(--clr-primary-100, #E8F5E9);
+          border: 1.5px solid var(--clr-primary-300, #A5D6A7);
+          color: var(--clr-primary-800, #2E7D32);
+          border-radius: 99px;
+          padding: 5px 14px;
+          font-size: 0.8125rem;
+          font-weight: 600;
+        }
+
+        /* ── Nav Arrows ─────────────────────────────────────────────── */
+        .esam-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: 1.5px solid var(--clr-primary-300, #A5D6A7);
+          background: rgba(255,255,255,0.92);
+          color: var(--clr-primary-800, #2E7D32);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 12px rgba(46,125,50,0.12);
+          transition: background 0.2s, border-color 0.2s, transform 0.15s;
+          backdrop-filter: blur(6px);
+        }
+        .esam-nav-btn:hover {
+          background: var(--clr-primary-100, #E8F5E9);
+          border-color: var(--clr-primary-500, #66BB6A);
+          transform: translateY(-50%) scale(1.08);
+        }
+        .esam-nav-prev { left: 16px; }
+        .esam-nav-next { right: 16px; }
+
+        /* ── Dots ───────────────────────────────────────────────────── */
+        .esam-dots {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 7px;
+          padding: 0 20px 16px;
+          background: transparent;
+          position: relative;
+          z-index: 5;
+        }
+        .esam-dot {
+          width: 9px;
+          height: 9px;
+          border-radius: 5px;
+          background: #cbd5e1;
+          border: none;
+          cursor: pointer;
+          transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+          padding: 0;
+        }
+        .esam-dot:hover {
+          background: #94a3b8;
+        }
+        .esam-dot.active {
+          width: 28px;
+          background: #15803d;
+          box-shadow: 0 0 8px rgba(21, 128, 61, 0.4);
+        }
+
+        /* ── Slide counter ──────────────────────────────────────────── */
+        .esam-slide-counter {
+          position: absolute;
+          bottom: 16px;
+          right: 20px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--clr-gray-500, #9E9E98);
+          background: rgba(255,255,255,0.85);
+          padding: 3px 10px;
+          border-radius: 20px;
+          backdrop-filter: blur(4px);
+        }
+
+        /* ── Progress bar ───────────────────────────────────────────── */
+        .esam-progress {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 3px;
+          background: var(--clr-primary-500, #66BB6A);
+          transition: width 0s linear;
+          z-index: 5;
+        }
+        .esam-progress.animating {
+          transition: width 3.5s linear;
+        }
+
+        /* ── Dark mode ─────────────────────────────────────────────── */
+        [data-theme="dark"] .esam-hero-carousel,
+        .dark-theme .esam-hero-carousel {
+          background: #1a1f1a;
+          border-bottom-color: #2d5a2d;
+        }
+        [data-theme="dark"] .esam-benefit-card,
+        [data-theme="dark"] .esam-feature-row,
+        [data-theme="dark"] .esam-step-card,
+        .dark-theme .esam-benefit-card,
+        .dark-theme .esam-feature-row,
+        .dark-theme .esam-step-card {
+          background: #1e261e;
+          border-color: #2d5a2d;
+        }
+        [data-theme="dark"] .esam-nav-btn,
+        .dark-theme .esam-nav-btn {
+          background: rgba(30,38,30,0.92);
+          border-color: #2d5a2d;
+          color: #81C784;
+        }
+        [data-theme="dark"] .esam-s1-img-panel,
+        [data-theme="dark"] .esam-s3-img-panel,
+        [data-theme="dark"] .esam-s4-img-panel,
+        [data-theme="dark"] .esam-s6-img-panel,
+        .dark-theme .esam-s1-img-panel,
+        .dark-theme .esam-s3-img-panel,
+        .dark-theme .esam-s4-img-panel,
+        .dark-theme .esam-s6-img-panel {
+          background: #1e261e;
+          border-color: #2d5a2d;
+        }
+        [data-theme="dark"] .esam-benefit-icon,
+        [data-theme="dark"] .esam-feature-icon,
+        .dark-theme .esam-benefit-icon,
+        .dark-theme .esam-feature-icon {
+          background: #1B5E20;
+          border-color: #2d5a2d;
+        }
+        [data-theme="dark"] .esam-flow-circle,
+        .dark-theme .esam-flow-circle {
+          background: #1e261e;
+        }
+        [data-theme="dark"] .esam-dots,
+        .dark-theme .esam-dots {
+          background: #1a1f1a;
+        }
+        [data-theme="dark"] .esam-s1-text h1,
+        [data-theme="dark"] .esam-s2-layout h2,
+        [data-theme="dark"] .esam-s3-layout h2,
+        [data-theme="dark"] .esam-s4-layout h2,
+        [data-theme="dark"] .esam-s5-layout h2,
+        [data-theme="dark"] .esam-s6-layout h2,
+        .dark-theme .esam-s1-text h1,
+        .dark-theme .esam-s2-layout h2,
+        .dark-theme .esam-s3-layout h2,
+        .dark-theme .esam-s4-layout h2,
+        .dark-theme .esam-s5-layout h2,
+        .dark-theme .esam-s6-layout h2 { color: #81C784; }
+        [data-theme="dark"] .esam-benefit-body .esam-benefit-title,
+        [data-theme="dark"] .esam-feature-text .esam-ft-title,
+        [data-theme="dark"] .esam-step-title,
+        [data-theme="dark"] .esam-flow-step span,
+        .dark-theme .esam-benefit-body .esam-benefit-title,
+        .dark-theme .esam-feature-text .esam-ft-title,
+        .dark-theme .esam-step-title,
+        .dark-theme .esam-flow-step span { color: #e0e0e0; }
+        [data-theme="dark"] .esam-slide-counter,
+        .dark-theme .esam-slide-counter { background: rgba(30,38,30,0.85); color: #81C784; }
+        [data-theme="dark"] .esam-flow-note,
+        .dark-theme .esam-flow-note { background: #1e261e; color: #a5d6a7; }
+        [data-theme="dark"] .esam-s6-text p,
+        .dark-theme .esam-s6-text p { color: #a5d6a7; }
+        [data-theme="dark"] .esam-lang-chip,
+        .dark-theme .esam-lang-chip { background: #1e261e; border-color: #2d5a2d; color: #81C784; }
+        [data-theme="dark"] .esam-cta-secondary,
+        .dark-theme .esam-cta-secondary { color: #81C784; border-color: #2d5a2d; }
+        [data-theme="dark"] .esam-cta-secondary:hover,
+        .dark-theme .esam-cta-secondary:hover { background: #1e261e; }
+        [data-theme="dark"] .esam-chip,
+        .dark-theme .esam-chip { background: #1e261e; border-color: #2d5a2d; color: #81C784; }
+
+        /* ── Responsive ─────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+          .esam-s1-layout,
+          .esam-s3-layout,
+          .esam-s4-layout,
+          .esam-s6-layout { grid-template-columns: 1fr; gap: 24px; }
+          .esam-s1-img-panel,
+          .esam-s3-img-panel,
+          .esam-s4-img-panel,
+          .esam-s6-img-panel { height: 180px; }
+          .esam-s6-layout { grid-template-columns: 1fr; }
+          .esam-benefits-grid { grid-template-columns: 1fr; }
+          .esam-steps-grid { grid-template-columns: 1fr; }
+          .esam-slide { min-height: auto; padding: 32px 0 28px; }
+          .esam-slide-inner { padding: 0 16px; }
+          .esam-flow-circle { width: 70px; height: 70px; }
+          .esam-flow-step span { max-width: 70px; font-size: 0.75rem; }
+        }
+        @media (max-width: 600px) {
+          .esam-nav-btn { width: 36px; height: 36px; }
+          .esam-flow-row { gap: 0; }
+          .esam-flow-circle { width: 60px; height: 60px; }
+          .esam-cta-secondary { margin-left: 0; margin-top: 10px; }
+        }
+      </style>
+
+      <!-- Official Portal Brand Header Section (Logo, Portal Title, MH Government Emblems) -->
+      <section class="hero" style="padding: 24px 0 26px;">
         <div class="container">
+          <!-- Top Official Branding Row: Logo + e-Samanvit Name + Maharashtra Emblems -->
           <div class="hero-brand-row">
+            <!-- Left Side: Hero Content & e-Samanvit Logo -->
             <div class="hero-brand-left">
               <div class="hero-logo-box">
                 <img src="assets/logo.jpg" alt="e-Samanvit Logo" class="hero-logo-img">
@@ -86,6 +825,8 @@
                 <p class="hero-tagline">Government Services & Public Information Portal</p>
               </div>
             </div>
+
+            <!-- Right Side: Government Emblems -->
             <div class="hero-emblems-box">
               <div class="hero-emblems-logos">
                 <div class="hero-emblem-wrap">
@@ -104,6 +845,478 @@
         </div>
       </section>
 
+      <!-- Clean Separation Line Gap between Header and Banner -->
+      <div class="hero-header-banner-gap" style="width:100%; height:4px; background:linear-gradient(90deg, #ff9933 0%, #ff9933 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%, #138808 100%); box-shadow:0 2px 8px rgba(0,0,0,0.12); position:relative; z-index:3;"></div>
+
+      <!-- Hero Carousel HTML (Full-width edge-to-edge) -->
+      <div class="esam-hero-carousel" id="esamHeroCarousel" aria-label="e-Samanvit Hero Banner" style="width:100%; margin:0; background:linear-gradient(180deg, #EDF7EE 0%, #F5FAF6 50%, #EAF4EB 100%); border-bottom:2px solid #B8E0B9; box-shadow:0 6px 24px rgba(27,94,32,0.08); overflow:hidden;">
+        <div class="esam-slides-track" id="esamSlidesTrack">
+
+          <!-- ════ SLIDE 1 — Brand Introduction ════ -->
+          <div class="esam-slide esam-slide-1" role="group" aria-label="Slide 1 of 6: Introduction">
+            <div class="esam-slide-inner">
+              <div class="esam-s1-layout">
+                <!-- Left: Logo panel -->
+                <div class="esam-s1-img-panel">
+                  <img src="assets/logo.jpg" alt="e-Samanvit Logo">
+                  <div class="esam-s1-logo-badge">Official Portal</div>
+                </div>
+                <!-- Right: Text -->
+                <div class="esam-s1-text">
+                  <h1>e-<span>Samanvit</span></h1>
+                  <p class="esam-tagline-en">Connecting Government Services,<br>Simplifying Citizen Journeys</p>
+                  <p class="esam-tagline-mr">एकीकृत डिजिटल समन्वय – सर्व शासकीय योजना एकाच ठिकाणी</p>
+                  <div class="esam-s1-chips">
+                    <span class="esam-chip">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                      Verified Government Portal
+                    </span>
+                    <span class="esam-chip">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      24/7 Access
+                    </span>
+                    <span class="esam-chip">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      120+ Schemes
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════ SLIDE 2 — Benefits ════ -->
+          <div class="esam-slide esam-slide-2" role="group" aria-label="Slide 2 of 6: Benefits">
+            <div class="esam-slide-inner">
+              <div class="esam-s2-layout">
+                <h2>Benefits</h2>
+                <div class="esam-benefits-grid">
+                  <!-- Benefit 1 -->
+                  <div class="esam-benefit-card">
+                    <div class="esam-benefit-icon">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="13" height="11" rx="2"/>
+                        <path d="M5 18h7"/><path d="M8.5 14v4"/>
+                        <rect x="15" y="8" width="7" height="13" rx="1.5"/>
+                        <circle cx="18.5" cy="18" r="0.75" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <div class="esam-benefit-body">
+                      <p class="esam-benefit-title">Single-window access</p>
+                      <p class="esam-benefit-desc">Central &amp; state schemes – one portal, unified search</p>
+                      <span class="esam-benefit-stat">36 Districts Covered</span>
+                    </div>
+                  </div>
+                  <!-- Benefit 2 -->
+                  <div class="esam-benefit-card">
+                    <div class="esam-benefit-icon">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                        <polyline points="16 7 22 7 22 13"/>
+                      </svg>
+                    </div>
+                    <div class="esam-benefit-body">
+                      <p class="esam-benefit-title">85% faster approvals</p>
+                      <p class="esam-benefit-desc">Application time: 21 days → 3 days (typical)</p>
+                      <span class="esam-benefit-stat">85% Faster</span>
+                    </div>
+                  </div>
+                  <!-- Benefit 3 -->
+                  <div class="esam-benefit-card">
+                    <div class="esam-benefit-icon">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/>
+                        <circle cx="12" cy="12" r="4"/>
+                      </svg>
+                    </div>
+                    <div class="esam-benefit-body">
+                      <p class="esam-benefit-title">100% DBT transparency</p>
+                      <p class="esam-benefit-desc">Direct Benefit Transfer – track to bank account</p>
+                      <span class="esam-benefit-stat">100% Transparent</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════ SLIDE 3 — Core Features ════ -->
+          <div class="esam-slide esam-slide-3" role="group" aria-label="Slide 3 of 6: Core Features">
+            <div class="esam-slide-inner">
+              <div class="esam-s3-layout">
+                <!-- Left: mascot / logo panel -->
+                <div class="esam-s3-img-panel">
+                  <img src="assets/mitra_mascot.png" alt="MITRA – e-Samanvit AI Mascot">
+                </div>
+                <!-- Right: feature list -->
+                <div>
+                  <h2>Core Features</h2>
+                  <div class="esam-features-list">
+                    <div class="esam-feature-row">
+                      <div class="esam-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                          <circle cx="9" cy="10" r="0.8" fill="currentColor"/>
+                          <circle cx="15" cy="10" r="0.8" fill="currentColor"/>
+                        </svg>
+                      </div>
+                      <div class="esam-feature-text">
+                        <p class="esam-ft-title">Agriculture Services</p>
+                        <p class="esam-ft-sub">PM-KISAN · Soil Health Card · Live mandi prices</p>
+                      </div>
+                    </div>
+                    <div class="esam-feature-row">
+                      <div class="esam-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M22 10v6M2 2l10-5 10 5-10 5z"/>
+                          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                      </div>
+                      <div class="esam-feature-text">
+                        <p class="esam-ft-title">Education &amp; Youth</p>
+                        <p class="esam-ft-sub">National Scholarships (NSP) · Skill India courses</p>
+                      </div>
+                    </div>
+                    <div class="esam-feature-row">
+                      <div class="esam-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M3 11h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z"/>
+                          <path d="M21 11h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1Z"/>
+                          <path d="M2 15a10 10 0 0 1 20 0"/>
+                        </svg>
+                      </div>
+                      <div class="esam-feature-text">
+                        <p class="esam-ft-title">Citizen Welfare</p>
+                        <p class="esam-ft-sub">Financial aid · 24/7 helpline in EN / HI / MR</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════ SLIDE 4 — How to Use: Steps 1 & 2 ════ -->
+          <div class="esam-slide esam-slide-4" role="group" aria-label="Slide 4 of 6: How to Use – Steps 1 and 2">
+            <div class="esam-slide-inner">
+              <div class="esam-s4-layout">
+                <!-- Left: logo panel -->
+                <div class="esam-s4-img-panel">
+                  <img src="assets/logo.jpg" alt="e-Samanvit Logo">
+                </div>
+                <!-- Right: step cards -->
+                <div>
+                  <h2>How to Use —</h2>
+                  <div class="esam-steps-grid">
+                    <div class="esam-step-card">
+                      <div class="esam-step-num">1</div>
+                      <p class="esam-step-title">Step 01 — Choose language &amp; category</p>
+                      <p class="esam-step-desc">Pick language: English, Hindi, Marathi · Select service category</p>
+                    </div>
+                    <div class="esam-step-card">
+                      <div class="esam-step-num">2</div>
+                      <p class="esam-step-title">Step 02 — Search your scheme</p>
+                      <p class="esam-step-desc">Use search bar or browse cards to find schemes</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════ SLIDE 5 — How to Use: Steps 3 & 4 (Flow) ════ -->
+          <div class="esam-slide esam-slide-5" role="group" aria-label="Slide 5 of 6: How to Use – Steps 3 and 4">
+            <div class="esam-slide-inner">
+              <div class="esam-s5-layout">
+                <h2>Complete Your Journey</h2>
+                <div class="esam-flow-row">
+                  <!-- Step: Verify Eligibility -->
+                  <div class="esam-flow-step">
+                    <div class="esam-flow-circle">
+                      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="m9 15 2 2 4-4"/>
+                      </svg>
+                    </div>
+                    <span>Verify<br>Eligibility</span>
+                  </div>
+                  <!-- Arrow -->
+                  <div class="esam-flow-arrow">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,0)"/></svg>
+                  </div>
+                  <!-- Step: Apply Online -->
+                  <div class="esam-flow-step">
+                    <div class="esam-flow-circle">
+                      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/>
+                      </svg>
+                    </div>
+                    <span>Apply<br>Online</span>
+                  </div>
+                  <!-- Arrow -->
+                  <div class="esam-flow-arrow">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,0)"/></svg>
+                  </div>
+                  <!-- Step: Track Application -->
+                  <div class="esam-flow-step">
+                    <div class="esam-flow-circle">
+                      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                      </svg>
+                    </div>
+                    <span>Track<br>Application</span>
+                  </div>
+                  <!-- Arrow -->
+                  <div class="esam-flow-arrow">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,0)"/></svg>
+                  </div>
+                  <!-- Step: Receive DBT -->
+                  <div class="esam-flow-step">
+                    <div class="esam-flow-circle">
+                      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="5" width="20" height="14" rx="2"/>
+                        <path d="M2 10h20"/>
+                        <path d="M6 15h4"/>
+                      </svg>
+                    </div>
+                    <span>Receive<br>DBT</span>
+                  </div>
+                </div>
+                <div class="esam-flow-note">
+                  <strong>Step 03</strong> – Verify eligibility, complete 1-click online form.<br>
+                  <strong>Step 04</strong> – Track status, receive DBT directly to your bank account.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════ SLIDE 6 — Ready to Begin / CTA ════ -->
+          <div class="esam-slide esam-slide-6" role="group" aria-label="Slide 6 of 6: Get Started">
+            <div class="esam-slide-inner">
+              <div class="esam-s6-layout">
+                <!-- Left: text & CTA -->
+                <div class="esam-s6-text">
+                  <h2>Ready to Access<br>Government Services?</h2>
+                  <p>Join thousands of citizens using e-Samanvit to discover and apply for government schemes, scholarships, agriculture support, and welfare programs — all in one place, completely free.</p>
+                  <div class="esam-s6-lang-row">
+                    <span class="esam-lang-chip">🇮🇳 English</span>
+                    <span class="esam-lang-chip">हिंदी</span>
+                    <span class="esam-lang-chip">मराठी</span>
+                  </div>
+                  <button class="esam-cta-btn" onclick="navigateTo('services')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    Explore Services
+                  </button>
+                  <button class="esam-cta-secondary" onclick="navigateTo('about')">
+                    Learn More
+                  </button>
+                </div>
+                <!-- Right: logo panel -->
+                <div class="esam-s6-img-panel">
+                  <img src="assets/logo.jpg" alt="e-Samanvit – Government of Maharashtra">
+                  <div class="esam-s1-logo-badge" style="position:absolute;bottom:12px;right:12px;">Maharashtra Gov.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /esam-slides-track -->
+
+        <!-- Navigation Arrows -->
+        <button class="esam-nav-btn esam-nav-prev" id="esamPrevBtn" aria-label="Previous slide" onclick="esamCarousel.prev()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="esam-nav-btn esam-nav-next" id="esamNextBtn" aria-label="Next slide" onclick="esamCarousel.next()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+
+        <!-- Progress bar -->
+        <div class="esam-progress" id="esamProgress"></div>
+
+        <!-- Dot Navigation (integrated inside carousel box at bottom) -->
+        <div class="esam-dots" id="esamDots" role="tablist" aria-label="Hero slide navigation">
+          <button class="esam-dot active" role="tab" aria-label="Slide 1" aria-selected="true" onclick="esamCarousel.goTo(0)"></button>
+          <button class="esam-dot" role="tab" aria-label="Slide 2" aria-selected="false" onclick="esamCarousel.goTo(1)"></button>
+          <button class="esam-dot" role="tab" aria-label="Slide 3" aria-selected="false" onclick="esamCarousel.goTo(2)"></button>
+          <button class="esam-dot" role="tab" aria-label="Slide 4" aria-selected="false" onclick="esamCarousel.goTo(3)"></button>
+          <button class="esam-dot" role="tab" aria-label="Slide 5" aria-selected="false" onclick="esamCarousel.goTo(4)"></button>
+          <button class="esam-dot" role="tab" aria-label="Slide 6" aria-selected="false" onclick="esamCarousel.goTo(5)"></button>
+        </div>
+
+      </div><!-- /esam-hero-carousel -->
+
+      <!-- Carousel JS — self-contained, no external deps with infinite loop -->
+      <script>
+        (function() {
+          var track   = document.getElementById('esamSlidesTrack');
+          var dots    = document.querySelectorAll('#esamDots .esam-dot');
+          var progress= document.getElementById('esamProgress');
+          var total   = 6;
+          var pos     = 1;
+          var current = 0;
+          var autoTimer = null;
+          var AUTO_DELAY = 3500;
+          var isTransitioning = false;
+          var transTimeout = null;
+
+          if (track) {
+            var realSlides = track.querySelectorAll('.esam-slide');
+            if (realSlides.length >= 2) {
+              total = realSlides.length;
+              var firstClone = realSlides[0].cloneNode(true);
+              firstClone.setAttribute('data-clone', 'first');
+              firstClone.setAttribute('aria-hidden', 'true');
+
+              var lastClone = realSlides[realSlides.length - 1].cloneNode(true);
+              lastClone.setAttribute('data-clone', 'last');
+              lastClone.setAttribute('aria-hidden', 'true');
+
+              track.insertBefore(lastClone, realSlides[0]);
+              track.appendChild(firstClone);
+            }
+
+            track.ontransitionend = function(e) {
+              if (e.target !== track || e.propertyName !== 'transform') return;
+              handleTransitionEnd();
+            };
+          }
+
+          function handleTransitionEnd() {
+            if (!track) return;
+            isTransitioning = false;
+            if (pos >= total + 1) {
+              pos = 1;
+              track.style.transition = 'none';
+              track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+              void track.offsetHeight;
+              track.style.transition = '';
+            } else if (pos <= 0) {
+              pos = total;
+              track.style.transition = 'none';
+              track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+              void track.offsetHeight;
+              track.style.transition = '';
+            }
+          }
+
+          function updateProgress() {
+            if (!progress) return;
+            progress.classList.remove('animating');
+            progress.style.width = '0%';
+            void progress.offsetWidth;
+            progress.classList.add('animating');
+            progress.style.width = '100%';
+          }
+
+          function updateDots() {
+            dots.forEach(function(d, i) {
+              var isActive = (i === current);
+              d.classList.toggle('active', isActive);
+              d.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+          }
+
+          function goToPosition(newPos, animate) {
+            if (!track) return;
+            pos = newPos;
+            current = ((pos - 1) % total + total) % total;
+            updateDots();
+            updateProgress();
+
+            if (animate === false) {
+              isTransitioning = false;
+              track.style.transition = 'none';
+              track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+              void track.offsetHeight;
+              track.style.transition = '';
+              return;
+            }
+
+            isTransitioning = true;
+            track.style.transition = 'transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)';
+            track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+
+            clearTimeout(transTimeout);
+            transTimeout = setTimeout(function() {
+              if (isTransitioning) handleTransitionEnd();
+            }, 550);
+          }
+
+          function goTo(idx) {
+            if (isTransitioning) return;
+            if (pos === total && idx === 0) {
+              goToPosition(pos + 1, true);
+            } else if (pos === 1 && idx === total - 1) {
+              goToPosition(0, true);
+            } else {
+              goToPosition(idx + 1, true);
+            }
+          }
+
+          function next() {
+            if (isTransitioning) return;
+            goToPosition(pos + 1, true);
+          }
+
+          function prev() {
+            if (isTransitioning) return;
+            goToPosition(pos - 1, true);
+          }
+
+          function startAuto() {
+            stopAuto();
+            autoTimer = setInterval(function() { next(); }, AUTO_DELAY);
+          }
+
+          function stopAuto() {
+            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+          }
+
+          // Expose globally so inline onclick works
+          window.esamCarousel = {
+            goTo: function(idx) { goTo(idx); stopAuto(); startAuto(); },
+            next: function()    { next();     stopAuto(); startAuto(); },
+            prev: function()    { prev();     stopAuto(); startAuto(); }
+          };
+
+          // Touch / swipe support
+          var touchStartX = 0;
+          var carousel = document.getElementById('esamHeroCarousel');
+          if (carousel) {
+            carousel.addEventListener('touchstart', function(e) {
+              touchStartX = e.changedTouches[0].clientX;
+            }, { passive: true });
+            carousel.addEventListener('touchend', function(e) {
+              var diff = touchStartX - e.changedTouches[0].clientX;
+              if (Math.abs(diff) > 40) {
+                if (diff > 0) window.esamCarousel.next();
+                else window.esamCarousel.prev();
+              }
+            }, { passive: true });
+            // Pause on hover
+            carousel.addEventListener('mouseenter', stopAuto);
+            carousel.addEventListener('mouseleave', startAuto);
+          }
+
+          // Keyboard accessibility
+          document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('esamHeroCarousel')) return;
+            if (e.key === 'ArrowRight') window.esamCarousel.next();
+            if (e.key === 'ArrowLeft')  window.esamCarousel.prev();
+          });
+
+          // Init at slide 1 (pos 1)
+          goToPosition(1, false);
+          startAuto();
+        })();
+      </script>
+
       <!-- Integrated Citizen Services (Quick Access Categories: 3 cols x 2 rows) -->
       <section class="home-services-overview-section">
         <div class="container">
@@ -116,7 +1329,7 @@
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('students')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
                 <div class="home-compact-cat-icon" style="background:#eff6ff;color:#1d4ed8">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 7.5L12 13L21.5 8.25V14.5H23V7.5L12 2Z"/><path d="M5 10.5V14.5C5 17.8 8.1 20 12 20C15.9 20 19 17.8 19 14.5V10.5L12 14L5 10.5Z"/><path d="M21.5 8.5V16.5C20.7 16.7 20.2 17.3 20.2 18V20.5C20.2 21.3 20.9 22 21.7 22H22.3C23.1 22 23.8 21.3 23.8 20.5V18C23.8 17.3 23.3 16.7 22.5 16.5V8.5H21.5Z"/></svg>
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -126,8 +1339,8 @@
 
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('farmers')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
-                <div class="home-compact-cat-icon" style="background:#ecfdf5;color:#15803d">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+                <div class="home-compact-cat-icon" style="background:#fef3c7;color:#b45309">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10.5" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.2"/><path d="M7 8C6 6.5 6.5 4.5 8.5 3.5C10.5 2.5 13.5 2.5 15.5 3.5C17.5 4.5 18 6.5 17 8C16.5 6.5 14.5 5 12 5C9.5 5 7.5 6.5 7 8Z" fill="#ffffff" stroke="#b45309" stroke-width="1"/><path d="M15.5 3.5L18 1.5L20 3L17.5 4.8" stroke="#b45309" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff"/><path d="M8 8V10.5C8 12.7 9.8 14.5 12 14.5C14.2 14.5 16 12.7 16 10.5V8" fill="#fed7aa" stroke="#78350f" stroke-width="1"/><path d="M9 11.8C10.2 12.6 11.2 12 12 12C12.8 12 13.8 12.6 15 11.8C15.5 12.5 14.5 13.2 13.5 13C12.5 12.8 12.3 12.8 12 12.8C11.7 12.8 11.5 12.8 10.5 13C9.5 13.2 8.5 12.5 9 11.8Z" fill="#1e293b"/><path d="M8 15L7 21H10L10.5 16" fill="#15803d" stroke="#166534" stroke-width="0.8"/><path d="M16 15L17 21H14L13.5 16" fill="#15803d" stroke="#166534" stroke-width="0.8"/><path d="M10 15H14V17H10V15Z" fill="#ffffff" stroke="#15803d" stroke-width="0.8"/></svg>
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -138,7 +1351,7 @@
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('women')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
                 <div class="home-compact-cat-icon" style="background:#fdf2f8;color:#be185d">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <img src="assets/categories/women_logo.png" alt="Women & Child Welfare" class="cat-icon-img invert-on-dark">
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -148,8 +1361,8 @@
 
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('healthcare')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
-                <div class="home-compact-cat-icon" style="background:#f0fdf4;color:#059669">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <div class="home-compact-cat-icon" style="background:#fef2f2;color:#dc2626">
+                  <img src="assets/categories/health_logo.png" alt="Health & Medical" class="cat-icon-img">
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -160,7 +1373,7 @@
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('senior')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
                 <div class="home-compact-cat-icon" style="background:#fffbeb;color:#b45309">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-4a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v4"/><path d="M19 14v7"/></svg>
+                  <img src="assets/categories/senior_logo.png" alt="Senior Citizen Services" class="cat-icon-img invert-on-dark">
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -170,8 +1383,8 @@
 
             <div class="home-compact-cat-card" onclick="navigateToServiceCategory('housing')" role="button" tabindex="0">
               <div class="home-compact-cat-top">
-                <div class="home-compact-cat-icon" style="background:#f5f3ff;color:#6d28d9">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <div class="home-compact-cat-icon" style="background:#f1f5f9;color:#1e293b">
+                  <img src="assets/categories/housing_logo.png" alt="Housing & Shelter" class="cat-icon-img invert-on-dark">
                 </div>
                 <div class="home-compact-cat-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
               </div>
@@ -212,35 +1425,47 @@
           <h2 class="section-title">Why Choose e-Samanvit?</h2>
           <p class="section-subtitle">A state-of-the-art digital infrastructure built to deliver seamless, transparent, and direct citizen welfare.</p>
           <div class="why-cards">
-            <div class="card card-hover">
-              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg></div>
-              <div class="card-title">Farmer-Centric Architecture</div>
-              <div class="card-text">Specialized tools and resources designed specifically for Maharashtra's agricultural community.</div>
+            <div class="card card-hover why-card-item" data-why="easy-access">
+              <div class="card-icon" style="background:#ecfdf5;color:#059669;border:1px solid rgba(16,185,129,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="13" height="11" rx="2"/><path d="M5 18h7"/><path d="M8.5 14v4"/><rect x="15" y="8" width="7" height="13" rx="1.5"/><circle cx="18.5" cy="18" r="0.75" fill="currentColor"/></svg>
+              </div>
+              <div class="card-title">Easy Access</div>
+              <div class="card-text">Simple and intuitive portal accessible to every citizen on any desktop or mobile device.</div>
             </div>
-            <div class="card card-hover">
-              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
-              <div class="card-title">Single Digital Window</div>
-              <div class="card-text">Apply for subsidies, track status, and manage certificates from one unified dashboard.</div>
+            <div class="card card-hover why-card-item" data-why="verified-info">
+              <div class="card-icon" style="background:#eff6ff;color:#1d4ed8;border:1px solid rgba(37,99,235,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+              </div>
+              <div class="card-title">Verified Information</div>
+              <div class="card-text">Curated, up-to-date information on government schemes, subsidies, and scholarships.</div>
             </div>
-            <div class="card card-hover">
-              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
-              <div class="card-title">Full Multilingual Access</div>
-              <div class="card-text">Available in Marathi, Hindi, and English so every citizen can navigate with confidence.</div>
+            <div class="card card-hover why-card-item" data-why="digital-portal">
+              <div class="card-icon" style="background:#f0fdfa;color:#0d9488;border:1px solid rgba(13,148,136,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <div class="card-title">Digital Public Portal</div>
+              <div class="card-text">Access essential public services anytime, anywhere without physical paperwork hassles.</div>
             </div>
-            <div class="card card-hover">
-              <div class="card-icon card-icon-orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-              <div class="card-title">Government Verified</div>
-              <div class="card-text">All information, schemes, and guidelines are authentic and directly linked to government records.</div>
+            <div class="card card-hover why-card-item" data-why="growth-opps">
+              <div class="card-icon" style="background:#fffbeb;color:#d97706;border:1px solid rgba(217,119,6,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/><line x1="2" y1="21" x2="22" y2="21"/></svg>
+              </div>
+              <div class="card-title">Growth Opportunities</div>
+              <div class="card-text">Discover educational grants, agricultural loans, skill training, and career avenues.</div>
             </div>
-            <div class="card card-hover">
-              <div class="card-icon card-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-              <div class="card-title">Citizen-First Service</div>
-              <div class="card-text">Dedicated support helpline, comprehensive FAQs, and grievance redressal at your fingertips.</div>
+            <div class="card card-hover why-card-item" data-why="helpline">
+              <div class="card-icon" style="background:#f5f3ff;color:#7c3aed;border:1px solid rgba(124,58,237,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1Z"/><path d="M21 11h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1Z"/><path d="M2 15a10 10 0 0 1 20 0"/><path d="M19 19a3 3 0 0 1-3 3h-3"/></svg>
+              </div>
+              <div class="card-title">Helpline & Guidance</div>
+              <div class="card-text">24/7 AI-assisted and human support for scheme eligibility and inquiries.</div>
             </div>
-            <div class="card card-hover">
-              <div class="card-icon card-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-              <div class="card-title">Privacy & Data Security</div>
-              <div class="card-text">Enterprise-grade encryption and strict privacy policies to protect your sensitive documents.</div>
+            <div class="card card-hover why-card-item" data-why="transparent">
+              <div class="card-icon" style="background:#f0f9ff;color:#0284c7;border:1px solid rgba(2,132,199,0.22)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <div class="card-title">Transparent Portal</div>
+              <div class="card-text">Clean, official interface built with focus on accessibility and data privacy.</div>
             </div>
           </div>
         </div>

@@ -132,25 +132,16 @@
       return;
     }
 
-    // Clean up any existing bubbles in navbar brand
-    document.querySelectorAll('.navbar-brand .micro-bubble-container').forEach(c => c.remove());
+    // Clean up any existing bubbles in navbar brand and icon containers
+    document.querySelectorAll('.navbar-brand .micro-bubble-container, .card-icon .micro-bubble-container, .why-cards .micro-bubble-container').forEach(c => c.remove());
 
-    // Comprehensive list covering Card Icons, Badges, Hero, Footer, and Service Elements (Excluding top-left corner navbar-brand)
+    // Comprehensive list covering Badges, Hero, Footer, and Service Elements (Excluding icon badges & navbar-brand)
     const bubbleTargetSelectors = [
-      // All Card & Service Icons (Green, Gold, Blue, Orange, etc.)
-      '.card-icon',
-      '.card-icon-green',
-      '.card-icon-gold',
-      '.card-icon-blue',
-      '.card-icon-orange',
-      '.feature-card .card-icon',
-      '.service-card-item .card-icon',
-      '.why-cards .card-icon',
       '.contact-info-icon',
       '.qa-icon',
       '.node-icon',
       '.icon-wrap',
-      
+
       // Footer brand & other logos (excluding top-corner navbar brand)
       '.footer-brand',
       '.hero-content > div:first-child',
@@ -202,7 +193,7 @@
 
     elements.forEach(el => {
       if (!el || el.tagName === 'IMG') return; // Cannot append to void img elements
-      
+
       // Prevent duplicate containers
       if (el.querySelector(':scope > .micro-bubble-container')) return;
 
@@ -241,7 +232,7 @@
       const isDark = el.matches('.hero, .dash-welcome, .footer, .btn-primary, .es-logo-icon, .filter-pill.active, section[style*="clr-primary-900"], section[style*="clr-primary-800"]');
       const isGold = el.matches('.card-icon-gold, .badge-gold, .avatar-gold, [class*="gold"], [class*="orange"]');
       const isBlue = el.matches('.card-icon-blue, .badge-blue, [class*="blue"]');
-      
+
       let bubbleThemeClass = 'light-green-bubble';
       if (isDark) {
         bubbleThemeClass = 'dark-green-bubble';
@@ -264,7 +255,7 @@
         const duration = baseDuration.toFixed(2);
 
         // Negative delay so bubbles are already actively floating
-        const delay = (Math.random() * (baseDuration * 2) - baseDuration).toFixed(2); 
+        const delay = (Math.random() * (baseDuration * 2) - baseDuration).toFixed(2);
         const drift = (Math.random() * 10 - 5).toFixed(1); // -5px to +5px gentle sway
         const maxOpacity = (Math.random() * 0.25 + 0.18).toFixed(2);
 

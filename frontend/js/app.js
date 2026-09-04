@@ -89,9 +89,15 @@ const App = {
     }
 
     // Mount Hero Banner Slider if on homepage
-    if ((!this.currentPage || this.currentPage === 'home') && typeof HeroSlider !== 'undefined') {
+    if ((!this.currentPage || this.currentPage === 'home') && typeof EsamBanner !== 'undefined') {
+      EsamBanner.init();
+    } else if (typeof EsamBanner !== 'undefined') {
+      EsamBanner.stop();
+    }
+    // Legacy HeroSlider fallback (kept for compatibility)
+    if ((!this.currentPage || this.currentPage === 'home') && typeof HeroSlider !== 'undefined' && typeof EsamBanner === 'undefined') {
       HeroSlider.init();
-    } else if (typeof HeroSlider !== 'undefined') {
+    } else if (typeof HeroSlider !== 'undefined' && typeof EsamBanner === 'undefined') {
       HeroSlider.stopAutoplay();
     }
 
