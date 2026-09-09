@@ -132,8 +132,11 @@
       return;
     }
 
-    // Clean up any existing bubbles in navbar brand and icon containers
+    // Clean up any existing bubbles in navbar brand and icon containers, plus reset if count is excessive
     document.querySelectorAll('.navbar-brand .micro-bubble-container, .card-icon .micro-bubble-container, .why-cards .micro-bubble-container').forEach(c => c.remove());
+    document.querySelectorAll('.hero .micro-bubble-container, .dash-header .micro-bubble-container, .notif-hero-header .micro-bubble-container').forEach(c => {
+      if (c.children.length > 15) c.remove();
+    });
 
     // Comprehensive list covering Badges, Hero, Footer, and Service Elements (Excluding icon badges & navbar-brand)
     const bubbleTargetSelectors = [
@@ -148,6 +151,8 @@
 
       // Hero & Feature Sections
       '.hero',
+      '.dash-header',
+      '.notif-hero-header',
       '.dash-welcome',
       '.footer',
       '.btn-primary',
@@ -166,6 +171,7 @@
       '.filter-pill.active',
       '.sidebar-link.active',
       '.es-logo-icon',
+      'section[style*="hero_nature_bg"]',
       'section[style*="clr-primary"]',
       'section[style*="#1A5E20"]',
       'section[style*="#1B5E20"]',
@@ -177,7 +183,7 @@
     try {
       elements = Array.from(document.querySelectorAll(bubbleTargetSelectors.join(', ')));
     } catch (e) {
-      elements = Array.from(document.querySelectorAll('.card-icon, .card-icon-green, .card-icon-gold, .card-icon-blue, .card-icon-orange, .contact-info-icon, .qa-icon, .footer-brand, .badge, .hero, .footer, .btn-primary, .about-hero, .services-hero, .resources-hero, .contact-hero'));
+      elements = Array.from(document.querySelectorAll('.card-icon, .card-icon-green, .card-icon-gold, .card-icon-blue, .card-icon-orange, .contact-info-icon, .qa-icon, .footer-brand, .badge, .hero, .dash-header, .notif-hero-header, .footer, .btn-primary, .about-hero, .services-hero, .resources-hero, .contact-hero'));
     }
 
     // Cover image parent containers (excluding navbar-brand)
@@ -188,8 +194,15 @@
       }
     });
 
-    // Strictly filter out anything inside or belonging to the top corner navbar-brand
-    elements = elements.filter(el => el && !el.closest('.navbar-brand') && !el.classList.contains('navbar-brand'));
+    // Strictly filter out navbar-brand AND child elements inside headers (to avoid duplicate crowding inside hero & dash-header)
+    elements = elements.filter(el => {
+      if (!el || el.closest('.navbar-brand') || el.classList.contains('navbar-brand')) return false;
+      const parentHeader = el.closest('.hero, .dash-header, .notif-hero-header, section[style*="hero_nature_bg"]');
+      if (parentHeader && parentHeader !== el) {
+        return false;
+      }
+      return true;
+    });
 
     elements.forEach(el => {
       if (!el || el.tagName === 'IMG') return; // Cannot append to void img elements
@@ -217,19 +230,23 @@
       // Travel full height of the element plus margin
       const travel = Math.round(height + 12);
 
+      // Moderate count for all elements (balanced & clean)
+      const isHeader = el.matches('.hero, .dash-header, .notif-hero-header, section[style*="hero_nature_bg"]');
       let count = 4;
-      if (area > 150000) {
-        count = 26; // Hero / Footer / Impact Banner / Dashboard Header
+      if (isHeader) {
+        count = 12; // Moderate, graceful and calm for Home Hero & Dashboard Header
+      } else if (area > 150000) {
+        count = 12; // Footer / large banners
       } else if (area > 40000) {
-        count = 14; // Section boxes
+        count = 8;  // Section boxes
       } else if (area > 5000) {
-        count = 8;  // Buttons / large cards / logo blocks
+        count = 4;  // Buttons / large cards / logo blocks
       } else {
-        count = 4;  // Card icons / badges / pills / logos
+        count = 3;  // Card icons / badges / pills / logos
       }
 
       // Determine bubble color theme (dark, gold, blue, or green)
-      const isDark = el.matches('.hero, .dash-welcome, .footer, .btn-primary, .es-logo-icon, .filter-pill.active, section[style*="clr-primary-900"], section[style*="clr-primary-800"]');
+      const isDark = el.matches('.hero, .dash-header, .notif-hero-header, section[style*="hero_nature_bg"], .dash-welcome, .footer, .btn-primary, .es-logo-icon, .filter-pill.active, section[style*="clr-primary-900"], section[style*="clr-primary-800"]');
       const isGold = el.matches('.card-icon-gold, .badge-gold, .avatar-gold, [class*="gold"], [class*="orange"]');
       const isBlue = el.matches('.card-icon-blue, .badge-blue, [class*="blue"]');
 
@@ -246,18 +263,18 @@
         const bubble = document.createElement('span');
         bubble.className = 'micro-bubble ' + bubbleThemeClass;
 
-        // Micro dimensions (2px - 4.2px for subtle gentle view)
-        const size = (Math.random() * 2.2 + 2).toFixed(1);
+        // Subtle micro dimensions (2px - 3.4px)
+        const size = (Math.random() * 1.5 + 2.0).toFixed(1);
         const left = (Math.random() * 92 + 4).toFixed(1);
 
-        // Duration scales with height
-        const baseDuration = Math.max((travel / 65) + (Math.random() * 2 - 1), 3.2);
+        // Calm, smooth, slower floating duration
+        const baseDuration = Math.max((travel / 55) + (Math.random() * 2 - 1), 4.8);
         const duration = baseDuration.toFixed(2);
 
-        // Negative delay so bubbles are already actively floating
+        // Negative delay so bubbles are spaced out smoothly
         const delay = (Math.random() * (baseDuration * 2) - baseDuration).toFixed(2);
-        const drift = (Math.random() * 10 - 5).toFixed(1); // -5px to +5px gentle sway
-        const maxOpacity = (Math.random() * 0.25 + 0.18).toFixed(2);
+        const drift = (Math.random() * 8 - 4).toFixed(1); // -4px to +4px gentle sway
+        const maxOpacity = isDark ? (Math.random() * 0.15 + 0.28).toFixed(2) : (Math.random() * 0.15 + 0.15).toFixed(2);
 
         bubble.style.width = size + 'px';
         bubble.style.height = size + 'px';
@@ -358,6 +375,9 @@
       startContinuousObserver();
     }, 200);
   });
+
+  window.initGreenMicroBubbles = initGreenMicroBubbles;
+  window.initEffects = initEffects;
 
 })();
 

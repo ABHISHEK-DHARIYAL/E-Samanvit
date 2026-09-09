@@ -707,11 +707,20 @@ small { font-size: var(--fs-sm); }
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 10px;
+  gap: 5px;
+  padding: 3px 10px;
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
   border-radius: var(--radius-full);
-  line-height: 1.6;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.badge svg {
+  width: 13px !important;
+  height: 13px !important;
+  flex-shrink: 0 !important;
+  display: inline-block;
+  vertical-align: middle;
 }
 .badge-green  { background: var(--clr-primary-100); color: var(--clr-primary-800); }
 .badge-gold   { background: var(--clr-accent-100);  color: var(--clr-accent-700); }
@@ -1862,7 +1871,7 @@ body.dark-theme .navbar-brand-divider {
 
 /* ── Hero Section ──────────────────────────────────────────── */
 .hero {
-  background: linear-gradient(160deg, #1A5E20 0%, #2A7530 40%, #2E7D32 100%);
+  background: linear-gradient(90deg, rgba(13, 59, 23, 0.82) 0%, rgba(18, 77, 36, 0.65) 50%, rgba(13, 59, 23, 0.80) 100%), url('../assets/hero_nature_bg.png') center center / cover no-repeat !important;
   color: var(--clr-white);
   padding: var(--sp-24) 0 var(--sp-20);
   position: relative;
@@ -5249,11 +5258,7 @@ body {
 
 /* ── Gentle Hero ──────────────────────────────────────────── */
 .hero {
-  background: linear-gradient(160deg,
-    #1A5E20 0%,
-    #2A7530 40%,
-    #357D3A 70%,
-    #2A7530 100%) !important;
+  background: linear-gradient(90deg, rgba(13, 59, 23, 0.82) 0%, rgba(18, 77, 36, 0.65) 50%, rgba(13, 59, 23, 0.80) 100%), url('../assets/hero_nature_bg.png') center center / cover no-repeat !important;
 }
 .hero::before,
 .hero::after {
@@ -5537,10 +5542,10 @@ body {
 
 /* ── Hero Section Pages — Warmer Gradients ────────────────── */
 .about-hero {
-  background: linear-gradient(160deg, #EFF6EE 0%, #FFF8E8 100%) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 250, 238, 0.65) 50%, rgba(255, 255, 255, 0.80) 100%), url('../assets/about_hero_bg.png') left center / cover no-repeat !important;
 }
 .services-hero {
-  background: linear-gradient(160deg, #EFF6EE 0%, #F5F8EE 100%) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.84) 0%, rgba(240, 253, 244, 0.68) 50%, rgba(255, 255, 255, 0.80) 100%), url('../assets/services_hero_bg.png') right center / cover no-repeat !important;
 }
 .resources-hero {
   background: linear-gradient(160deg, #F3F8EE 0%, #FFF8E8 100%) !important;
@@ -5635,6 +5640,8 @@ body {
 
 /* Keep content elements visibly above background micro-bubbles */
 .hero > *:not(.micro-bubble-container),
+.dash-header > *:not(.micro-bubble-container),
+.notif-hero-header > *:not(.micro-bubble-container),
 .dash-welcome > *:not(.micro-bubble-container),
 .footer > *:not(.micro-bubble-container),
 .btn-primary > *:not(.micro-bubble-container),
@@ -5660,12 +5667,14 @@ body {
 /* Soft translucent white/mint bubbles for dark green backgrounds */
 .dark-green-bubble,
 .hero .micro-bubble,
+.dash-header .micro-bubble,
+.notif-hero-header .micro-bubble,
 .dash-welcome .micro-bubble,
 .footer .micro-bubble,
 .btn-primary .micro-bubble,
 .es-logo-icon .micro-bubble {
-  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.75), rgba(200, 230, 201, 0.3));
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.35);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.92), rgba(200, 255, 220, 0.45));
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.65), 0 0 10px rgba(74, 222, 128, 0.35);
 }
 
 /* Delicate green tint bubbles for light green backgrounds & icons */
@@ -6217,7 +6226,7 @@ body.dark-theme .theme-toggle-btn:hover svg {
 /* ── Hero Sections in Dark Mode ───────────────────────────── */
 [data-theme="dark"] .hero,
 body.dark-theme .hero {
-  background: linear-gradient(160deg, #0a1b11 0%, #102919 50%, #153823 100%) !important;
+  background: linear-gradient(90deg, rgba(6, 25, 10, 0.88) 0%, rgba(10, 38, 16, 0.78) 50%, rgba(6, 25, 10, 0.88) 100%), url('../assets/hero_nature_bg.png') center center / cover no-repeat !important;
   color: #ffffff !important;
 }
 
@@ -6292,11 +6301,19 @@ body.dark-theme .footer-brand-text {
 }
 
 [data-theme="dark"] .about-hero,
+body.dark-theme .about-hero {
+  background: linear-gradient(90deg, rgba(20, 20, 16, 0.88) 0%, rgba(32, 28, 18, 0.76) 50%, rgba(20, 20, 16, 0.88) 100%), url('../assets/about_hero_bg.png') left center / cover no-repeat !important;
+  color: #f4fbf7 !important;
+}
+
 [data-theme="dark"] .services-hero,
+body.dark-theme .services-hero {
+  background: linear-gradient(90deg, rgba(8, 26, 16, 0.88) 0%, rgba(13, 40, 24, 0.76) 50%, rgba(8, 26, 16, 0.88) 100%), url('../assets/services_hero_bg.png') right center / cover no-repeat !important;
+  color: #f4fbf7 !important;
+}
+
 [data-theme="dark"] .resources-hero,
 [data-theme="dark"] .contact-hero,
-body.dark-theme .about-hero,
-body.dark-theme .services-hero,
 body.dark-theme .resources-hero,
 body.dark-theme .contact-hero {
   background: linear-gradient(160deg, #101a14 0%, #17261d 100%) !important;
@@ -7400,4 +7417,6 @@ body.dark-theme .mitra-logo-inner {
     font-size: 12.5px;
   }
 }
+
+
 
