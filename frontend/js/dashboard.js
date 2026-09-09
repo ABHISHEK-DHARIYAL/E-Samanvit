@@ -14,18 +14,18 @@ function renderDashboardPage() {
     ${renderPublicNavbar('dashboard')}
     <div class="page-layout">
       <!-- Dashboard Header -->
-      <section style="background:linear-gradient(135deg, var(--clr-primary-900), var(--clr-primary-800));color:var(--clr-white);padding:var(--sp-8) 0">
-        <div class="container">
+      <section class="dash-header" style="background: linear-gradient(90deg, rgba(13, 59, 23, 0.82) 0%, rgba(18, 77, 36, 0.65) 50%, rgba(13, 59, 23, 0.80) 100%), url('assets/hero_nature_bg.png') center center / cover no-repeat !important; color: var(--clr-white); padding: var(--sp-8) 0; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);">
+        <div class="container" style="position:relative; z-index:2">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
-            <div style="display:flex;align-items:center;gap:16px">
-              <img src="assets/logo.jpg" alt="e-Samanvit" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--clr-white)">
+            <div style="display:flex;align-items:center;gap:18px">
+              <img src="assets/logo.jpg" alt="e-Samanvit" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #ffffff;box-shadow:0 4px 16px rgba(0,0,0,0.25);flex-shrink:0;background:#ffffff;display:block;">
               <div>
                 <span class="badge badge-gold" style="font-size:11px">${I18N.t('badgeCitizenDashboard')}</span>
-                <h1 style="font-size:var(--fs-2xl);color:var(--clr-white);margin-top:4px">${I18N.t('dashTitle')}</h1>
-                <div style="font-size:var(--fs-sm);color:var(--clr-primary-100);max-width:520px">One place to access, prepare and track government services — fetch your verified data once, reuse it across every application.</div>
+                <h1 style="font-size:var(--fs-2xl);color:var(--clr-white);margin-top:4px;margin-bottom:2px">${I18N.t('dashTitle')}</h1>
+                <div style="font-size:var(--fs-sm);color:var(--clr-primary-100);max-width:520px;line-height:1.4">One place to access, prepare and track government services — fetch your verified data once, reuse it across every application.</div>
               </div>
             </div>
-            <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
               <button class="btn btn-secondary btn-sm" onclick="navigateTo('gov-services')">${Icons.plus} Apply for a Service</button>
               <button class="btn btn-secondary btn-sm" onclick="navigateTo('my-applications')">${Icons.fileText} My Applications</button>
               <button class="btn btn-primary btn-sm" onclick="showToast('${I18N.t('dashMetricsUpdated')}', 'success')">${Icons.refresh} ${I18N.t('refreshStatus')}</button>
@@ -33,6 +33,7 @@ function renderDashboardPage() {
           </div>
         </div>
       </section>
+      <div style="width:100%; height:4px; background:linear-gradient(90deg, #ff9933 0%, #ff9933 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%, #138808 100%); box-shadow:0 2px 8px rgba(0,0,0,0.12); position:relative; z-index:3;"></div>
 
       <section class="section" style="background:var(--clr-gray-50);padding-bottom:0">
         <div class="container">
@@ -53,23 +54,46 @@ function renderDashboardPage() {
                via Dashboard.onMount(). A service moves from the
                Recommended grid to the Filled Forms list the moment it
                has a submitted application (see onMount() below). -->
-          <div class="card" style="padding:var(--sp-6);margin-bottom:var(--sp-8)">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-6);flex-wrap:wrap;gap:12px">
-              <h3 style="color:var(--clr-primary-900);margin:0">${Icons.zap} Recommended For You</h3>
-              <span class="form-hint" id="dashRecommendedCount"></span>
+          <!-- Recommended For You + My Filled Forms (2-Column Balanced Dashboard Grid) -->
+          <div class="dash-recommend-forms-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(360px, 1fr));gap:var(--sp-6);margin-bottom:var(--sp-8);align-items:stretch">
+            <!-- Card 1: Recommended For You -->
+            <div class="card" style="padding:var(--sp-6);border-radius:var(--radius-xl);display:flex;flex-direction:column;box-shadow:0 4px 18px rgba(0,0,0,0.04);background:#ffffff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-5);flex-wrap:wrap;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--clr-gray-200)">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:10px;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">
+                    ${Icons.star}
+                  </div>
+                  <div>
+                    <h3 style="color:var(--clr-primary-950);margin:0;font-size:1.15rem;font-weight:700">Recommended For You</h3>
+                    <div style="font-size:12px;color:var(--clr-gray-500)">Tailored citizen services for your profile</div>
+                  </div>
+                </div>
+                <span class="badge badge-gold" id="dashRecommendedCount" style="font-size:11px;font-weight:700"></span>
+              </div>
+              <div id="dashRecommended" style="display:flex;flex-direction:column;gap:10px;flex:1">
+                <div class="form-hint" style="padding:20px 0;text-align:center">Loading available services…</div>
+              </div>
             </div>
-            <div id="dashRecommended" class="grid grid-3" style="gap:var(--sp-4)">
-              <div class="form-hint">Loading available services…</div>
-            </div>
-          </div>
 
-          <div class="card" style="padding:var(--sp-6);margin-bottom:var(--sp-8)">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-6);flex-wrap:wrap;gap:12px">
-              <h3 style="color:var(--clr-primary-900);margin:0">${Icons.check} My Filled Forms</h3>
-              <button class="btn btn-ghost btn-sm" onclick="navigateTo('my-applications')">View All ${Icons.arrowRight}</button>
-            </div>
-            <div id="dashFilledForms">
-              <div class="form-hint">Loading your submitted applications…</div>
+            <!-- Card 2: My Filled Forms -->
+            <div class="card" style="padding:var(--sp-6);border-radius:var(--radius-xl);display:flex;flex-direction:column;box-shadow:0 4px 18px rgba(0,0,0,0.04);background:#ffffff">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-5);flex-wrap:wrap;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--clr-gray-200)">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:10px;background:#ecfdf5;color:#059669;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">
+                    ${Icons.check}
+                  </div>
+                  <div>
+                    <h3 style="color:var(--clr-primary-950);margin:0;font-size:1.15rem;font-weight:700">My Filled Forms</h3>
+                    <div style="font-size:12px;color:var(--clr-gray-500)">Track submitted & ongoing applications</div>
+                  </div>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="navigateTo('my-applications')" style="font-weight:600;display:inline-flex;align-items:center;gap:4px">
+                  View All ${Icons.arrowRight}
+                </button>
+              </div>
+              <div id="dashFilledForms" style="display:flex;flex-direction:column;gap:10px;flex:1">
+                <div class="form-hint" style="padding:20px 0;text-align:center">Loading your submitted applications…</div>
+              </div>
             </div>
           </div>
         </div>
@@ -183,8 +207,14 @@ function renderDashboardPage() {
  */
 const Dashboard = {
   async onMount() {
+    if (typeof initGreenMicroBubbles === 'function') {
+      try { initGreenMicroBubbles(); } catch (e) {}
+    }
     await this.loadAppsSummary();
     await this.loadRecommendedAndFilled();
+    if (typeof initGreenMicroBubbles === 'function') {
+      try { initGreenMicroBubbles(); } catch (e) {}
+    }
   },
 
   async loadAppsSummary() {
@@ -235,8 +265,28 @@ const Dashboard = {
       services = servicesRes.services || [];
       applications = applicationsRes.applications || [];
     } catch (e) {
-      recommendedEl.innerHTML = `<div class="form-hint">Unable to load recommendations right now. <button class="btn btn-ghost btn-sm" onclick="Dashboard.loadRecommendedAndFilled()">Retry</button></div>`;
-      filledEl.innerHTML = `<div class="form-hint">Unable to load your filled forms right now.</div>`;
+      recommendedEl.innerHTML = `
+        <div style="text-align:center;padding:26px 16px;background:var(--clr-gray-50);border-radius:12px;border:1px dashed var(--clr-gray-300)">
+          <div style="width:36px;height:36px;border-radius:50%;background:#fef3c7;color:#d97706;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px">
+            ${Icons.refresh}
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--clr-gray-700);margin-bottom:4px">Unable to load live recommendations</div>
+          <div style="font-size:12px;color:var(--clr-gray-500);margin-bottom:10px">Backend service is connecting or temporarily offline.</div>
+          <button class="btn btn-secondary btn-sm" style="padding:5px 14px;font-size:12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer" onclick="Dashboard.loadRecommendedAndFilled()">
+            ${Icons.refresh} Retry Connection
+          </button>
+        </div>`;
+      filledEl.innerHTML = `
+        <div style="text-align:center;padding:26px 16px;background:var(--clr-gray-50);border-radius:12px;border:1px dashed var(--clr-gray-300)">
+          <div style="width:36px;height:36px;border-radius:50%;background:#ecfdf5;color:#059669;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px">
+            ${Icons.fileText}
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--clr-gray-700);margin-bottom:4px">Unable to fetch filled forms</div>
+          <div style="font-size:12px;color:var(--clr-gray-500);margin-bottom:10px">View your locally submitted records or try again.</div>
+          <button class="btn btn-ghost btn-sm" style="font-size:12px;display:inline-flex;align-items:center;gap:4px;cursor:pointer" onclick="navigateTo('my-applications')">
+            Go to My Applications ${Icons.arrowRight}
+          </button>
+        </div>`;
       return;
     }
 
@@ -249,36 +299,42 @@ const Dashboard = {
     if (countEl) countEl.textContent = `${recommended.length} available`;
 
     recommendedEl.innerHTML = recommended.length === 0
-      ? `<div class="form-hint">You've applied to every available service — nice work!</div>`
+      ? `<div style="text-align:center;padding:26px 16px;background:var(--clr-gray-50);border-radius:12px;border:1px dashed var(--clr-gray-200)">
+           <div style="font-size:24px;margin-bottom:6px">🎉</div>
+           <div style="font-weight:600;color:var(--clr-primary-900)">All Caught Up!</div>
+           <div style="font-size:12px;color:var(--clr-gray-500);margin-top:2px">You've applied to every available service — nice work!</div>
+         </div>`
       : recommended.map(s => `
-          <div class="card card-hover" style="padding:var(--sp-4)">
-            <div class="card-title" style="margin-bottom:4px">${escapeHtml(s.serviceName)}</div>
-            <div class="form-hint" style="margin-bottom:12px">${escapeHtml(s.department || '')}</div>
-            <button class="btn btn-primary btn-sm" style="width:100%" onclick="navigateTo('gov-services', {serviceId:'${encodeURIComponent(s.serviceId)}'})">
-              ${Icons.zap} Apply Now
+          <div class="card card-hover" style="padding:14px 16px;background:#f8fafc;border:1px solid rgba(0,0,0,0.06);border-radius:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:all 0.2s ease">
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;font-size:0.95rem;color:var(--clr-primary-950);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escapeHtml(s.serviceName)}">${escapeHtml(s.serviceName)}</div>
+              <div style="font-size:12px;color:var(--clr-gray-500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(s.department || 'Government of Maharashtra')}</div>
+            </div>
+            <button class="btn btn-primary btn-sm" style="flex-shrink:0;padding:6px 14px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:4px" onclick="navigateTo('gov-services', {serviceId:'${encodeURIComponent(s.serviceId)}'})">
+              ${Icons.zap} Apply
             </button>
           </div>
         `).join('');
 
-    // Match each filled service back to its most recent application
-    // for status/date — a service could in principle appear once here
-    // even if it has no matching `applications` entry yet (the
-    // FilledFormsCache-only race window right after submit); in that
-    // case we still show it, just without a status line, rather than
-    // hiding it and looking like the submission was lost.
     filledEl.innerHTML = filledServices.length === 0
-      ? `<div class="form-hint">Nothing submitted yet — applications you complete will appear here.</div>`
+      ? `<div style="text-align:center;padding:26px 16px;background:var(--clr-gray-50);border-radius:12px;border:1px dashed var(--clr-gray-200)">
+           <div style="font-size:24px;margin-bottom:6px">📋</div>
+           <div style="font-weight:600;color:var(--clr-primary-900)">Nothing Submitted Yet</div>
+           <div style="font-size:12px;color:var(--clr-gray-500);margin-top:2px">Applications you complete will appear here with live tracking.</div>
+         </div>`
       : filledServices.map(s => {
           const app = applications.find(a => a.serviceId === s.serviceId);
           const statusLabel = app ? ((app.tracking && app.tracking.label) || app.status) : 'Submitted';
           const dateLabel = app && app.submittedAt ? formatDate(app.submittedAt) : '';
           return `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--clr-gray-200)">
-              <div>
-                <div style="font-weight:var(--fw-semibold);color:var(--clr-primary-900)">${escapeHtml(s.serviceName)}</div>
-                <div class="form-hint">${dateLabel ? 'Submitted ' + dateLabel + ' · ' : ''}${escapeHtml(statusLabel)}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid rgba(0,0,0,0.06);border-radius:12px;gap:12px;transition:all 0.2s ease">
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:700;font-size:0.95rem;color:var(--clr-primary-950);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${escapeHtml(s.serviceName)}">${escapeHtml(s.serviceName)}</div>
+                <div style="font-size:12px;color:var(--clr-gray-500)">${dateLabel ? 'Submitted ' + dateLabel + ' · ' : ''}<span class="badge badge-green" style="font-size:10px;padding:2px 8px">${escapeHtml(statusLabel)}</span></div>
               </div>
-              <button class="btn btn-ghost btn-sm" onclick="navigateTo('my-applications')">View ${Icons.arrowRight}</button>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('my-applications')" style="flex-shrink:0;padding:5px 10px;display:inline-flex;align-items:center;gap:4px">
+                View ${Icons.arrowRight}
+              </button>
             </div>
           `;
         }).join('');

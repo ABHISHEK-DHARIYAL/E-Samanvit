@@ -8,7 +8,7 @@ function renderHomePage() {
     ${renderPublicNavbar('home')}
     <div class="page-layout">
       <!-- Official Portal Brand Header Section (Logo, Portal Title, MH Government Emblems) -->
-      <section class="hero" style="padding: 24px 0 26px;">
+      <section class="hero" style="padding: 24px 0 26px; background: linear-gradient(90deg, rgba(13, 59, 23, 0.82) 0%, rgba(18, 77, 36, 0.65) 50%, rgba(13, 59, 23, 0.80) 100%), url('assets/hero_nature_bg.png') center center / cover no-repeat !important; position: relative;">
         <div class="container">
           <!-- Top Official Branding Row: Logo + e-Samanvit Name + Maharashtra Emblems -->
           <div class="hero-brand-row">
@@ -177,7 +177,7 @@ function renderAboutPage() {
     ${renderPublicNavbar('about')}
     <div class="page-layout">
       <!-- About Hero Header -->
-      <section class="about-hero">
+      <section class="about-hero" style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 250, 238, 0.65) 50%, rgba(255, 255, 255, 0.80) 100%), url('assets/about_hero_bg.png') left center / cover no-repeat !important; position: relative;">
         <div class="container text-center">
           <div class="home-about-badge">${I18N.t('homeAboutBadge')}</div>
           <h1 class="about-hero-title">${I18N.t('aboutTitle')}</h1>
@@ -718,7 +718,7 @@ function renderServicesPage() {
     ${renderPublicNavbar('services')}
     <div class="page-layout">
       <!-- Services Hero Header -->
-      <section class="services-hero">
+      <section class="services-hero" style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.84) 0%, rgba(240, 253, 244, 0.68) 50%, rgba(255, 255, 255, 0.80) 100%), url('assets/services_hero_bg.png') right center / cover no-repeat !important; position: relative;">
         <div class="container text-center">
           <div class="services-hero-badge-wrap">
             <span class="services-hero-badge">DIRECT CITIZEN ASSISTANCE</span>
