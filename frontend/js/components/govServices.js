@@ -28,8 +28,36 @@
 // PROTOTYPE IDENTITY — there is no authentication layer yet (see
 // backend ConsentManagerService's file comment for the matching
 // backend-side note). Production deployment must derive this from an
-// authenticated identity layer instead of a hardcoded constant.
-const GOV_DEMO_CITIZEN_ID = "DEMO-001";
+// authenticated identity layer instead of a generated demo id.
+//
+// This used to be a single hardcoded "DEMO-001" shared by every
+// visitor to a deployed instance — which meant a brand-new citizen
+// opening the site for the first time saw whatever applications an
+// earlier tester (or another visitor) had already submitted under
+// that same shared id, since the backend's in-memory ApplicationStore
+// is keyed by citizenId. Each browser now gets its own generated demo
+// citizen id the first time it loads the app, persisted in
+// localStorage so it stays stable across visits/refreshes — so a
+// fresh browser genuinely starts with zero applications, and "My
+// Filled Forms" is only ever populated by that citizen's own real
+// submissions.
+function getOrCreateDemoCitizenId() {
+  const KEY = "esamanvit_demo_citizen_id";
+  try {
+    let id = localStorage.getItem(KEY);
+    if (!id) {
+      id = "DEMO-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch {
+    // localStorage unavailable (private browsing, quota, etc.) — fall
+    // back to a fixed id for this page load only; nothing else in the
+    // app depends on this beyond passing it as citizenId.
+    return "DEMO-001";
+  }
+}
+const GOV_DEMO_CITIZEN_ID = getOrCreateDemoCitizenId();
 
 const GovServices = {
   state: {
@@ -38,6 +66,7 @@ const GovServices = {
     error: null,
     services: [],
     servicesRequestId: 0,
+    filledServiceIds: [], // serviceIds this citizen has already submitted — backend list ∪ FilledFormsCache, see loadServices()
     schema: null, // full schema from GET /api/services/:id
     consent: null, // safe consent metadata (never the token)
     consentToken: null, // IN-MEMORY ONLY — never logged, never persisted, never put in a URL
@@ -117,8 +146,9 @@ const GovServices = {
 
   renderList() {
     const cards = this.state.services
-      .map(
-        (s) => `
+      .map((s) => {
+        const isFilled = this.state.filledServiceIds.includes(s.serviceId);
+        return `
       <div class="card card-hover">
         <div class="card-icon card-icon-blue">${Icons.fileText}</div>
         <div class="card-title">${escapeHtml(s.serviceName)}</div>
@@ -126,14 +156,21 @@ const GovServices = {
           s.department
         )}</div>
         <p class="card-text">${escapeHtml(s.description)}</p>
-        <button class="btn btn-primary btn-block" style="margin-top:var(--sp-3)" onclick="govSelectService('${escapeHtml(
-          s.serviceId
-        )}')">
-          Start Application ${Icons.arrowRight}
-        </button>
+        ${
+          isFilled
+            ? `<span class="badge badge-green" style="display:inline-flex;align-items:center;gap:4px;margin-top:var(--sp-2)">${Icons.check} Submitted</span>
+               <button class="btn btn-secondary btn-block" style="margin-top:var(--sp-3)" onclick="navigateTo('my-applications')">
+                 View Application ${Icons.arrowRight}
+               </button>`
+            : `<button class="btn btn-primary btn-block" style="margin-top:var(--sp-3)" onclick="govSelectService('${escapeHtml(
+                s.serviceId
+              )}')">
+                 Start Application ${Icons.arrowRight}
+               </button>`
+        }
       </div>
-    `
-      )
+    `;
+      })
       .join("");
 
     return `
@@ -362,14 +399,18 @@ const GovServices = {
     this.refresh();
 
     try {
-      const res = await ServicesApi.list();
+      const [servicesRes, applications] = await Promise.all([
+        ServicesApi.list(),
+        this.fetchFilledServiceIds(),
+      ]);
 
       // Ignore a response from an older request.
       if (requestId !== this.state.servicesRequestId) {
         return;
       }
 
-      this.state.services = res.services || [];
+      this.state.services = servicesRes.services || [];
+      this.state.filledServiceIds = applications;
       this.state.error = null;
     } catch (e) {
       // Ignore errors from an older request.
@@ -389,7 +430,38 @@ const GovServices = {
     }
   },
 
+  // Backend applications for this citizen (source of truth) unioned
+  // with FilledFormsCache's instant local hint — same pattern as
+  // Dashboard.loadRecommendedAndFilled(), kept here too so a service
+  // that's already been submitted can't be re-entered from this page's
+  // own service list, even if the citizen never visits the Dashboard.
+  // Never lets a failure here block the services list itself from
+  // loading — an empty result just means "treat nothing as filled yet".
+  async fetchFilledServiceIds() {
+    try {
+      const res = await ApplicationsApi.list(GOV_DEMO_CITIZEN_ID);
+      const submitted = (res.applications || []).map((a) => a.serviceId);
+      const local =
+        typeof FilledFormsCache !== "undefined" ? FilledFormsCache.getAll() : [];
+      return [...new Set([...submitted, ...local])];
+    } catch {
+      return [];
+    }
+  },
+
   async selectService(serviceId) {
+    // A service already submitted by this citizen can only be filled
+    // once — send them to their existing application instead of
+    // reopening the consent/form flow for it. This is a UI guard, not
+    // the enforcement boundary: the backend independently makes a
+    // resubmission a no-op via its per-consent idempotency check (see
+    // ApplicationService.submitApplication), so this can't be bypassed
+    // by going around this file.
+    if (this.state.filledServiceIds.includes(serviceId)) {
+      navigateTo("my-applications");
+      return;
+    }
+
     this.state.loading = true;
     this.state.error = null;
     this.refresh();
@@ -567,6 +639,9 @@ const GovServices = {
       // cache, not a source of truth.
       if (typeof FilledFormsCache !== "undefined") {
         FilledFormsCache.markFilled(this.state.schema.serviceId);
+      }
+      if (!this.state.filledServiceIds.includes(this.state.schema.serviceId)) {
+        this.state.filledServiceIds = [...this.state.filledServiceIds, this.state.schema.serviceId];
       }
     } catch (e) {
       if (
