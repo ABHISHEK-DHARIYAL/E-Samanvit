@@ -1065,7 +1065,7 @@ function renderContactPage() {
                 <div class="contact-info-icon">${Icons.mail}</div>
                 <div>
                   <div class="contact-info-label">${I18N.t('contactEmailLabel')}</div>
-                  <div class="contact-info-value">support@esamanvit.gov.in</div>
+                  <div class="contact-info-value">esamanvit@gmail.com</div>
                 </div>
               </div>
               <div class="contact-info-item">
