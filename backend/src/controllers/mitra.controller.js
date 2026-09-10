@@ -23,8 +23,8 @@
  * external call, degrade to the existing honest fallback" pattern
  * used by RevenueAdapter and AddressEnrichmentAdapter.
  */
-const config = require('../config/env');
-const { InvalidRequestError } = require('../utils/errors');
+const config = require("../config/env");
+const { InvalidRequestError } = require("../utils/errors");
 
 const GEMINI_TIMEOUT_MS = 8000;
 const MAX_MESSAGE_LENGTH = 500;
@@ -34,15 +34,19 @@ const SYSTEM_CONTEXT = `You are MITRA, the citizen AI assistant for e-Samanvit, 
 function withTimeout(promise, ms) {
   return Promise.race([
     promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms))
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
+    ),
   ]);
 }
 
 async function askMitra(req, res) {
   const { message, lang } = req.body || {};
 
-  if (!message || typeof message !== 'string' || !message.trim()) {
-    throw new InvalidRequestError('"message" is required and must be a non-empty string');
+  if (!message || typeof message !== "string" || !message.trim()) {
+    throw new InvalidRequestError(
+      '"message" is required and must be a non-empty string'
+    );
   }
   const trimmedMessage = message.trim().slice(0, MAX_MESSAGE_LENGTH);
 
@@ -51,28 +55,41 @@ async function askMitra(req, res) {
     return res.status(200).json({ success: true, available: false });
   }
 
-  const languageHint = lang === 'hi' ? 'Hindi' : lang === 'mr' ? 'Marathi' : 'English';
+  const languageHint =
+    lang === "hi" ? "Hindi" : lang === "mr" ? "Marathi" : "English";
 
   try {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.gemini.model}:generateContent`;
     const response = await withTimeout(
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': config.gemini.apiKey
+          "Content-Type": "application/json",
+          "x-goog-api-key": config.gemini.apiKey,
         },
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM_CONTEXT }] },
-          contents: [{ parts: [{ text: `Respond in ${languageHint}. Citizen's question: ${trimmedMessage}` }] }]
-        })
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Respond in ${languageHint}. Citizen's question: ${trimmedMessage}`,
+                },
+              ],
+            },
+          ],
+        }),
       }),
       GEMINI_TIMEOUT_MS
     );
 
     if (!response.ok) {
-      const body = await response.text().catch(() => '');
-      console.error(`[MITRA] Gemini rejected the request (status ${response.status}): ${body.slice(0, 200)}`);
+      const body = await response.text().catch(() => "");
+      console.error(
+        `[MITRA] Gemini rejected the request (status ${
+          response.status
+        }): ${body.slice(0, 200)}`
+      );
       return res.status(200).json({ success: true, available: false });
     }
 
@@ -80,16 +97,21 @@ async function askMitra(req, res) {
     const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!reply || !reply.trim()) {
-      console.error('[MITRA] Gemini returned no usable text in the response.');
+      console.error("[MITRA] Gemini returned no usable text in the response.");
       return res.status(200).json({ success: true, available: false });
     }
 
-    res.status(200).json({ success: true, available: true, reply: reply.trim() });
+    res
+      .status(200)
+      .json({ success: true, available: true, reply: reply.trim() });
   } catch (err) {
     // Network error, timeout, malformed response — MITRA's own
     // scripted fallback is always the safety net, so this never
     // becomes a citizen-facing error.
-    console.error('[MITRA] Gemini call failed, frontend will use the existing fallback:', err.message);
+    console.error(
+      "[MITRA] Gemini call failed, frontend will use the existing fallback:",
+      err.message
+    );
     res.status(200).json({ success: true, available: false });
   }
 }
