@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — e-Samanvit</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+
+<style>
+  /* Page-specific layout only — everything else (colors, .btn, .card,
+     type scale) comes from the shared style.css tokens so this page
+     matches the rest of e-Samanvit without duplicating its theme. */
+  body { background: var(--clr-primary-50); min-height: 100vh; }
+  .login-wrap {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .login-card {
+    width: 100%; max-width: 420px;
+    background: var(--clr-white);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 30px rgba(27, 94, 32, 0.10);
+  }
+  .login-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .login-logo img { width: 36px; height: 36px; border-radius: 8px; }
+  .login-logo span { font-weight: var(--fw-700, 700); font-size: var(--fs-xl); color: var(--clr-primary-900); }
+  .login-title { font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-gray-900); margin: 4px 0 4px; }
+  .login-sub { font-size: var(--fs-sm); color: var(--clr-gray-600); margin-bottom: 24px; }
+  .login-field { margin-bottom: 16px; }
+  .login-field label { display: block; font-size: var(--fs-sm); font-weight: 600; color: var(--clr-gray-800); margin-bottom: 6px; }
+  .login-input {
+    width: 100%; padding: 12px 14px; font-size: var(--fs-md);
+    border: 1px solid var(--clr-gray-300); border-radius: 10px;
+    font-family: var(--font-family); letter-spacing: 0.02em;
+  }
+  .login-input:focus { outline: none; border-color: var(--clr-primary-600); }
+  .otp-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+  .otp-timer { font-size: var(--fs-xs); color: var(--clr-gray-600); }
+  .otp-timer.expired { color: var(--clr-error); }
+  .resend-link {
+    background: none; border: none; padding: 0; font-size: var(--fs-xs);
+    color: var(--clr-primary-700); font-weight: 600; cursor: pointer;
+  }
+  .resend-link:disabled { color: var(--clr-gray-400); cursor: not-allowed; }
+  .login-btn { width: 100%; justify-content: center; margin-top: 4px; }
+  .login-msg { font-size: var(--fs-sm); margin-top: 12px; padding: 10px 12px; border-radius: 8px; display: none; }
+  .login-msg.error { display: block; background: var(--clr-error-bg); color: var(--clr-error); }
+  .login-msg.info { display: block; background: var(--clr-info-bg); color: var(--clr-info); }
+  .login-msg.success { display: block; background: var(--clr-success-bg); color: var(--clr-success); }
+  .demo-hint {
+    margin-top: 22px; padding: 14px; border-radius: 10px;
+    background: var(--clr-accent-100); font-size: var(--fs-xs); color: var(--clr-gray-800);
+  }
+  .demo-hint strong { color: var(--clr-primary-900); }
+  .demo-hint table { width: 100%; margin-top: 8px; border-collapse: collapse; }
+  .demo-hint td { padding: 3px 0; }
+  .back-link { display: inline-block; margin-top: 18px; font-size: var(--fs-xs); color: var(--clr-gray-600); text-decoration: none; }
+
+  #dashboard-preview { display: none; margin-top: 18px; }
+  #dashboard-preview .card { padding: 14px; margin-top: 10px; }
+  #dashboard-preview h4 { font-size: var(--fs-sm); color: var(--clr-primary-800); margin: 0 0 6px; }
+  #dashboard-preview .row { display: flex; justify-content: space-between; font-size: var(--fs-xs); padding: 3px 0; color: var(--clr-gray-700); }
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="assets/logo.jpg" alt="e-Samanvit">
+      <span>e-Samanvit</span>
+    </div>
+
+    <!-- STEP 1: phone entry -->
+    <div id="step-phone">
+      <div class="login-title">Citizen Login</div>
+      <div class="login-sub">Enter your registered mobile number to receive an OTP.</div>
+
+      <div class="login-field">
+        <label for="phone-input">Mobile Number</label>
+        <input id="phone-input" class="login-input" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="tel">
+      </div>
+
+      <button id="send-otp-btn" class="btn btn-primary login-btn" onclick="AuthDemo.requestOtp()">Send OTP</button>
+      <div id="phone-msg" class="login-msg"></div>
+    </div>
+
+    <!-- STEP 2: OTP verify -->
+    <div id="step-otp" style="display:none;">
+      <div class="login-title">Verify OTP</div>
+      <div class="login-sub">Enter the 6-digit code sent to <span id="otp-phone-display"></span>.</div>
+
+      <div class="login-field">
+        <label for="otp-input">OTP</label>
+        <input id="otp-input" class="login-input" type="tel" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" autocomplete="one-time-code">
+        <div class="otp-row">
+          <span id="otp-timer" class="otp-timer">Code expires in 60s</span>
+          <button id="resend-btn" class="resend-link" disabled onclick="AuthDemo.requestOtp(true)">Resend OTP</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary login-btn" onclick="AuthDemo.verifyOtp()">Verify &amp; Login</button>
+      <div id="otp-msg" class="login-msg"></div>
+      <a class="back-link" href="javascript:void(0)" onclick="AuthDemo.backToPhone()">&larr; Use a different number</a>
+    </div>
+
+    <!-- STEP 3: logged in -->
+    <div id="step-done" style="display:none;">
+      <div class="login-title">Welcome<span id="done-name"></span></div>
+      <div class="login-msg success" style="display:block;">Logged in successfully.</div>
+      <div id="dashboard-preview"></div>
+      <a class="back-link" href="javascript:void(0)" onclick="AuthDemo.logout()">Log out</a>
+    </div>
+
+    <!-- Demo-only helper — remove once real users/OTP delivery replace this. -->
+    <div class="demo-hint">
+      <strong>Demo build — 2 users can log in right now</strong>
+      <div>OTP is fixed to <code>000000</code> for every user until a real SMS/email provider is wired in.</div>
+      <table>
+        <tr><td>Aditi Sharma</td><td>9999900001</td></tr>
+        <tr><td>Rahul Patil</td><td>9999900002</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script>
+/**
+ * AuthDemo — thin frontend for the phone+OTP login flow against
+ * POST /api/auth/request-otp and POST /api/auth/verify-otp.
+ *
+ * PROTOTYPE LIMITATION (matches the backend): only the 2 numbers shown
+ * in the demo-hint box can log in, and the OTP is always '000000'
+ * until a real provider replaces backend/src/controllers/auth.controller.js's
+ * DEV_FIXED_OTP. This file's job is just the timer/step UI — swapping
+ * the backend for real OTP delivery needs zero changes here.
+ */
+const AuthDemo = (function () {
+  let currentPhone = '';
+  let timerHandle = null;
+  let secondsLeft = 0;
+
+  function apiBase() {
+    return (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || 'http://localhost:5000';
+  }
+
+  function showMsg(el, text, type) {
+    el.textContent = text;
+    el.className = 'login-msg ' + type;
+  }
+
+  function clearMsg(el) {
+    el.textContent = '';
+    el.className = 'login-msg';
+  }
+
+  function startTimer(seconds) {
+    clearInterval(timerHandle);
+    secondsLeft = seconds;
+    const timerEl = document.getElementById('otp-timer');
+    const resendBtn = document.getElementById('resend-btn');
+    resendBtn.disabled = true;
+    timerEl.classList.remove('expired');
+
+    function tick() {
+      if (secondsLeft <= 0) {
+        clearInterval(timerHandle);
+        timerEl.textContent = 'Code expired';
+        timerEl.classList.add('expired');
+        resendBtn.disabled = false;
+        return;
+      }
+      timerEl.textContent = 'Code expires in ' + secondsLeft + 's';
+      secondsLeft -= 1;
+    }
+    tick();
+    timerHandle = setInterval(tick, 1000);
+  }
+
+  async function requestOtp(isResend) {
+    const phoneMsg = document.getElementById('phone-msg');
+    const otpMsg = document.getElementById('otp-msg');
+    const phone = isResend ? currentPhone : document.getElementById('phone-input').value.trim();
+
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      showMsg(phoneMsg, 'Enter a valid 10-digit mobile number.', 'error');
+      return;
+    }
+
+    try {
+      const res = await fetch(apiBase() + '/api/auth/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error((body && body.error && body.error.message) || 'Could not send OTP');
+      }
+
+      currentPhone = phone;
+      document.getElementById('step-phone').style.display = 'none';
+      document.getElementById('step-otp').style.display = 'block';
+      document.getElementById('otp-phone-display').textContent = phone;
+      document.getElementById('otp-input').value = '';
+      clearMsg(otpMsg);
+      showMsg(otpMsg, 'OTP sent. For this demo, it is always ' + (body.devOtpHint || '000000') + '.', 'info');
+      startTimer(body.expiresInSeconds || 60);
+    } catch (err) {
+      showMsg(phoneMsg, err.message, 'error');
+    }
+  }
+
+  async function verifyOtp() {
+    const otpMsg = document.getElementById('otp-msg');
+    const otp = document.getElementById('otp-input').value.trim();
+
+    if (!/^\d{6}$/.test(otp)) {
+      showMsg(otpMsg, 'Enter the 6-digit OTP.', 'error');
+      return;
+    }
+
+    try {
+      const res = await fetch(apiBase() + '/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhone, otp })
+      });
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error((body && body.error && body.error.message) || 'Verification failed');
+      }
+
+      clearInterval(timerHandle);
+      // Demo-only persistence — a production version should use an
+      // httpOnly cookie set by the server, not localStorage.
+      localStorage.setItem('esamanvit_session_token', body.sessionToken);
+      localStorage.setItem('esamanvit_user', JSON.stringify(body.user));
+      renderLoggedIn(body.user);
+    } catch (err) {
+      showMsg(otpMsg, err.message, 'error');
+    }
+  }
+
+  function renderLoggedIn(user) {
+    document.getElementById('step-phone').style.display = 'none';
+    document.getElementById('step-otp').style.display = 'none';
+    document.getElementById('step-done').style.display = 'block';
+    document.getElementById('done-name').textContent = ', ' + user.fullName;
+
+    const preview = document.getElementById('dashboard-preview');
+    preview.style.display = 'block';
+    preview.innerHTML =
+      '<div class="card">' +
+        '<h4>Identity</h4>' +
+        '<div class="row"><span>Name</span><span>' + user.identity.fullName + '</span></div>' +
+        '<div class="row"><span>DOB</span><span>' + user.identity.dateOfBirth + '</span></div>' +
+        '<div class="row"><span>Gender</span><span>' + user.identity.gender + '</span></div>' +
+      '</div>' +
+      '<div class="card">' +
+        '<h4>Address</h4>' +
+        '<div class="row"><span>Village</span><span>' + user.address.village + '</span></div>' +
+        '<div class="row"><span>District</span><span>' + user.address.district + '</span></div>' +
+        '<div class="row"><span>Pincode</span><span>' + user.address.pincode + '</span></div>' +
+      '</div>' +
+      '<div class="card">' +
+        '<h4>Income</h4>' +
+        '<div class="row"><span>Annual Income</span><span>&#8377;' + user.income.annualIncome.toLocaleString('en-IN') + '</span></div>' +
+        '<div class="row"><span>Financial Year</span><span>' + user.income.financialYear + '</span></div>' +
+      '</div>';
+  }
+
+  function backToPhone() {
+    clearInterval(timerHandle);
+    document.getElementById('step-otp').style.display = 'none';
+    document.getElementById('step-phone').style.display = 'block';
+    clearMsg(document.getElementById('phone-msg'));
+  }
+
+  function logout() {
+    localStorage.removeItem('esamanvit_session_token');
+    localStorage.removeItem('esamanvit_user');
+    currentPhone = '';
+    document.getElementById('step-done').style.display = 'none';
+    document.getElementById('step-phone').style.display = 'block';
+    document.getElementById('phone-input').value = '';
+  }
+
+  // Restore an existing "session" on page load (demo-only, localStorage-based).
+  function init() {
+    const savedUser = localStorage.getItem('esamanvit_user');
+    const savedToken = localStorage.getItem('esamanvit_session_token');
+    if (savedUser && savedToken) {
+      try { renderLoggedIn(JSON.parse(savedUser)); } catch (e) { /* ignore malformed cache */ }
+    }
+  }
+
+  return { requestOtp, verifyOtp, backToPhone, logout, init };
+})();
+
+document.addEventListener('DOMContentLoaded', AuthDemo.init);
+</script>
+</body>
+</html>

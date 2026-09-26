@@ -1,0 +1,18 @@
+{
+  "_comment": "Fallback address data ONLY, used when both the live India Post Pincode API and data.gov.in are unreachable or unconfigured. District/Taluka/Village names below are real Maharashtra locations, not invented placeholders — but this file is a static snapshot, not a live source, so lookupByPincode() always tags results from here as verificationStatus: 'mock'.",
+  "411001": { "district": "Pune", "taluka": "Haveli", "village": "Pune City", "state": "Maharashtra" },
+  "411045": { "district": "Pune", "taluka": "Haveli", "village": "Wagholi", "state": "Maharashtra" },
+  "400001": { "district": "Mumbai City", "taluka": "Mumbai", "village": "Fort", "state": "Maharashtra" },
+  "400070": { "district": "Mumbai Suburban", "taluka": "Kurla", "village": "Kurla", "state": "Maharashtra" },
+  "440001": { "district": "Nagpur", "taluka": "Nagpur", "village": "Civil Lines", "state": "Maharashtra" },
+  "422001": { "district": "Nashik", "taluka": "Nashik", "village": "Nashik City", "state": "Maharashtra" },
+  "431001": { "district": "Chhatrapati Sambhajinagar", "taluka": "Aurangabad", "village": "Aurangabad City", "state": "Maharashtra" },
+  "413512": { "district": "Latur", "taluka": "Latur", "village": "Latur City", "state": "Maharashtra" },
+  "413517": { "district": "Latur", "taluka": "Ausa", "village": "Ausa", "state": "Maharashtra" },
+  "444601": { "district": "Buldhana", "taluka": "Khamgaon", "village": "Khamgaon", "state": "Maharashtra" },
+  "415001": { "district": "Satara", "taluka": "Satara", "village": "Satara City", "state": "Maharashtra" },
+  "416001": { "district": "Kolhapur", "taluka": "Karvir", "village": "Kolhapur City", "state": "Maharashtra" },
+  "425001": { "district": "Dhule", "taluka": "Dhule", "village": "Dhule City", "state": "Maharashtra" },
+  "442001": { "district": "Chandrapur", "taluka": "Chandrapur", "village": "Chandrapur City", "state": "Maharashtra" },
+  "445001": { "district": "Yavatmal", "taluka": "Yavatmal", "village": "Yavatmal City", "state": "Maharashtra" }
+}
